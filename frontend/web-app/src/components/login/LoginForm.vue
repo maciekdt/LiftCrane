@@ -21,7 +21,7 @@
           name = "name"
           required>
 
-        <label><b>Hasło </b></label>
+        <label><b>Hasło</b></label>
         <input 
           type="password" 
           placeholder="Podaj hasło..." 
@@ -31,12 +31,14 @@
             
         <button type="submit">Zaloguj się</button>
     </div>
-
   </form>
 </template>
 
+
+
 <script>
 import userRepo from '../../users/usersRepo'
+
 export default {
   name: "LoginForm",
 
@@ -48,14 +50,13 @@ export default {
   },
 
   methods: {
-
     login(submitEvent) {
       let loginData = {
         name : submitEvent.target.elements.name.value,
         pass : submitEvent.target.elements.pass.value
       };
-      
-      this.notAuthenticateError = !userRepo.authenticateUser(loginData)
+
+      if(!userRepo.authenticateUser(loginData)) this.notAuthenticateError = true ;  
     },
 
     closeMessage(){
@@ -65,7 +66,9 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
+
 <style scoped>
 body {font-family: Arial, Helvetica, sans-serif;}
 
