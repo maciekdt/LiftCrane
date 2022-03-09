@@ -1,18 +1,11 @@
 <template>
   <!--<img class="logo" src="./assets/LiftCraneLogo.png"/> -->
-  <LoginForm/>
+    <router-view/>
 </template>
 
 <script>
-
-import LoginForm from './components/login/LoginForm.vue'
-
-
 export default {
-  name: 'App',
-  components: {
-    LoginForm
-  }
+  name: 'App'
 }
 </script>
 

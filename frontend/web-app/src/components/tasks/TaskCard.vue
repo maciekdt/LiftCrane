@@ -1,17 +1,20 @@
 <template>
-  <div class="box">
+  <div class="card">
     <table>
       <tr>
         <th>
-          <h3>{{ liftName }}</h3>
+          <p class="liftName"> {{task.liftName}} </p>
+        </th>
+        <th>
+          <p class="date"> {{task.date}} </p>
         </th>
       </tr>
       <tr>
         <th>
-          <h3>{{ location }}</h3>
+          <p class="location"> {{task.location}} </p>
         </th>
         <th>
-          <h4>{{ type }}</h4>
+          
         </th>
       </tr>
     </table>
@@ -20,31 +23,50 @@
 
 
 <script>
+import Task from '../../data-model/Task'
 export default {
   name: "TaskCard",
   props: {
-    liftName: String,
-    location: String,
-    date: String,
-    type: String,
-  },
-
-  computed: {
-    taskData() {
-      return {
-        liftName: this.liftName,
-        location: this.location,
-        date: this.date,
-        type: this.type
-      }
-    }
+    task : Task
   }
 };
 </script>
 
 
 <style scoped>
-.box {
-  background-color: whitesmoke;
+table {
+  width: 100%;
+  height: 100%;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+.card {
+  border-radius: .4em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.liftName {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: left;
+  
+}
+
+.date {
+  font-size: .7em;
+  font-weight: bold;
+  opacity: .8;
+  text-align: right;
+}
+
+.location {
+  font-size: .8em;
+  font-weight: bold;
+  opacity: .8;
+  text-align: left;
+}
+
+.logo {
+  max-width: 100%;
 }
 </style>

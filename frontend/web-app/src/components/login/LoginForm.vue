@@ -32,21 +32,34 @@
         <button type="submit">Zaloguj się</button>
     </div>
   </form>
+  <TaskCard
+    :task=getTask
+  />
 </template>
 
 
 
 <script>
-import userRepo from '../../users/usersRepo'
+import userRepo from '../../repos/usersRepo'
+import taskRepo from '../../repos/taskRepo'
+import TaskCard from '../tasks/TaskCard.vue'
 
 export default {
   name: "LoginForm",
+
+  components: { TaskCard },
 
   data() {
     return {
       notAuthenticateError: false,
       serverError: false,
     };
+  },
+
+  computed: {
+    getTask(){
+      return taskRepo.getAllTasks()[0]
+    }
   },
 
   methods: {
@@ -56,7 +69,12 @@ export default {
         pass : submitEvent.target.elements.pass.value
       };
 
-      if(!userRepo.authenticateUser(loginData)) this.notAuthenticateError = true ;  
+      if(!userRepo.authenticateUser(loginData)){
+        this.notAuthenticateError = true ;
+      }
+      else{
+        this.$router.push('/tasks')
+      }
     },
 
     closeMessage(){
