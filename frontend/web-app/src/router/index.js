@@ -6,7 +6,7 @@ export default createRouter({
     history: createWebHashHistory(),
 
     routes: [{
-            path: '/login',
+            path: '/',
             name: "LoginForm",
             component: LoginForm
         },
