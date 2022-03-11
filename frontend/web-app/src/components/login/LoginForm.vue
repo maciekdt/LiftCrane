@@ -10,7 +10,7 @@
     </div> 
 
     <div class="imgcontainer">
-        <img src='../../assets/LiftCraneLogo.png' class="logo"/>
+        <img src='../../assets/lift-crane-logo.png' class="logo"/>
     </div>
 
     <div class="container">

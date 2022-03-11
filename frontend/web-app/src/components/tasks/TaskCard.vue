@@ -2,20 +2,12 @@
   <div class="card">
     <table>
       <tr>
-        <th>
-          <p class="liftName"> {{task.liftName}} </p>
-        </th>
-        <th>
-          <p class="date"> {{task.date}} </p>
-        </th>
+        <th><p class="liftName"> {{task.liftName}} </p></th>
+        <th><p class="date"> {{task.date}} </p></th>
       </tr>
       <tr>
-        <th>
-          <p class="location"> {{task.location}} </p>
-        </th>
-        <th>
-          
-        </th>
+        <th><p class="location">{{task.location}} </p></th>
+        <th></th>
       </tr>
     </table>
   </div>
