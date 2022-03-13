@@ -4,11 +4,14 @@
 			<table><tr>
 				<th class="menuIconCell"><img src='../../assets/menu-icon.png' class="menuIcon"/></th>
 				<th><p class="appBarText">Serwisy</p></th>
-				<th class="filterIconCell"><img src='../../assets/filter-icon--.png' class="filterIcon"/></th>
+				<th class="filterIconCell"><img src='../../assets/filter-icon.png' class="filterIcon"/></th>
 			</tr></table>
+			
 		</div>
+
 		<div class="listBox">
 			<ul>
+				<li><input class="searchBox" type="text" placeholder="Szukaj.." v-model="phrase"></li>
 				<li v-for="task in taskList"  v-bind:key="task.id">
 					<TaskCard :task="task"/> 
 				</li>
@@ -29,9 +32,15 @@ export default {
 		TaskCard
 	},
 
+	data() {
+    return {
+      phrase: ""
+    };
+  },
+
 	computed: {
 		taskList(){
-			return tasksRepo.getAllTasks()
+			return tasksRepo.getAllTasks(this.phrase)
 		}
 	}
 }
@@ -92,7 +101,19 @@ table {
 	width: 3em;
 	padding-right: .7em;
 }
+.searchBox{
+	background-color: rgb(180, 180, 223);
+	border-radius: .9em;
+	width: 90%;
+	font-size: 1.2em;
+	height: 1.9em;
 
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 0px;
+	box-sizing: border-box;
+}
 
 
 </style>
