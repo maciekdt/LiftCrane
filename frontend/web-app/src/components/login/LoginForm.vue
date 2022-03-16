@@ -38,6 +38,7 @@
 
 <script>
 import userRepo from '../../repos/usersRepo'
+import service from '../../endpoints/DataBaseService'
 
 export default {
   name: "LoginForm",
@@ -51,6 +52,7 @@ export default {
 
   methods: {
     login(submitEvent) {
+      service.test();
       let loginData = {
         name : submitEvent.target.elements.name.value,
         pass : submitEvent.target.elements.pass.value
