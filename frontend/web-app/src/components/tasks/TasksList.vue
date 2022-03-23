@@ -15,6 +15,7 @@
 				<li v-for="task in taskList"  v-bind:key="task.id">
 					<TaskCard :task="task"/> 
 				</li>
+				
 			</ul>
 		</div>
 	</div>
