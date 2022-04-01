@@ -1,5 +1,4 @@
 <template>
-  <!--<img class="logo" src="./assets/LiftCraneLogo.png"/> -->
     <router-view/>
 </template>
 

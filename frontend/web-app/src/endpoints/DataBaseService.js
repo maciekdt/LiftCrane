@@ -1,27 +1,38 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, setDoc, Timestamp } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
 
 class DataBaseService {
     firebaseConfig = {
-        apiKey: "AIzaSyDG_pFjKssAOFtBc19A9eJvEbuNHcQnOYU",
-        authDomain: "test-f0349.firebaseapp.com",
-        projectId: "test-f0349",
-        storageBucket: "test-f0349.appspot.com",
-        messagingSenderId: "110874552011",
-        appId: "1:110874552011:web:a2d27359c97503d5619d4e",
-        measurementId: "G-PTN9MMT7EM"
-    }
+        apiKey: "AIzaSyDHLd9-eYC4TDqvpQDjA_r3FoG_XGtaYh8",
+        authDomain: "liftcrane-bfea5.firebaseapp.com",
+        projectId: "liftcrane-bfea5",
+        storageBucket: "liftcrane-bfea5.appspot.com",
+        messagingSenderId: "18795223195",
+        appId: "1:18795223195:web:2d034f763cb0e4c1c5ce3e",
+        measurementId: "G-GH19K00X9B"
+    };
 
     firebaseApp = initializeApp(this.firebaseConfig)
     firestore = getFirestore(this.firebaseApp)
 
 
-    async test() {
-        let querySnapshot = await getDocs(collection(this.firestore, "Tasks"));
+    async getReviews() {
+        let q = query(collection(this.firestore, "reviews"), where("malfunction", "==", false));
+        let querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.data().liftName);
-        })
+            console.log(doc.data());
+        });
+    }
+
+    async addReview() {
+        await setDoc(doc(this.firestore, "reviews", uuidv4()), {
+            deviceName: "Windna komercyjna LIFTER UU",
+            date: Timestamp.fromMillis(Date.now()),
+            serialNumber: "YT6785",
+            malfunction: true
+        });
     }
 }
 

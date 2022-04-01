@@ -52,7 +52,8 @@ export default {
 
   methods: {
     login(submitEvent) {
-      service.test();
+      service.getReviews();
+      service.addReview();
       let loginData = {
         name : submitEvent.target.elements.name.value,
         pass : submitEvent.target.elements.pass.value
