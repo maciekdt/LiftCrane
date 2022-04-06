@@ -12,8 +12,7 @@
         "firebase": "^9.4.1",
         "uuid": "^8.3.2",
         "vue": "^3.2.13",
-        "vue-router": "^4.0.13",
-        "vue-web-cam": "^1.9.0"
+        "vue-router": "^4.0.13"
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",
