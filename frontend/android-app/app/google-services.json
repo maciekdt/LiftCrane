@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "18795223195",
+    "project_id": "liftcrane-bfea5",
+    "storage_bucket": "liftcrane-bfea5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18795223195:android:96f4c16b0977b4b0c5ce3e",
+        "android_client_info": {
+          "package_name": "com.example.liftcrane"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18795223195-9d8u2b4e2j7ldlsvr8h21r6pfhkr2p5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkfy5S4gaBk1UqV1IPA7Avrdbzxir0a98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18795223195-9d8u2b4e2j7ldlsvr8h21r6pfhkr2p5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

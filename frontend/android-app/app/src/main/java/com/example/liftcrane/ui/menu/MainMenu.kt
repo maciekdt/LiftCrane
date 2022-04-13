@@ -9,13 +9,14 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
+import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.ui.qrscanner.QRScanner
 
 class MainMenu : AppCompatActivity() {
 
     private val cameraPermissionRequestCode = 1
+    private val fireStore = FirestoreService()
     private lateinit var binding: ActivityMainMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,10 @@ class MainMenu : AppCompatActivity() {
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
+        }
+
+        binding.noQRreviewButton.setOnClickListener {
+            fireStore.test()
         }
     }
 
