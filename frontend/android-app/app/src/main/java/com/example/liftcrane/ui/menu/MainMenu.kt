@@ -29,7 +29,8 @@ class MainMenu : AppCompatActivity() {
         }
 
         binding.noQRreviewButton.setOnClickListener {
-            fireStore.test()
+            fireStore.testAdd()
+            fireStore.testRead()
         }
     }
 
@@ -75,6 +76,7 @@ class MainMenu : AppCompatActivity() {
         val intent = Intent(this, QRScanner::class.java)
         startActivity(intent)
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

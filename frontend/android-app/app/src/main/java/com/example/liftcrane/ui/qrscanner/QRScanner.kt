@@ -29,7 +29,6 @@ class QRScanner : AppCompatActivity() {
 
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-    /** Blocking camera operations are performed using this executor */
     private lateinit var cameraExecutor: ExecutorService
     private var flashEnabled = false
 
@@ -39,7 +38,6 @@ class QRScanner : AppCompatActivity() {
         setContentView(binding.root)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        // Initialize our background executor
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         cameraProviderFuture.addListener({
@@ -51,8 +49,6 @@ class QRScanner : AppCompatActivity() {
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
 
         if (isDestroyed || isFinishing) {
-            //This check is to avoid an exception when trying to re-bind use cases but user closes the activity.
-            //java.lang.IllegalArgumentException: Trying to create use case mediator with destroyed lifecycle.
             return
         }
 
@@ -72,7 +68,6 @@ class QRScanner : AppCompatActivity() {
 
         val orientationEventListener = object : OrientationEventListener(this as Context) {
             override fun onOrientationChanged(orientation : Int) {
-                // Monitors orientation values to determine the target rotation value
                 val rotation : Int = when (orientation) {
                     in 45..134 -> Surface.ROTATION_270
                     in 135..224 -> Surface.ROTATION_180
@@ -85,63 +80,27 @@ class QRScanner : AppCompatActivity() {
         }
         orientationEventListener.enable()
 
-        //switch the analyzers here, i.e. MLKitBarcodeAnalyzer, ZXingBarcodeAnalyzer
+
         class ScanningListener : ScanningResultListener {
             override fun onScanned(result: String) {
                 runOnUiThread {
                     imageAnalysis.clearAnalyzer()
                     cameraProvider?.unbindAll()
                     Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
-
-                    /*ScannerResultDialog.newInstance(
-                        result,
-                        object : ScannerResultDialog.DialogDismissListener {
-                            override fun onDismiss() {
-                                bindPreview(cameraProvider)
-                            }
-                        })
-                        .show(supportFragmentManager, ScannerResultDialog::class.java.simpleName)*/
                 }
             }
         }
 
         val analyzer: ImageAnalysis.Analyzer = MLKitBarcodeAnalyzer(ScanningListener())
-
-        /*if (scannerSDK == ScannerSDK.ZXING) {
-            analyzer = ZXingBarcodeAnalyzer(ScanningListener())
-        }*/
-
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
-
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
-
         val camera =
             cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
 
-        /*if (camera?.cameraInfo?.hasFlashUnit() == true) {
-            binding.ivFlashControl.visibility = View.VISIBLE
-
-            binding.ivFlashControl.setOnClickListener {
-                camera.cameraControl.enableTorch(!flashEnabled)
-            }
-
-            camera.cameraInfo.torchState.observe(this) {
-                it?.let { torchState ->
-                    if (torchState == TorchState.ON) {
-                        flashEnabled = true
-                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_on)
-                    } else {
-                        flashEnabled = false
-                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_off)
-                    }
-                }
-            }
-        }*/
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Shut down our background executor
         cameraExecutor.shutdown()
     }
 
