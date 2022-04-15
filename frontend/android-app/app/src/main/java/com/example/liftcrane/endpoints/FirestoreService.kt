@@ -2,6 +2,8 @@ package com.example.liftcrane.endpoints
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.example.liftcrane.model.Lift
+import com.example.liftcrane.model.Review
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -11,38 +13,38 @@ class FirestoreService {
 
     private val client = Firebase.firestore
 
-    fun testAdd(){
-        val lift = hashMapOf(
-            "first" to "Artur",
-            "last" to "Laskowski",
-            "born" to 1815
-        )
 
-        client.collection("test")
-            .add(lift)
+    fun uploadReview(resolve:(id : String) -> Unit,
+                     reject:(e:Exception) -> Unit,
+                     review: Review){
+
+        val collectionPath = "review"
+        client.collection(collectionPath)
+            .add(review.toHashMap())
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                resolve(documentReference.id)
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
+                reject(e)
             }
     }
 
-    fun testRead(){
-        client.collection("test")
+
+    fun getLiftById(resolve:(lift : Lift) -> Unit,
+                    reject:(e : Exception) -> Unit,
+                    liftId: String){
+
+        val collectionPath = "lifts"
+        client.collection(collectionPath)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    if(document.id == "JfpgaWwoIqR4KayasmF6")
-                        Log.i("MyInfo", document.data.toString())
+                    if(document.id == liftId)
+                        resolve(Lift(document.data))
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
+            .addOnFailureListener { e ->
+                reject(e)
             }
     }
-
-    //fun addNewReview
-
-
 }

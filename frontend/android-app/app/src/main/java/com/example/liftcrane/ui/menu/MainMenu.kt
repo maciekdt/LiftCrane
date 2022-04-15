@@ -7,6 +7,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
@@ -26,11 +28,6 @@ class MainMenu : AppCompatActivity() {
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
-        }
-
-        binding.noQRreviewButton.setOnClickListener {
-            fireStore.testAdd()
-            fireStore.testRead()
         }
     }
 

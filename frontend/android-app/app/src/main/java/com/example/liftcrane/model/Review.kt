@@ -5,4 +5,13 @@ data class Review(
     val reviewerId : String,
     val malfunction : Boolean,
     val date : Int
-)
+){
+    fun toHashMap(): HashMap<String, Any> {
+        return hashMapOf(
+            "liftId" to liftId,
+            "reviewerId" to reviewerId,
+            "malfunction" to malfunction,
+            "date" to date
+        )
+    }
+}
