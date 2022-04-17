@@ -7,18 +7,18 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
+import com.example.liftcrane.endpoints.FirebaseAuthService
 import com.example.liftcrane.endpoints.FirestoreService
-import com.example.liftcrane.ui.qrscanner.QRScanner
+import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 
-class MainMenu : AppCompatActivity() {
+class MainMenuActivity : AppCompatActivity() {
 
     private val cameraPermissionRequestCode = 1
     private val fireStore = FirestoreService()
+    private val auth = FirebaseAuthService()
     private lateinit var binding: ActivityMainMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +28,11 @@ class MainMenu : AppCompatActivity() {
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
+        }
+
+        binding.noQRreviewButton.setOnClickListener {
+            //auth.signIn("maciek.fi88@gmail.com", "password")
+            auth.signOut()
         }
     }
 
@@ -70,7 +75,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun openCameraWithScanner() {
-        val intent = Intent(this, QRScanner::class.java)
+        val intent = Intent(this, QRScannerActivity::class.java)
         startActivity(intent)
     }
 

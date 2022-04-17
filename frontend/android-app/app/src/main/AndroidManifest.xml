@@ -15,7 +15,7 @@
         android:theme="@style/Theme.LiftCrane" >
 
         <activity
-            android:name=".ui.menu.MainMenu"
+            android:name=".ui.menu.MainMenuActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".ui.qrscanner.QRScanner"
+            android:name=".ui.qrscanner.QRScannerActivity"
             android:exported="true" >
         </activity>
 

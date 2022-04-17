@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class QRScanner : AppCompatActivity() {
+class QRScannerActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityQrscannerBinding
@@ -51,21 +51,16 @@ class QRScanner : AppCompatActivity() {
         if (isDestroyed || isFinishing) {
             return
         }
-
         cameraProvider?.unbindAll()
-
         val preview: Preview = Preview.Builder()
             .build()
-
         val cameraSelector: CameraSelector = CameraSelector.Builder()
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
-
         val imageAnalysis = ImageAnalysis.Builder()
             .setTargetResolution(Size(binding.cameraPreview.width, binding.cameraPreview.height))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-
         val orientationEventListener = object : OrientationEventListener(this as Context) {
             override fun onOrientationChanged(orientation : Int) {
                 val rotation : Int = when (orientation) {
@@ -74,12 +69,10 @@ class QRScanner : AppCompatActivity() {
                     in 225..314 -> Surface.ROTATION_90
                     else -> Surface.ROTATION_0
                 }
-
                 imageAnalysis.targetRotation = rotation
             }
         }
         orientationEventListener.enable()
-
 
         class ScanningListener : ScanningResultListener {
             override fun onScanned(result: String) {
@@ -90,7 +83,6 @@ class QRScanner : AppCompatActivity() {
                 }
             }
         }
-
         val analyzer: ImageAnalysis.Analyzer = MLKitBarcodeAnalyzer(ScanningListener())
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
