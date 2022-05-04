@@ -1,0 +1,29 @@
+{
+  "name": "liftcraftwebapp",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview --port 5050"
+  },
+  "dependencies": {
+    "@vue/composition-api": "^1.4.6",
+    "firebase": "^9.7.0",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.3",
+    "vuetify": "^2.6.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^1.7.1",
+    "@vue/runtime-dom": "^3.2.31",
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
+    "unplugin-vue2-script-setup": "^0.9.3",
+    "vite": "^2.8.4",
+    "vite-plugin-vue2": "^1.9.3",
+    "vue-cli-plugin-vuetify": "~2.4.8",
+    "vue-template-babel-compiler": "^1.2.0",
+    "vue-template-compiler": "^2.6.14",
+    "vuetify-loader": "^1.7.0"
+  }
+}
