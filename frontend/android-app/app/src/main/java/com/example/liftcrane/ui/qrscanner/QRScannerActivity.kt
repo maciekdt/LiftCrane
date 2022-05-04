@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import com.example.liftcrane.analyzer.MLKitBarcodeAnalyzer
 import com.example.liftcrane.analyzer.ScanningResultListener
 import com.example.liftcrane.databinding.ActivityQrscannerBinding
+import com.example.liftcrane.endpoints.FirestoreService
+import com.example.liftcrane.model.Lift
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -26,6 +28,7 @@ import java.util.concurrent.Executors
 
 class QRScannerActivity : AppCompatActivity() {
 
+    private val fireStore = FirestoreService()
 
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -77,9 +80,11 @@ class QRScannerActivity : AppCompatActivity() {
         class ScanningListener : ScanningResultListener {
             override fun onScanned(result: String) {
                 runOnUiThread {
-                    imageAnalysis.clearAnalyzer()
-                    cameraProvider?.unbindAll()
-                    Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.VISIBLE
+                    //imageAnalysis.clearAnalyzer()
+                    //cameraProvider?.unbindAll()
+                    processQRCode(result, imageAnalysis, cameraProvider)
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
@@ -88,6 +93,34 @@ class QRScannerActivity : AppCompatActivity() {
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
         val camera =
             cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
+
+    }
+
+    private fun processQRCode(qrCode:String, imageAnalysis:ImageAnalysis, cameraProvider:ProcessCameraProvider?){
+        fun resolve(lift:Lift?){
+            if(lift!=null) {
+                imageAnalysis.clearAnalyzer()
+                cameraProvider?.unbindAll()
+                Toast.makeText(this, "Poprawny kod QR", Toast.LENGTH_LONG).show()
+            }
+            else
+                Toast.makeText(this, "Niepoprawny kod QR", Toast.LENGTH_LONG).show()
+        }
+
+        fun reject(e:Exception){
+            Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
+        }
+
+        fireStore.getLiftById(
+            {lift -> resolve(lift)},
+            {e -> reject(e)},
+            qrCode
+        )
+
+    }
+
+
+    private fun excT(e:Exception){
 
     }
 
