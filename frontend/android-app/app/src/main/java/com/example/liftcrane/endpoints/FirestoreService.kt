@@ -13,6 +13,18 @@ class FirestoreService {
 
     private val client = Firebase.firestore
 
+    fun test(){
+        val review = Review("windex", "maciek", true, 5675465)
+        val collectionPath = "review"
+        client.collection(collectionPath)
+            .add(review.toHashMap())
+            .addOnSuccessListener { documentReference ->
+
+            }
+            .addOnFailureListener { e ->
+                Log.e("MyInfo", e.toString())
+            }
+    }
 
     fun uploadReview(resolve:(id : String) -> Unit,
                      reject:(e:Exception) -> Unit,

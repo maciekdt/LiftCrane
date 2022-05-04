@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "18795223195-hh6u56iejj6gq7jr108e3622me9sviic.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.liftcrane",
+            "certificate_hash": "26f7f5c3a4ec15be8d7d6ef85fe4b6b7a376099e"
+          }
+        },
+        {
           "client_id": "18795223195-9d8u2b4e2j7ldlsvr8h21r6pfhkr2p5u.apps.googleusercontent.com",
           "client_type": 3
         }
