@@ -1,25 +1,24 @@
 <template>
   <v-app>
-    <v-main>
-      <About/>
-      <Table></Table>
-    </v-main>
+  <NavBar />
+    <v-content class="mx-4 mb-4 mt-4">
+      <router-view></router-view>
+    </v-content>
+
   </v-app>
 </template>
 
 <script>
-import Table from './components/Table';
-import About from './components/About';
-export default {
-  name: 'App',
+import NavBar from '@/components/NavBar'
 
-  components: {
-    About,
-    Table,
-  },
+export default{
+  name:'App',
+  components: {NavBar},
+  data (){
+    return{
 
-  data: () => ({
-    //
-  }),
-};
+    }
+  }
+}
 </script>
+
