@@ -17,7 +17,7 @@ class FirestoreService {
                      reject:(e:Exception) -> Unit,
                      review: Review){
 
-        val collectionPath = "review"
+        val collectionPath = "reviews"
         client.collection(collectionPath)
             .add(review.toHashMap())
             .addOnSuccessListener { documentReference ->

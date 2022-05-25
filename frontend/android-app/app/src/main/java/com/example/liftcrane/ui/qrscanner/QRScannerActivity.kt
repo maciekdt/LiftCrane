@@ -21,6 +21,8 @@ import com.example.liftcrane.analyzer.ScanningResultListener
 import com.example.liftcrane.databinding.ActivityQrscannerBinding
 import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Lift
+import com.example.liftcrane.ui.LIFT_INTENT_FLAG
+import com.example.liftcrane.ui.review.ReviewActivity
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -101,7 +103,8 @@ class QRScannerActivity : AppCompatActivity() {
             if(lift!=null) {
                 imageAnalysis.clearAnalyzer()
                 cameraProvider?.unbindAll()
-                Toast.makeText(this, "Poprawny kod QR", Toast.LENGTH_LONG).show()
+                startReviewActivity(lift)
+
             }
             else
                 Toast.makeText(this, "Niepoprawny kod QR", Toast.LENGTH_LONG).show()
@@ -119,9 +122,10 @@ class QRScannerActivity : AppCompatActivity() {
 
     }
 
-
-    private fun excT(e:Exception){
-
+    private fun startReviewActivity(lift:Lift){
+        val intent = Intent(this, ReviewActivity::class.java)
+        intent.putExtra(LIFT_INTENT_FLAG, lift)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

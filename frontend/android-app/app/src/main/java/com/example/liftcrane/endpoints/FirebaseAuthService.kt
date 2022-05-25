@@ -29,4 +29,9 @@ class FirebaseAuthService {
     fun signOut(){
         auth.signOut()
     }
+
+    fun getSignInUserUid(): String?{
+        return if(isUserSignIn()) auth.uid
+        else null
+    }
 }
