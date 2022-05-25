@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 24.1.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Warstwa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+	 viewBox="0 0 595.3 841.9" style="enable-background:new 0 0 595.3 841.9;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#CCCCCC;}
-	.st1{fill:#CCCCCC;stroke:#808080;stroke-width:10;stroke-miterlimit:10;}
-	.st2{fill:#808080;}
-	.st3{font-family:'Roboto-Thin';}
-	.st4{font-size:105px;}
-	.st5{fill:#666666;}
-	.st6{font-family:'Roboto-Regular';}
-	.st7{font-size:100px;}
-	.st8{fill:none;stroke:#808080;stroke-width:11;stroke-miterlimit:10;}
+	.st0{fill:#9BABFD;}
+	.st1{fill:#738AFC;}
+	.st2{font-family:'Roboto-Thin';}
+	.st3{font-size:107px;}
+	.st4{fill:#4B68FB;}
+	.st5{font-family:'Roboto-Regular';}
+	.st6{font-size:100px;}
+	.st7{fill:none;stroke:#4B68FB;stroke-width:11;stroke-miterlimit:10;}
+	.st8{fill:#CCCCCC;}
+	.st9{fill:none;stroke:#738AFC;stroke-width:3;stroke-miterlimit:10;}
+	.st10{fill:none;stroke:#4B68FB;stroke-width:9;stroke-miterlimit:10;}
 </style>
-<path class="st0" d="M467.09,640.63H164.37c-47.85,0-86.64-38.79-86.64-86.64V251.27c0-47.85,38.79-86.64,86.64-86.64h302.73
-	c47.85,0,86.64,38.79,86.64,86.64v302.73C553.73,601.84,514.94,640.63,467.09,640.63z"/>
-<path class="st1" d="M315.73,640.63H161.05c-46.02,0-83.32-37.3-83.32-83.32V378.68"/>
-<path class="st0" d="M553.73,462.1v95.21c0,46.02-37.3,83.32-83.32,83.32H315.73"/>
-<path class="st1" d="M315.73,164.63h154.68c46.02,0,83.32,37.3,83.32,83.32V462.1"/>
-<path class="st0" d="M77.73,378.68V247.95c0-46.02,37.3-83.32,83.32-83.32h154.68"/>
-<text transform="matrix(1 0 0 1 114.9088 423.315)"><tspan x="0" y="0" class="st2 st3 st4">Lift</tspan><tspan x="142.12" y="20" class="st5 st6 st7">Crane</tspan></text>
-<polyline class="st8" points="40.57,461 77.89,378.68 114.89,460.3 "/>
-<polyline class="st8" points="516.57,379.79 553.89,462.1 590.89,380.49 "/>
+<path class="st0" d="M466.4,616.9H164.2c-47.8,0-86.5-38.7-86.5-86.5V228.3c0-47.8,38.7-86.5,86.5-86.5h302.2
+	c47.8,0,86.5,38.7,86.5,86.5v302.2C552.8,578.2,514.1,616.9,466.4,616.9z"/>
+<text transform="matrix(1 0 0 1 114.9088 423.315)" class="st1 st2 st3">Lift</text>
+<text transform="matrix(1 0 0 1 257.0288 443.315)" class="st4 st5 st6">Crane</text>
+<polyline class="st7" points="40.6,443.3 77.9,361 114.9,442.6 "/>
+<polyline class="st7" points="515.7,361 553,443.3 590,361.7 "/>
+<path class="st8" d="M77.7,366.9"/>
+<path class="st9" d="M239.8,402.1V298.5c0-37.3,35.2-67.5,78.6-67.5h137.3"/>
+<path class="st7" d="M452.2,616.9H315.3H164.2c-47.8,0-86.5-38.7-86.5-86.5V361"/>
+<path class="st7" d="M178.4,141.8h136.9h151.1c47.8,0,86.5,38.7,86.5,86.5v169.4l0.2,45.6"/>
+<path class="st10" d="M452.2,413.5V495c0,44.7-34.6,80.9-77.3,80.9H239.8"/>
 </svg>

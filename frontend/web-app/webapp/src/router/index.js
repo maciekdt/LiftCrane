@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import RaportsList from '../views/RaportsList'
-
+import Devices from '../views/Devices'
+import Raports from '../views/Raports'
+import Profiles from '../views/Profiles'
+import Login from '../views/Login'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,14 +22,31 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/RaportsList',
-    name: 'RaportsList',
-    component: RaportsList
-  }
+    path: '/Devices',
+    name: 'Devices',
+    component: Devices,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/Raports',
+    name: 'Raports',
+    component: Raports
+  },
+  {
+    path: '/Profiles',
+    name: 'Profiles',
+    component: Profiles
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
+  },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

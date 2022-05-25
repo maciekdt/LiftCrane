@@ -9,18 +9,11 @@
     ></v-img>
     </v-row>
     <h1>Rozwiń listę po lewej by wybrać aktywność</h1>
-
-    <v-btn class="cyan">Klik!</v-btn>
-    <v-btn text color="pink">Klik mnie!</v-btn>
-    <v-btn depressed fab class="pink white--text">
-      <v-icon>close</v-icon>
-    </v-btn>
-
+    <div></div>
   </div>
 </template>
 
 <script>
-
 export default {
   
   }
