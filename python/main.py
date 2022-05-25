@@ -6,48 +6,49 @@ import base64
 
 # BUFFER0 - nazwa i kod!!!
 # BuFFER 1 - ADRES i wlasciciel i nip
+#W AGATAMEBLE w BUFFER2 jest adres :(
+    #Jest pierdolnik - są wyjątki ktorych nie ma sensu automatyzować
+    #Ręcznie będzie łatwiej
 
-cred = credentials.Certificate("liftcrane-bfea5-firebase-adminsdk-fo2gl-c374ac1430.json")
+#Wez liste miejscowosci z dolnoslaskie.
+#Sprawdz czy miejscowość odpowiada liście
+#jak nie to szuka dalej
+#przez wszystkie listy
+#adres = tablica[miejscowosc] + tablica[numer]
+
+#Ustawianie firebase :-)
+cred = credentials.Certificate("liftcrane-firebase.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
-d = '{"HELP":342,"FIELD 0":"AMW HOTELE SP. Z O.O","BUFFER0":{"$binary": "ICAgK1RZICAgIEsgICA+SzAgICAgQU1XIEhPVEVMRSBTUC4gWiBPLk8gICD1X0kgICAge1xydGYxXGFuc2lcZGVmZjBcbm91aWNvbXBhdHtcZm9udHRibHtcZjBcZm5pbFxmY2hhcnNldDIzOCBBcmlhbDt9fQ0Ke1xjb2xvcnRibCA7XHJlZDBcZ3JlZW4wXGJsdWUwO30NCntcKlxnZW5lcmF0b3IgUmljaGVkMjAgMTAuMC4xNDM5M31cdmlld2tpbmQ0XHVjMSANClxwYXJkXGNmMVxmMFxmczIwXGxhbmcxMDQ1IE5vd291dHdvcnpvbnlccGFyDQp9DQog", "$type": "00"},"BUFFER1":{"$binary": "ICArUjggICAgMSAgICtyayAgICAwICAgK3JrICAgITAgICArcmsgICAiMCAgICtyayAgICMwICAgNERBICAgIDxTVEFOREFSRD4gICAwSUUgICAgNzM2OTEwICAgQ0MwICAgIHBwaHd2d2FqZkswMTAwMDAwMDAwMDAwMDAgICA0REggICAgMjAzMDM4OTEyOCAgIDBMRCAgICA3MzcwNzIgICAvTFEgICAgNDM5ODAgICAtTE0gICAgODkxICAgLlIzICAgIDAuMDAgICAuUjEgICAgMC4wMCAgIC5SMiAgICAwLjAwICAgLFI0ICAgIDIxICAgN1VJICAgIDY3", "$type": "00"},"BUFFER2":{"$binary": "Ni0yMjctODQtMDYgICAtV1ogICAgUExOICAgP04xICAgIEFNVyBIb3RlbGUgU3AuIHogby5vLiAgIENONCAgICBVbC4gjHcuIEphY2thIE9kcm93ub9hIDE1ICAgOU42ICAgIDAzLTMxMCBXYXJzemF3YSAgIDtEMSAgICBTemFub3duaSBQYfFzdHdvLCAgIDlOOSAgICAwMy0zMTAgV2Fyc3phd2EgICAwS1YgICAgNzM3MTA1", "$type": "00"},"BUFFER4":{"$binary": "ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg", "$type": "00"},"BUFFER5":{"$binary": "ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==", "$type": "00"},"STATUS":" ","FIELD 1":"K                             AMW HOTELE SP. Z O.O","FIELD 2":"03-310 Warszawa               AMW HOTELE SP. Z O.O","FIELD 14":"pphwvwajfK010000000000000     AMW HOTELE SP. Z O.O"}'
-data = json.loads(d)
-base64_message = data["BUFFER1"]["$binary"]
-base64_bytes = base64_message.encode('ISO-8859-1')
-message_bytes = base64.b64decode(base64_bytes)
-message = message_bytes.decode('ISO-8859-1')
-message = message.replace(u"\x9c", "ś") ##Naprawia bo nie bylo ś
-adres = message.split("  ")
-print(adres)
-#czasem jebany w dupe id jest na 11 indeksie kurwa jego mac kto to tak napisal jebane downy
-#juz w drugim przypadku jest chujowo. jakis chujowy napis nowoutworzony jest w 0 - to moze pomoc
-def getNazwa(text):
-    x = text.index("  ",10) #zwraca pozycje "  " dwóch spacji, szuka od 10 znaku
-    return text[10:x]       #zwraca tekst od 10 znaku do x zanku (koniec nazwy)
 
-def getInfo (data):
+
+def getInfo (data): #Zwraca  [0] - nazwa, [1] - id, [2]-adres
     #Wyciaga nazwe
     base64_message = data["BUFFER0"]["$binary"]
     base64_bytes = base64_message.encode('ISO-8859-2')
     message_bytes = base64.b64decode(base64_bytes)
     message = message_bytes.decode('ISO-8859-2')
+    message = message.replace(u"\x98", "ś") ##Naprawia bo nie bylo ś
     nazwa = data["FIELD 0"]
+    z = message.split("  ") #Tworzy tablice oddielona dwoma spacjami
+    temp = z
 
-    z = message.split("  ")
-    # z[30] = "N"+z[30]
-
+    #Wyciaga adres
     base64_message = data["BUFFER1"]["$binary"]
     base64_bytes = base64_message.encode('ISO-8859-2')
     message_bytes = base64.b64decode(base64_bytes)
     message = message_bytes.decode('ISO-8859-2')
     message = message.replace(u"\x9c", "ś") ##Naprawia bo nie bylo ś
+    message = message.replace(u"Ä\x98Ĺ", "ś") ##Naprawia bo nie bylo ś
+
     adres = message.split("  ")
     miejscowosc = adres[6]+adres[7]
     # miejscowosc = miejscowosc.strip()
     ulica = adres[3] + adres[4]
 
-    
-
+    #Walka z ID (chujstwo sie nie zgadza. UDT maja zawsze 10 cyfr!!!
+    #  A tu często w bd nie ma takich bajerów)
+    #Możliwe, że będzie trzeba ręcznie z dokumentów przepisać
     try:
         if(z[30].isnumeric() == 0):
             z[30] = 'null'
@@ -56,18 +57,23 @@ def getInfo (data):
         try:
             z = 'N'+z[11]
         except IndexError:
-                z = 'N'+adres[24]
+                z = 'tesst'#+adres[24]
 
+    if(len(z) < 8):
+            for pole in adres:
+                if len(pole) == 9 or len(pole) == 10:
+                    z = 'N'+pole
     
-    # print("NAZWA: "+data["FIELD 0"])
-    # print("ID: "+z[30])
-    # print("ADRES: "+ miejscowosc + " "+ ulica)
-    return data["FIELD 0"],z, miejscowosc + " "+ ulica # dodaj!
+    if(len(z) < 8 or z[1:].isnumeric == 0):
+            for pole in temp:
+                if len(pole) == 9 and pole.isnumeric:
+                    z = 'N'+pole
+    
+    return nazwa,z, miejscowosc + " "+ ulica
 
-#23 pozycja w binary0
-# def getID(text):
 
-f = open('adres_main_json.txt','r', encoding="ISO-8859-2")
+##################################################################################
+f = open('adres_main_json.txt','r', encoding="utf-8")
 lines = f.readlines()
 for line in lines:
     data = json.loads(line)
@@ -75,28 +81,27 @@ for line in lines:
     nazwa = getInfo(data)[0]
     ID = getInfo(data)[1]
     Adres = getInfo(data)[2]
-    doc_ref = db.collection(u'lifts').document(nazwa)
+
+    # Gówno niżej to request do bd - Zrób jak kompletne
+
+    doc_ref = db.collection(u'lifts').document(ID)
     doc_ref.set({
     u'Nazwa': nazwa,
     u'ID': ID,
     u'Adres': Adres
-    })
+     })
+
+
+data = json.loads(d)
+base64_message = data["BUFFER4"]["$binary"]
+base64_bytes = base64_message.encode('ISO-8859-2')
+message_bytes = base64.b64decode(base64_bytes)
+message = message_bytes.decode('ISO-8859-2')
+message = message.replace(u"\x9c", "ś") ##Naprawia bo nie bylo ś
+adres = message.split("  ")
+print(adres)
 # print(data["BUFFER0"]["$binary"])
 
-# base64_message = data["BUFFER1"]["$binary"]
-# base64_bytes = base64_message.encode('ISO-8859-2')
-# message_bytes = base64.b64decode(base64_bytes)
-# message = message_bytes.decode('ISO-8859-2')
-
-# print(message)
 
 
-
-# data = json.loads(d)
-
-# base64_message = data["BUFFER0"]["$binary"]
-# base64_bytes = base64_message.encode('ISO-8859-2')
-# message_bytes = base64.b64decode(base64_bytes)
-# message = message_bytes.decode('ISO-8859-2')
-
-# print(message)
+#Łukaszek Koding 2022
