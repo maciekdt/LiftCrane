@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import db from '../fb.js'
+import { db } from '../fb.js'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vue from 'vue'
 import excel from 'vue-excel-export'
@@ -73,6 +73,7 @@ Vue.use(excel)
         device: [],
         loader: true,
         singleExpand: true,
+        
       }
     },
     methods: {

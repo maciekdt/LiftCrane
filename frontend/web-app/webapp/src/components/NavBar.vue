@@ -11,9 +11,13 @@
         </div>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text>
-        <v-icon left>account_circle</v-icon>
-        <span>Profil</span>
+      <v-btn v-if="!singedIn" @click="googleSignIn">
+        <v-icon left>login</v-icon>
+        <span>Zaloguj</span>
+      </v-btn>
+      <v-btn text v-else @click="googleSignOut">
+        <v-icon left>logout</v-icon>
+        <span>Wyloguj</span>
       </v-btn>
     </v-toolbar>
 
@@ -34,6 +38,8 @@
 </template>
 
 <script>
+import fb from 'firebase';
+
   export default {
     data(){
       return{
@@ -44,8 +50,50 @@
         {icon: 'fact_check', text: 'Dziennik konserwacji', route:'/Raports'},
         {icon: 'manage_accounts', text: 'Profile', route:'/Profiles'},
         {icon: 'contact_support', text: 'Kontakt/pomoc', route:'/About'},
-      ]
+      ],
+      singedIn: false
       }
+    },
+    methods: {
+
+        googleSignIn: function() {
+        let provider = new fb.auth.GoogleAuthProvider();
+        fb
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          let token = result.credential.accessToken;
+          let user = result.user;
+            console.log(token) // Token
+            console.log(user) // User that was authenticated
+            this.singedIn = true
+        })
+        .catch((err) => {
+          console.log(err); // This will give you all the information needed to further debug any errors
+          this.singedIn = false
+        });
+        },
+        googleSignOut: function() {
+            fb.auth().signOut().then(() => {
+            // Sign-out successful.
+            console.log('Logged Out')
+            this.singedIn = false
+            }).catch((error) => {
+            // An error happened.
+            console.log(error)
+            });
+        },
+        
+        // login : function() {
+        //     firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        //         user => {
+        //             console.log(user.data);
+        //         },
+        //         err => {
+        //             alert(err);
+        //         }
+        //     )
+        // }
     },
     computed: {
      currentRouteName() {

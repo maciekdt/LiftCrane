@@ -5,8 +5,9 @@ import Devices from '../views/Devices'
 import Raports from '../views/Raports'
 import Profiles from '../views/Profiles'
 import Login from '../views/Login'
-Vue.use(VueRouter)
+import { auth } from '@/fb'
 
+Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
@@ -32,17 +33,23 @@ const routes = [
   {
     path: '/Raports',
     name: 'Raports',
-    component: Raports
+    component: Raports,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/Profiles',
     name: 'Profiles',
-    component: Profiles
+    component: Profiles,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/Login',
     name: 'Login',
-    component: Login
+    component: Login,
   },
 ]
 
@@ -50,5 +57,43 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  // Check for requiresAuth guard
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Check if NO logged user
+    if (!auth.currentUser) {
+      // Go to login
+      next({
+        path: '/',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    } else {
+      // Proceed to route
+      next();
+    }
+  } else if (to.matched.some(record => record.meta.requiresGuest)) {
+    // Check if NO logged user
+    if (auth.currentUser) {
+      // Go to login
+      next({
+        path: '/',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    } else {
+      // Proceed to route
+      next();
+    }
+  } else {
+    // Proceed to route
+    next();
+  }
+});
+
+
 
 export default router

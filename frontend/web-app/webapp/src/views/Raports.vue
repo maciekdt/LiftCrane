@@ -12,7 +12,7 @@
   ></v-data-table>
 </template>
 <script>
-import db from '../fb.js'
+import { db } from '../fb.js'
 
   export default {
     data () {
