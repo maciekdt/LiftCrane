@@ -1,10 +1,12 @@
 package com.example.liftcrane.model
 
+import com.google.firebase.Timestamp
+
 data class Review(
     val liftId : String,
     val reviewerId : String,
     val malfunction : Boolean,
-    val date : Int
+    val date : Timestamp
 ){
     fun toHashMap(): HashMap<String, Any> {
         return hashMapOf(

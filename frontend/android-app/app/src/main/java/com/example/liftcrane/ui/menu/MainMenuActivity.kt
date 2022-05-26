@@ -23,7 +23,6 @@ import com.google.android.gms.common.api.ApiException
 
 class MainMenuActivity : AppCompatActivity() {
 
-    private val fireStore = FirestoreService()
     private val auth = FirebaseAuthService()
     private val googleSignIn = GoogleSignInUI()
 
@@ -35,15 +34,14 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        oneTapClient = googleSignIn.startOneTapClient(this)
+        if(!auth.isUserSignIn())
+            oneTapClient = googleSignIn.startOneTapClient(this)
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
         }
 
         binding.noQRreviewButton.setOnClickListener {
-            fireStore.test()
         }
     }
 
