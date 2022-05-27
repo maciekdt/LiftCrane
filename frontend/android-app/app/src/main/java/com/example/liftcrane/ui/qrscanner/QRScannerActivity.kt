@@ -30,7 +30,9 @@ import java.util.concurrent.Executors
 
 class QRScannerActivity : AppCompatActivity() {
 
+    private var isReviewActivityLaunched = false
     private val fireStore = FirestoreService()
+    //private val toast = Toast.makeText(this, "Niepoprawny kod QR", Toast.LENGTH_SHORT)
 
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -100,18 +102,20 @@ class QRScannerActivity : AppCompatActivity() {
 
     private fun processQRCode(qrCode:String, imageAnalysis:ImageAnalysis, cameraProvider:ProcessCameraProvider?){
         fun resolve(lift:Lift?){
-            if(lift!=null) {
+            if(lift!=null && !isReviewActivityLaunched) {
+                isReviewActivityLaunched = true
                 imageAnalysis.clearAnalyzer()
                 cameraProvider?.unbindAll()
                 startReviewActivity(lift)
 
             }
-            else
-                Toast.makeText(this, "Niepoprawny kod QR", Toast.LENGTH_LONG).show()
+            else if(lift==null){}
+
         }
 
         fun reject(e:Exception){
-            Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
+            //toast.cancel()
+           //toast.show()
         }
 
         fireStore.getLiftById(
