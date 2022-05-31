@@ -34,7 +34,7 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if(!auth.isUserSignIn())
+        //if(!auth.isUserSignIn())
             oneTapClient = googleSignIn.startOneTapClient(this)
 
         binding.scanQRButton.setOnClickListener {
