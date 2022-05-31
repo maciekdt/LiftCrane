@@ -32,6 +32,9 @@
       <template v-slot:item.status="{ item }">
         <v-simple-checkbox v-model="item.status" disabled></v-simple-checkbox>
       </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length"  class="pa-0 pt-1 ps-1 elevation-5"><deviceDetails :liftId="item.id"/></td>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -42,6 +45,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Vue from "vue";
 import excel from "vue-excel-export";
 import firebase from "firebase";
+import deviceDetails from "../components/deviceDetails";
 // import QrcodeVue from 'qrcode.vue'
 
 Vue.use(excel);
@@ -142,10 +146,11 @@ export default {
     });
   },
   mounted() {
-    this.getAll();
+        this.getAll();
+
   },
   components: {
-    // QrcodeVue,
+    deviceDetails,
   },
 };
 </script>

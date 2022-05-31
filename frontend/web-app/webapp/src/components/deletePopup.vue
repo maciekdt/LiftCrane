@@ -54,6 +54,9 @@ export default {
       liftId : String,
       date : String,
       id : String
+},
+mounted: {
+    
 }
 };
 </script>

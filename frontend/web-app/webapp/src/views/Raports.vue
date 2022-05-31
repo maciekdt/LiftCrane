@@ -16,12 +16,12 @@
             <v-card-title class="text-h5 grey lighten-2"
               >Usuń wpis</v-card-title
             >
-            <v-card-text class="pa-2">Czy napewno chcesz usunąć ten wpis?</v-card-text>
+            <v-card-text class="pa-2"
+              >Czy napewno chcesz usunąć ten wpis?</v-card-text
+            >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
-                >Nie</v-btn
-              >
+              <v-btn color="blue darken-1" text @click="closeDelete">Nie</v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm"
                 >Tak</v-btn
               >
@@ -76,7 +76,7 @@ export default {
               date: doc
                 .data()
                 .date.toDate()
-                .toLocaleString("pl-PL", { month: "long" }),
+                .toLocaleString("pl-PL", {day:'2-digit', month: "long", year:'numeric' }),
               malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
               reviewerId: doc.data().reviewerId,
             });
@@ -88,7 +88,7 @@ export default {
     },
     deleteItem(item) {
       this.editedIndex = item.raportId;
-      console.log(item.raportId + 'deleted');
+      console.log(item.raportId + " deleted");
       this.dialogDelete = true;
     },
 
