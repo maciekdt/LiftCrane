@@ -1,88 +1,89 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Devices from '../views/Devices'
-import Raports from '../views/Raports'
-import Profiles from '../views/Profiles'
-import Login from '../views/Login'
-import { auth } from '@/fb'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import Devices from "../views/Devices";
+import Raports from "../views/Raports";
+import Profiles from "../views/Profiles";
+import Login from "../views/Login";
+import { auth } from "@/fb";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/About',
-    name: 'About',
+    path: "/About",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: '/Devices',
-    name: 'Devices',
+    path: "/Devices",
+    name: "Devices",
     component: Devices,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
-    path: '/Raports',
-    name: 'Raports',
+    path: "/Raports",
+    name: "Raports",
     component: Raports,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
-    path: '/Profiles',
-    name: 'Profiles',
+    path: "/Profiles",
+    name: "Profiles",
     component: Profiles,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
-    path: '/Login',
-    name: 'Login',
+    path: "/Login",
+    name: "Login",
     component: Login,
   },
-]
+];
 
 const router = new VueRouter({
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
   // Check for requiresAuth guard
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Check if NO logged user
     if (!auth.currentUser) {
       // Go to login
       next({
-        path: '/',
+        path: "/",
         query: {
-          redirect: to.fullPath
-        }
+          redirect: to.fullPath,
+        },
       });
     } else {
       // Proceed to route
       next();
     }
-  } else if (to.matched.some(record => record.meta.requiresGuest)) {
+  } else if (to.matched.some((record) => record.meta.requiresGuest)) {
     // Check if NO logged user
     if (auth.currentUser) {
       // Go to login
       next({
-        path: '/',
+        path: "/",
         query: {
-          redirect: to.fullPath
-        }
+          redirect: to.fullPath,
+        },
       });
     } else {
       // Proceed to route
@@ -94,6 +95,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-
-
-export default router
+export default router;
