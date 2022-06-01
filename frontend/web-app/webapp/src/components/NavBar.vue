@@ -97,8 +97,8 @@ export default {
   },
   methods: {
     googleSignIn: function () {
-      let provider = new fb.auth.GoogleAuthProvider();
       fb.auth().setPersistence(fb.auth.Auth.Persistence.LOCAL);
+      let provider = new fb.auth.GoogleAuthProvider();
 
       fb.auth()
         .signInWithPopup(provider)
