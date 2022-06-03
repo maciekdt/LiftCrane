@@ -8,36 +8,42 @@
 
     <Button
         android:id="@+id/scanQRButton"
-        android:layout_width="200dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="208dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:drawableRight="@drawable/ic_baseline_qr_code_scanner_24"
         android:text="@string/qr_launch_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <Button
-        android:id="@+id/noQRreviewButton"
-        android:layout_width="200dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/review_form_launch"
-        android:textSize="14sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/listButton"
+        android:layout_width="208dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:drawableRight="@drawable/ic_baseline_list_alt_24"
+        android:text="@string/review_form_launch"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scanQRButton" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="404dp"
-        android:layout_height="184dp"
-        android:layout_marginTop="92dp"
+        android:id="@+id/imageView"
+        android:layout_width="194dp"
+        android:layout_height="253dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_banner_foreground" />
+        app:srcCompat="@drawable/ic_logo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

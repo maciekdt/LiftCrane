@@ -48,4 +48,23 @@ class FirestoreService {
                 reject(e)
             }
     }
+
+    fun getAllLifts(resolve:(lifts : MutableList<Lift>) -> Unit,
+                    reject:(e : Exception) -> Unit){
+
+        Log.d("MyInfo", "XDDD")
+        val collectionPath = "lifts"
+        client.collection(collectionPath)
+            .get()
+            .addOnSuccessListener { result ->
+                val resultList = mutableListOf<Lift>()
+                for (document in result) {
+                    resultList.add(Lift(document.data))
+                }
+                resolve(resultList)
+            }
+            .addOnFailureListener { exception ->
+                reject(exception)
+            }
+    }
 }

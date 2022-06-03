@@ -17,6 +17,7 @@ import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.ui.GoogleSignInUI
 import com.example.liftcrane.ui.REQ_CAM_PERM
 import com.example.liftcrane.ui.REQ_ONE_TAP
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
@@ -34,14 +35,16 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //if(!auth.isUserSignIn())
+        if(!auth.isUserSignIn())
             oneTapClient = googleSignIn.startOneTapClient(this)
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
         }
 
-        binding.noQRreviewButton.setOnClickListener {
+        binding.listButton.setOnClickListener {
+            val intent = Intent(this, LiftsListActivity::class.java)
+            startActivity(intent)
         }
     }
 
