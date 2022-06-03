@@ -26,7 +26,6 @@
       :loading="loader"
       loading-text="Pobieranie danych, proszę czekać"
       :single-expand="singleExpand"
-      :expanded.sync="expanded"
       show-expand
     >
       <template v-slot:item.status="{ item }">
@@ -44,8 +43,9 @@ import { db } from "../fb.js";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Vue from "vue";
 import excel from "vue-excel-export";
-import firebase from "firebase";
 import deviceDetails from "../components/deviceDetails";
+import firebase from "firebase";
+
 // import QrcodeVue from 'qrcode.vue'
 
 Vue.use(excel);
@@ -79,8 +79,9 @@ export default {
   },
   methods: {
     getAll: function () {
+
       db.collection("lifts")
-        .get({ source: "cache" })
+        .get({ source: "server" })
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // console.log(`${doc.id} => ${doc.data().email}`);
@@ -88,13 +89,12 @@ export default {
             // this.device.push({
 
             console.log(doc.data());
-            this.device.indexOf(doc.id) === -1
-              ? this.device.push({
+
+              this.device.push({
                   name: doc.data().Nazwa,
                   id: doc.data().ID,
                   loc: doc.data().Adres,
                 })
-              : console.log("Brak nowych!");
             var source = querySnapshot.metadata.fromCache
               ? "local cache"
               : "server";
@@ -102,51 +102,35 @@ export default {
           });
         })
         .finally(() => {
-          this.loader = false;
           if (this.device.isEmpty) {
-            db.collection("lifts")
-              .get({ source: "server" })
-              .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                  console.log(doc.data());
-                  this.device.indexOf(doc.data()) === -1
-                    ? this.device.push({
-                        name: doc.data().Nazwa,
-                        id: doc.data().ID,
-                        loc: doc.data().Adres,
-                      })
-                    : console.log("Brak nowych!");
-                  var source = querySnapshot.metadata.fromCache
-                    ? "local cache"
-                    : "server";
-                  console.log("Data came from " + source);
-                });
-              });
+            console.log(this.device.isEmpty)
+            this.loader = false
           }
         });
     },
   },
   created() {
-    firebase
-      .firestore()
-      .enablePersistence()
-      .catch((err) => {
-        if (err.code == "failed-precondition") {
-          // Multiple tabs open, persistence can only be enabled
-          // in one tab at a a time.
-          // ...
-        } else if (err.code == "unimplemented") {
-          // The current browser does not support all of the
-          // features required to enable persistence
-          // ...
-        }
-      });
-    firebase.firestore().settings({
-      cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED,
-    });
+   firebase
+.firestore()
+.enablePersistence()
+.catch((err) => {
+  if (err.code == "failed-precondition") {
+    // Multiple tabs open, persistence can only be enabled
+    // in one tab at a a time.
+    // ...
+  } else if (err.code == "unimplemented") {
+    // The current browser does not support all of the
+    // features required to enable persistence
+    // ...
+  }
+});
+ firebase.firestore().settings({
+cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED,
+});
   },
   mounted() {
-        this.getAll();
+    console.log('getAll devices')
+      this.getAll();
 
   },
   components: {
