@@ -10,10 +10,14 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="LiftCrane"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftCrane">
+
+        <activity
+            android:name=".ui.liftslist.LiftsListActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.review.ReviewActivity"
             android:exported="false" />
@@ -28,7 +32,7 @@
         </activity>
         <activity
             android:name=".ui.qrscanner.QRScannerActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
