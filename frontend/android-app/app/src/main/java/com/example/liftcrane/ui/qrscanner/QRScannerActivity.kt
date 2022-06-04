@@ -32,7 +32,6 @@ class QRScannerActivity : AppCompatActivity() {
 
     private var isReviewActivityLaunched = false
     private val fireStore = FirestoreService()
-    //private val toast = Toast.makeText(this, "Niepoprawny kod QR", Toast.LENGTH_SHORT)
 
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -84,11 +83,9 @@ class QRScannerActivity : AppCompatActivity() {
         class ScanningListener : ScanningResultListener {
             override fun onScanned(result: String) {
                 runOnUiThread {
-                    binding.progressBar.visibility = View.VISIBLE
                     //imageAnalysis.clearAnalyzer()
                     //cameraProvider?.unbindAll()
                     processQRCode(result, imageAnalysis, cameraProvider)
-                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

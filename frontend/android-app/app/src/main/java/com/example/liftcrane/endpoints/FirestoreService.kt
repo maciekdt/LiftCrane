@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
+import com.example.liftcrane.model.User
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -65,6 +66,26 @@ class FirestoreService {
             }
             .addOnFailureListener { exception ->
                 reject(exception)
+            }
+    }
+
+    fun getUserById(resolve:(user : User?) -> Unit,
+                    reject:(e : Exception) -> Unit,
+                    userId: String){
+
+        val collectionPath = "users"
+        client.collection(collectionPath)
+            .get()
+            .addOnSuccessListener { result ->
+                var user:User? = null
+                for (document in result) {
+                    if(document.id == userId)
+                        user = User(document.data)
+                }
+                resolve(user)
+            }
+            .addOnFailureListener { e ->
+                reject(e)
             }
     }
 }

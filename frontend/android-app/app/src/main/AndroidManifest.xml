@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftCrane">
-
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.liftslist.LiftsListActivity"
             android:exported="false" />
