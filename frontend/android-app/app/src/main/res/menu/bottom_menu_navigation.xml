@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      android:backgroundTint="@color/main_color">
+
+    <item
+        android:id="@+id/review"
+        android:title="@string/bottom_menu_review"
+        android:icon="@drawable/ic_baseline_rate_review_24"/>
+    <item
+        android:id="@+id/reviews"
+        android:title="@string/bottom_menu_reviews"
+        android:icon="@drawable/ic_baseline_engineering_24"/>
+
+    <item
+        android:id="@+id/account"
+        android:title="@string/bottom_menu_lifts"
+        android:icon="@drawable/ic_baseline_person_24"/>
+</menu>

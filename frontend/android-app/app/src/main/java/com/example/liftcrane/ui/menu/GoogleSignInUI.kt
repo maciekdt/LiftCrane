@@ -1,10 +1,12 @@
-package com.example.liftcrane.ui
+package com.example.liftcrane.ui.menu
 
 import android.content.ContentValues
 import android.content.IntentSender
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.startIntentSenderForResult
+import com.example.liftcrane.ui.CLIENT_ID
+import com.example.liftcrane.ui.REQ_ONE_TAP
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="?android:attr/colorPressedHighlight"
     tools:context=".ui.qrscanner.QRScannerActivity">
-
 
 
     <androidx.camera.view.PreviewView
@@ -18,28 +17,27 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0">
     </androidx.camera.view.PreviewView>
 
-    <TextView
-        android:id="@+id/qrScannerInfoTextView"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:text="@string/qr_scanner_info"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="bottom|right"
+        android:layout_margin="30dp"
+        android:clickable="true"
+        app:backgroundTint="?android:attr/colorPressedHighlight"
+        app:fabCustomSize="70dp"
+        app:fabSize="auto"
+        app:maxImageSize="40dp"
+        app:srcCompat="@drawable/ic_baseline_highlight_24" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="89dp"
-        android:layout_height="100dp"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="312dp"
+        android:layout_height="318dp"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        app:srcCompat="@drawable/ic_scanner" />
 
 </FrameLayout>

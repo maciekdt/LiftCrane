@@ -5,25 +5,31 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
 import com.example.liftcrane.endpoints.FirebaseAuthService
 import com.example.liftcrane.endpoints.FirestoreService
-import com.example.liftcrane.ui.GoogleSignInUI
+import com.example.liftcrane.model.User
 import com.example.liftcrane.ui.REQ_CAM_PERM
 import com.example.liftcrane.ui.REQ_ONE_TAP
+import com.example.liftcrane.ui.account.AccountActivity
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainMenuActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuthService()
+    private val fireStore = FirestoreService()
     private val googleSignIn = GoogleSignInUI()
 
     private lateinit var binding: ActivityMainMenuBinding
@@ -34,14 +40,20 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //if(!auth.isUserSignIn())
+
+        if(!auth.isUserSignIn())
             oneTapClient = googleSignIn.startOneTapClient(this)
+        else setUserFirstLetter(auth.getSignInUserUid()!!)
+
+        setBottomBar()
 
         binding.scanQRButton.setOnClickListener {
             startScanning()
         }
 
-        binding.noQRreviewButton.setOnClickListener {
+        binding.listButton.setOnClickListener {
+            val intent = Intent(this, LiftsListActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -110,10 +122,46 @@ class MainMenuActivity : AppCompatActivity() {
                 if (idToken != null) {
                     Log.d("MyInfo", "Got ID token.")
                     auth.signInGoogle(idToken)
+                    setUserFirstLetter(auth.getSignInUserUid()!!)
                 }
                 else Log.d(TAG, "No ID token or password!")
             }
             catch (e: ApiException) { Log.d("MyInfo", e.toString()) }
         }
+    }
+
+    private fun setUserFirstLetter(userId : String){
+        fun resolve(user: User?){
+            if(user!=null){
+                binding.accountFirstLetter.text = user.firstName[0].toString().uppercase()
+            }
+        }
+        fun reject(e:Exception){
+            //toast.cancel()
+            //toast.show()
+        }
+        fireStore.getUserById(
+            {user -> resolve(user)},
+            {e -> reject(e)},
+            userId
+        )
+    }
+
+
+    private fun setBottomBar(){
+        binding.bottomNavigation.selectedItemId = R.id.review
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.account -> {
+                    startActivity(Intent(applicationContext, AccountActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.review -> return@OnNavigationItemSelectedListener true
+            }
+            false
+        })
     }
 }

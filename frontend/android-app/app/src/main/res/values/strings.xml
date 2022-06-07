@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">LiftCrane</string>
-    <string name="qr_launch_button">Zeskanuj QR kod</string>
-    <string name="review_form_launch">Wybierz z listy</string>
-    <string name="qr_scanner_info">Zeskanuj kod QR z windy</string>
+    <string name="qr_launch_button">Skanuj</string>
+    <string name="review_form_launch">Lista</string>
+    <string name="qr_scanner_info">Zeskanuj kod z windy</string>
     <string name="malfunction_review">Zgłoś awarię</string>
     <string name="no_malfunction_review">Zgłoś brak awarii</string>
+    <string name="bottom_menu_review">Zgłoszenie</string>
+    <string name="bottom_menu_lifts">Konto</string>
+    <string name="bottom_menu_reviews">Serwisy</string>
 </resources>
