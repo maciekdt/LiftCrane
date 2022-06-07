@@ -4,7 +4,7 @@
     <h2 class="font-weight-light text--secondary">
       Elektroniczny dziennik serwisanta
     </h2>
-    <h2 class="font-weight-light text--disabled">Konakty:</h2>
+    <h2 class="font-weight-light text--disabled">Konakt:</h2>
     <v-list-item
       three-line
       v-for="contact in team"
