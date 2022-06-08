@@ -15,6 +15,7 @@
           to="/"
           large
           retain-focus-on-click
+          text
           plain
           class="secondary pa-2 text-center rounded-xl"
         >
@@ -53,7 +54,9 @@
         </v-btn>
       </div>
     </v-toolbar>
-
+    <v-snackbar v-model="snackbar" :timeout="timeout" transition="fade-transition" class="d-flex justify-center">
+      {{ text }}
+    </v-snackbar>
     <v-navigation-drawer
       v-model="drawer"
       absolute
@@ -98,6 +101,9 @@ export default {
       ],
       singedIn: false,
       userName: null,
+      snackbar: false,
+      text: "Zalogowano!",
+      timeout: 2000,
     };
   },
   methods: {
@@ -109,6 +115,8 @@ export default {
         .then((result) => {
           let user = result.user;
           console.log("Logged in"); // Token
+          this.text = "Zalogowano!"
+          this.snackbar = true
           console.log(user); // User that was authenticated
           this.singedIn = true;
           this.userName = result.user.displayName;
@@ -126,6 +134,8 @@ export default {
           // Sign-out successful.
           console.log("Logged Out");
           this.singedIn = false;
+          this.text = "Wylogowano!"
+          this.snackbar = true;
           router.push("/");
         })
         .catch((error) => {

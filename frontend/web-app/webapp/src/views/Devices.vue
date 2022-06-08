@@ -15,6 +15,7 @@
             <v-btn color="blue darken-1" text @click="deleteItemConfirm"
               >Tak</v-btn
             >
+            
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -45,7 +46,8 @@
       show-expand
     >
       <template end v-slot:item.edit="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+          <EditDeviceDetails :liftId="item.id" :name="item.Nazwa" :loc="item.Adres"/>
+        <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
         <v-icon small class="mr-2" @click="generateQrCode(item)"> qr_code_2 </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
       </template>
@@ -63,6 +65,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Vue from "vue";
 import excel from "vue-excel-export";
 import deviceDetails from "../components/deviceDetails";
+import EditDeviceDetails from "../components/EditDeviceDetails.vue";
 import { mapState } from "vuex";
 import { db } from "../fb.js";
 
@@ -95,9 +98,15 @@ export default {
       singleExpand: true,
       editedIndex: -1,
       dialogDelete: false,
+      dialogEdit: false,
     };
   },
   methods: {
+    editItem(item) {
+            this.editedIndex = item.id;
+            this.dialogEdit = true;
+    },
+
     deleteItem(item) {
       this.editedIndex = item.id;
       this.dialogDelete = true;
@@ -137,6 +146,7 @@ export default {
   },
   components: {
     deviceDetails,
-  },
+    EditDeviceDetails
+},
 };
 </script>

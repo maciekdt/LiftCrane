@@ -4,7 +4,7 @@
     :items="review"
     :sort-by="['date', 'malfunction']"
     multi-sort
-    items-per-page="50"
+    items-per-page=50
     class="elevation-1"
   >
     <template v-slot:top>
@@ -45,6 +45,11 @@
                 }),
             }}
     </template>
+    <template v-slot:item.malfunction="{ item }">
+    <v-chip :color="getColor(item.malfunction)">
+      {{ item.malfunction ? 'Awaria' : 'Sprawne' }}
+    </v-chip>
+    </template>
   </v-data-table>
 </template>
 
@@ -77,6 +82,11 @@ export default {
     };
   },
   methods: {
+     getColor (mal) {
+        if (mal == false) return 'green'
+        else if (mal == true) return 'red'
+        else return 'orange'
+        },
     deleteItem(item) {
       this.editedIndex = item.raportId;
       this.dialogDelete = true;

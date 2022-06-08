@@ -10,12 +10,7 @@
       </thead>
       <tbody>
         <tr v-for="item in raports" :key="item.name">
-          <td>{{ item.date.toDate()
-                .toLocaleString("pl-PL", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                }) }}</td>
+          <td>{{ item.date }}</td>
           <td>{{ item.malfunction }}</td>
           <td>{{ item.reviewerId }}</td>
         </tr>
@@ -66,11 +61,7 @@ export default {
         });
     },
   },
-  firestore() {
-    return {
-      currentTodo: db.collection('reviews').where("liftId", "==", this.liftId),
-    }
-  },
+  
   watch: {
     liftId: function () {
       this.raports = [];
