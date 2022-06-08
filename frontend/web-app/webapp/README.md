@@ -1,4 +1,8 @@
-# webapp
+# LiftCrane web application service
+
+Website build with Vuejs 2
+
+Using vuetify + vuexfire
 
 ## Project setup
 ```
