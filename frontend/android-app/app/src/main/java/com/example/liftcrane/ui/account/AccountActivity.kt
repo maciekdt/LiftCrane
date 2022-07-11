@@ -24,15 +24,38 @@ class AccountActivity : AppCompatActivity() {
         binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        setLabels(auth.getSignInUserUid()!!)
         setBottomBar()
-        setUserFirstLetter(auth.getSignInUserUid()!!)
+
+        binding.exitImage.setOnClickListener {
+            auth.signOut()
+            finishAffinity()
+        }
+    }
+
+
+    private fun setLabels(userId : String){
+        fun resolve(user: User?){
+            if(user!=null){
+                binding.accountFirstLetter.text = user.firstName[0].toString().uppercase()
+                binding.firstName.text = user.firstName
+                binding.name.text = user.lastName
+                binding.email.text = user.email
+            }
+        }
+        fun reject(e:Exception){
+
+        }
+        fireStore.getUserById(
+            {user -> resolve(user)},
+            {e -> reject(e)},
+            userId
+        )
     }
 
 
     private fun setBottomBar(){
         binding.bottomNavigation.selectedItemId = R.id.account
-
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
@@ -45,22 +68,5 @@ class AccountActivity : AppCompatActivity() {
                 }
                 false
             })
-    }
-
-    private fun setUserFirstLetter(userId : String){
-        fun resolve(user: User?){
-            if(user!=null){
-                binding.accountFirstLetter.text = user.firstName[0].toString().uppercase()
-            }
-        }
-        fun reject(e:Exception){
-            //toast.cancel()
-            //toast.show()
-        }
-        fireStore.getUserById(
-            {user -> resolve(user)},
-            {e -> reject(e)},
-            userId
-        )
     }
 }

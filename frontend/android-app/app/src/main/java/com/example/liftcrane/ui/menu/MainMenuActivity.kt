@@ -105,6 +105,7 @@ class MainMenuActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == REQ_CAM_PERM) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -120,11 +121,21 @@ class MainMenuActivity : AppCompatActivity() {
                 val credential = oneTapClient.getSignInCredentialFromIntent(data)
                 val idToken = credential.googleIdToken
                 if (idToken != null) {
-                    Log.d("MyInfo", "Got ID token.")
-                    auth.signInGoogle(idToken)
-                    setUserFirstLetter(auth.getSignInUserUid()!!)
+
+                    fun resolve(userUid: String?){
+                        if(userUid != null)
+                            setUserFirstLetter(userUid)
+                    }
+
+                    fun reject(e:Exception){
+                    }
+
+                    auth.signInGoogle(
+                        {userUid -> resolve(userUid)},
+                        {e -> reject(e)},
+                        idToken)
                 }
-                else Log.d(TAG, "No ID token or password!")
+                else Log.d("MyInfo", "No ID token or password!")
             }
             catch (e: ApiException) { Log.d("MyInfo", e.toString()) }
         }
@@ -137,8 +148,6 @@ class MainMenuActivity : AppCompatActivity() {
             }
         }
         fun reject(e:Exception){
-            //toast.cancel()
-            //toast.show()
         }
         fireStore.getUserById(
             {user -> resolve(user)},

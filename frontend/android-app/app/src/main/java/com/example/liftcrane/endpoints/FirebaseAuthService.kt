@@ -1,6 +1,7 @@
 package com.example.liftcrane.endpoints
 
 import android.util.Log
+import com.example.liftcrane.model.Lift
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -9,15 +10,17 @@ class FirebaseAuthService {
 
     private val auth = Firebase.auth
 
-    fun signInGoogle(idToken:String){
+    fun signInGoogle(resolve:(userUid : String?) -> Unit,
+                     reject:(e : Exception) -> Unit,
+                     idToken:String){
+
         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(firebaseCredential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("MyInfo", "signInWithCredential:success")
-                    val user = auth.currentUser
+                    resolve(auth.uid)
                 } else {
-                    Log.w("MyInfo", "signInWithCredential:failure", task.exception)
+                    task.exception?.let { reject(it) }
                 }
             }
     }
