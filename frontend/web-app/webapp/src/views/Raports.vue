@@ -1,9 +1,10 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="devices"
+    :items="review"
     :sort-by="['date', 'malfunction']"
     multi-sort
+    items-per-page=50
     class="elevation-1"
   >
     <template v-slot:top>
@@ -13,7 +14,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5 grey lighten-2"
+            <v-card-title class="text-h5 white--text primary"
               >Usuń wpis</v-card-title
             >
             <v-card-text class="pa-2"
@@ -21,7 +22,7 @@
             >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Nie</v-btn>
+              <v-btn color="blue darken-1" @click="closeDelete">Nie</v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm"
                 >Tak</v-btn
               >
@@ -34,11 +35,28 @@
     <template v-slot:item.actions="{ item }">
       <v-icon @click="deleteItem(item)"> delete_forever </v-icon>
     </template>
+    <template v-slot:item.date="{ item }">
+      {{item.date.toDate().toLocaleString("pl-PL", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "2-digit",
+                  hour: "numeric",
+                  minute: "numeric"
+                }),
+            }}
+    </template>
+    <template v-slot:item.malfunction="{ item }">
+    <v-chip :color="getColor(item.malfunction)">
+      {{ item.malfunction ? 'Awaria' : 'Sprawne' }}
+    </v-chip>
+    </template>
   </v-data-table>
 </template>
 
 <script>
 import { db } from "../fb.js";
+import { mapState } from "vuex";
+
 // import deletePopup from "../components/deletePopup";
 export default {
   // components: { deletePopup },
@@ -58,42 +76,23 @@ export default {
 
         // { text: "Serwisant ", value: "reviewerId", align: "right" },
       ],
-      devices: [],
+
       loader: true,
       editedIndex: -1,
     };
   },
   methods: {
-    getAll: function () {
-      db.collection("reviews")
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // console.log(`${doc.id} => ${doc.data().id}`);
-            this.devices.push({
-              liftId: doc.data().liftId,
-              raportId: doc.id,
-              date: doc
-                .data()
-                .date.toDate()
-                .toLocaleString("pl-PL", {day:'2-digit', month: "long", year:'numeric' }),
-              malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
-              reviewerId: doc.data().reviewerId,
-            });
-          });
-        })
-        .finally(() => {
-          this.loader = false;
-        });
-    },
+     getColor (mal) {
+        if (mal == false) return 'green'
+        else if (mal == true) return 'red'
+        else return 'orange'
+        },
     deleteItem(item) {
       this.editedIndex = item.raportId;
-      console.log(item.raportId + " deleted");
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.devices.splice(this.editedIndex, 1);
       db.collection("reviews")
         .doc(this.editedIndex)
         .delete()
@@ -111,9 +110,15 @@ export default {
       this.dialogDelete = false;
     },
   },
-  mounted() {
-    this.getAll();
-    console.log("Mounted, getAll data from firebase");
+  mounted() {},
+  created() {
+    this.$store.dispatch("bindReviewRef").then(() => {
+      console.log("Created and dispatched");
+      this.loader = false;
+    });
+  },
+  computed: {
+    ...mapState(["review"]),
   },
   watch: {
     dialogDelete(val) {

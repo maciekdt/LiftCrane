@@ -22,6 +22,7 @@
 <script>
 import { db } from "@/fb.js";
 
+
 export default {
   data() {
     return {
@@ -45,7 +46,11 @@ export default {
               date: doc
                 .data()
                 .date.toDate()
-                .toLocaleString("pl-PL", {day:'2-digit', month: "long", year:'numeric' }),
+                .toLocaleString("pl-PL", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                }),
               malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
               reviewerId: doc.data().reviewerId,
             });
@@ -56,11 +61,12 @@ export default {
         });
     },
   },
+  
   watch: {
-    liftId: function() {
-        this.raports = []
-        this.getInfo()
-    }
+    liftId: function () {
+      this.raports = [];
+      this.getInfo();
+    },
   },
 };
 </script>
