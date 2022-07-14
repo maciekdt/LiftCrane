@@ -40,8 +40,9 @@ class FirestoreService {
             .addOnSuccessListener { result ->
                 var lift:Lift? = null
                 for (document in result) {
-                    if(document.id == liftId)
-                        lift = Lift(document.data)
+                    if(document.id == liftId){
+                        lift = Lift(document.data, document.id)
+                    }
                 }
                 resolve(lift)
             }
@@ -60,10 +61,10 @@ class FirestoreService {
             .addOnSuccessListener { result ->
                 val resultList = mutableListOf<Lift>()
                 for (document in result) {
-                    try {resultList.add(Lift(document.data))}
+                    val lift = Lift(document.data, document.id)
+
+                    try {resultList.add(lift)}
                     catch (e:NullPointerException) {Log.e("MyInfo", "Null lift :${document.data}")}
-
-
                 }
                 resolve(resultList)
             }

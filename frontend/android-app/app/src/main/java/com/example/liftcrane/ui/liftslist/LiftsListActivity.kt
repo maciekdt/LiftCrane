@@ -30,7 +30,7 @@ class LiftsListActivity : AppCompatActivity() {
             val adapter = LiftsListAdapter(this, lifts)
             binding.list.adapter = adapter
 
-            binding.list.setOnItemClickListener(){adapterView, view, position, id ->
+            binding.list.setOnItemClickListener(){ _, _, position, _ ->
                 startReviewActivity(lifts[position])
             }
         }

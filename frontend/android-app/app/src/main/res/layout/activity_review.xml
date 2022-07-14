@@ -6,56 +6,126 @@
     android:layout_height="match_parent"
     tools:context=".ui.review.ReviewActivity">
 
-    <TextView
-        android:id="@+id/liftName"
-        android:layout_width="384dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
+    <View
+        android:id="@+id/lineReview4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressLabel" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="179dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="4dp"
+        android:text="ALEJA BOMBAJA"
+        app:layout_constraintStart_toEndOf="@+id/serialNumberLabel"
+        app:layout_constraintTop_toBottomOf="@+id/lineReview3" />
+
+    <View
+        android:id="@+id/lineReview3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serialNumberLabel" />
+
+    <View
+        android:id="@+id/lineReview2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liftNameLabel" />
+
+    <TextView
+        android:id="@+id/addressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="ADRES :"
+        android:textSize="14sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineReview3" />
+
+    <TextView
+        android:id="@+id/serialNumber"
+        android:layout_width="178dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="8dp"
+        android:text="ALEJA BOMBAJA"
+        app:layout_constraintStart_toEndOf="@+id/serialNumberLabel"
+        app:layout_constraintTop_toBottomOf="@+id/lineReview2" />
+
+    <TextView
+        android:id="@+id/serialNumberLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="NUMER SERYJNY :"
+        android:textSize="14sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineReview2" />
+
+    <TextView
+        android:id="@+id/reviewActivityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Zgłoszenie"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/lineReview1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewActivityLabel" />
+
     <TextView
-        android:id="@+id/liftId"
-        android:layout_width="371dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liftName" />
-
-    <Button
-        android:id="@+id/noMalfunctionButton"
+        android:id="@+id/liftNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="@string/no_malfunction_review"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="NAZWA :"
+        android:textSize="14sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liftId" />
+        app:layout_constraintTop_toBottomOf="@+id/lineReview1" />
 
-    <Button
-        android:id="@+id/malfunctionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:text="@string/malfunction_review"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noMalfunctionButton" />
+    <TextView
+        android:id="@+id/liftName"
+        android:layout_width="184dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="8dp"
+        android:text="ALEJA BOMBAJA"
+        app:layout_constraintStart_toEndOf="@+id/liftNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/lineReview1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

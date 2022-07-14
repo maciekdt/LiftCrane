@@ -26,22 +26,16 @@ class ReviewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         lift = intent.extras?.get("lift") as Lift
-        Log.i("MyInfo", lift.toString())
 
         binding.liftName.text = lift.name
-        binding.liftId.text = lift.serialNumber
+        binding.address.text = lift.address
+        binding.serialNumber.text = lift.serialNumber
 
-        binding.noMalfunctionButton.setOnClickListener {
-            uploadReview(false)
-        }
-        binding.malfunctionButton.setOnClickListener {
-            uploadReview(true)
-        }
     }
 
     private fun uploadReview(malfunction:Boolean){
         val userUID = auth.getSignInUserUid() ?: return
-        val review = Review(lift.serialNumber, userUID, malfunction, Timestamp.now())
+        val review = Review(lift.serialNumber, userUID, malfunction, Timestamp.now(), "")
         fun resolve(id : String){
             Toast.makeText(this, id, Toast.LENGTH_LONG).show()
         }

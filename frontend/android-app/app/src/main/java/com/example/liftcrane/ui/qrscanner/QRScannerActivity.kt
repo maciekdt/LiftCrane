@@ -3,19 +3,18 @@ package com.example.liftcrane.ui.qrscanner
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Size
 import android.view.OrientationEventListener
 import android.view.Surface
-import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
-import androidx.camera.core.TorchState
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.example.liftcrane.R
 import com.example.liftcrane.analyzer.MLKitBarcodeAnalyzer
 import com.example.liftcrane.analyzer.ScanningResultListener
 import com.example.liftcrane.databinding.ActivityQrscannerBinding
@@ -24,6 +23,7 @@ import com.example.liftcrane.model.Lift
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
 import com.example.liftcrane.ui.review.ReviewActivity
 import com.google.common.util.concurrent.ListenableFuture
+import java.nio.channels.AsynchronousFileChannel.open
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -32,11 +32,13 @@ class QRScannerActivity : AppCompatActivity() {
 
     private var isReviewActivityLaunched = false
     private val fireStore = FirestoreService()
+    private var isFlash = false
 
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraExecutor: ExecutorService
-    private var flashEnabled = false
+    private lateinit var camera: Camera
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,14 @@ class QRScannerActivity : AppCompatActivity() {
             val cameraProvider = cameraProviderFuture.get()
             bindPreview(cameraProvider)
         }, ContextCompat.getMainExecutor(this))
+
+        binding.flashButton.setOnClickListener {
+            if(this::camera.isInitialized) {
+                camera.cameraControl.enableTorch(!isFlash)
+                isFlash = !isFlash
+            }
+
+        }
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
@@ -92,8 +102,9 @@ class QRScannerActivity : AppCompatActivity() {
         val analyzer: ImageAnalysis.Analyzer = MLKitBarcodeAnalyzer(ScanningListener())
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
-        val camera =
-            cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
+        camera =
+            cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)!!
+
 
     }
 
