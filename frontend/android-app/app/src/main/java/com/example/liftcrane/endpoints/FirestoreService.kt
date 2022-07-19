@@ -36,6 +36,7 @@ class FirestoreService {
 
         val collectionPath = "lifts"
         client.collection(collectionPath)
+            .whereEqualTo("liftId", liftId)
             .get()
             .addOnSuccessListener { result ->
                 var lift:Lift? = null
@@ -91,5 +92,27 @@ class FirestoreService {
             .addOnFailureListener { e ->
                 reject(e)
             }
+    }
+
+    fun getAllReviewsForLift(resolve:(reviews : MutableList<Review>) -> Unit,
+                             reject:(e : Exception) -> Unit,
+                             liftId: String){
+
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .get()
+            .addOnSuccessListener { result ->
+                val resultList = mutableListOf<Review>()
+                for (document in result) {
+                    val review = Review(document.data)
+                    try {resultList.add(review)}
+                    catch (e:NullPointerException) {Log.e("MyInfo", "Null lift :${document.data}")}
+                }
+                resolve(resultList)
+            }
+            .addOnFailureListener { exception ->
+                reject(exception)
+            }
+
     }
 }
