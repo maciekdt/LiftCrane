@@ -8,38 +8,70 @@
     android:scrollbarStyle="outsideInset"
     tools:context=".ui.review.ReviewActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:background="@color/main_color_light"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="164dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:drawableRight="@drawable/ic_baseline_check_circle_24"
+            android:text="Akceptuj"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="164dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:drawableRight="@drawable/ic_baseline_cancel_24"
+            android:text="Anuluj"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.466" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.review.ReviewActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="166dp">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".ui.review.ReviewActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
             android:scrollbarStyle="outsideInset"
             tools:context=".ui.review.ReviewActivity">
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/main_color"
-                android:drawableRight="@drawable/ic_baseline_add_photo_alternate_24"
-                android:text="Galeria"
-                app:layout_constraintStart_toEndOf="@+id/button"
-                app:layout_constraintTop_toBottomOf="@+id/liftNameLabel2" />
 
             <TextView
                 android:id="@+id/liftNameLabel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="ZDJĘCIA Z SERWISU :"
                 android:textSize="14sp"
                 android:textStyle="bold|italic"
@@ -50,7 +82,7 @@
                 android:id="@+id/lineReview5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -61,20 +93,20 @@
                 android:id="@+id/reviewActivityLabel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="380dp"
                 android:text="Dane zgłoszenia"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/button5" />
 
             <View
                 android:id="@+id/lineReview"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -86,7 +118,7 @@
                 android:layout_width="179dp"
                 android:layout_height="22dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="32dp"
                 android:text="ALEJA BOMBAJA"
                 android:textDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,6 +238,7 @@
                 android:text="ALEJA BOMBAJA"
                 android:textDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/serialNumberLabel"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview2" />
 
@@ -261,10 +294,11 @@
                 android:layout_width="193dp"
                 android:layout_height="21dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="ALEJA BOMBAJA"
                 android:textDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.794"
+                app:layout_constraintHorizontal_bias="0.823"
                 app:layout_constraintStart_toEndOf="@+id/liftNameLabel"
                 app:layout_constraintTop_toTopOf="@+id/lineReview1" />
 
@@ -290,66 +324,68 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="@color/main_color"
+                android:buttonTint="@color/main_color"
                 android:layoutDirection="rtl"
                 android:text="AWARIA :"
                 android:textAlignment="textStart"
                 android:textColor="?android:attr/textColorSecondary"
+                android:textColorHighlight="@color/main_color"
+                android:textColorLink="@color/main_color"
                 android:textSize="14sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                android:drawableRight="@drawable/ic_baseline_history_24"
-                android:text="Historia serwisów "
-                android:textColor="@color/purple_700"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview" />
-
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="40dp"
                 android:backgroundTint="@color/main_color"
                 android:drawableRight="@drawable/ic_baseline_add_a_photo_24"
-                android:text="Aparat"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/liftNameLabel2" />
+                android:text="Dodaj"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview5" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/main_color"
+                android:drawableRight="@drawable/ic_baseline_history_24"
+                android:text="historia"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="155dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:drawableRight="@drawable/ic_baseline_check_circle_24"
-        android:text="Akceptuj"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="148dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/design_default_color_error"
-        android:drawableRight="@drawable/ic_baseline_cancel_24"
-        android:text="Anuluj"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:backgroundTint="@color/main_color"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:subtitleTextColor="@color/black"
+            app:title="Zgłoszenie"
+            app:titleTextColor="@color/ic_banner_background"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
+    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
