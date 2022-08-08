@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.sql.Array
 
 class FirestoreService {
 
@@ -42,7 +43,7 @@ class FirestoreService {
                 var lift:Lift? = null
                 for (document in result) {
                     if(document.id == liftId){
-                        lift = Lift(document.data, document.id)
+                        lift = Lift(nullTransformMap(document.data), document.id)
                     }
                 }
                 resolve(lift)
@@ -52,17 +53,17 @@ class FirestoreService {
             }
     }
 
+
     fun getAllLifts(resolve:(lifts : MutableList<Lift>) -> Unit,
                     reject:(e : Exception) -> Unit){
 
-        Log.d("MyInfo", "XDDD")
-        val collectionPath = "lifts"
+        val collectionPath = "devices"
         client.collection(collectionPath)
             .get()
             .addOnSuccessListener { result ->
                 val resultList = mutableListOf<Lift>()
                 for (document in result) {
-                    val lift = Lift(document.data, document.id)
+                    val lift = Lift(nullTransformMap(document.data), document.id)
 
                     try {resultList.add(lift)}
                     catch (e:NullPointerException) {Log.e("MyInfo", "Null lift :${document.data}")}
@@ -73,6 +74,7 @@ class FirestoreService {
                 reject(exception)
             }
     }
+
 
     fun getUserById(resolve:(user : User?) -> Unit,
                     reject:(e : Exception) -> Unit,
@@ -94,6 +96,7 @@ class FirestoreService {
             }
     }
 
+
     fun getAllReviewsForLift(resolve:(reviews : MutableList<Review>) -> Unit,
                              reject:(e : Exception) -> Unit,
                              liftId: String){
@@ -114,5 +117,18 @@ class FirestoreService {
                 reject(exception)
             }
 
+    }
+
+
+    private fun nullTransformMap(map : Map<String, Any>): Map<String, Any?> {
+        val nullSigns = setOf("", "NA")
+        val newMap = mutableMapOf<String, Any?>()
+        for (entry in map) {
+            if(entry.value is String  &&  nullSigns.contains(entry.value))
+                newMap[entry.key] = null
+            else
+                newMap[entry.key] = entry.value
+        }
+        return newMap
     }
 }

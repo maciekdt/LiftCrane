@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_color">@android:color/holo_blue_dark</color>
+    <color name="main_color_light">#4F0099CC</color>
     <color name="google_color">#9703A3</color>
     <color name="line">#8DE1D9E1</color>
     <color name="flashOn">?android:attr/colorPressedHighlight</color>

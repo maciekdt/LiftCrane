@@ -23,7 +23,7 @@ class LiftsListAdapter(private val context: Activity,
 
             titleText.text = data[position].name
             subtitleText.text = data[position].serialNumber
-            addressText.text = data[position].address
+            addressText.text = data[position].localization
 
             return rowView
         }

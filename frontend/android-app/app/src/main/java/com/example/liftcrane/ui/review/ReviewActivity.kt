@@ -28,14 +28,14 @@ class ReviewActivity : AppCompatActivity() {
         lift = intent.extras?.get("lift") as Lift
 
         binding.liftName.text = lift.name
-        binding.address.text = lift.address
+        binding.address.text = lift.localization
         binding.serialNumber.text = lift.serialNumber
 
     }
 
     private fun uploadReview(malfunction:Boolean){
         val userUID = auth.getSignInUserUid() ?: return
-        val review = Review(lift.serialNumber, userUID, malfunction, Timestamp.now(), "")
+        val review = Review(lift.id, userUID, malfunction, Timestamp.now(), "")
         fun resolve(id : String){
             Toast.makeText(this, id, Toast.LENGTH_LONG).show()
         }
