@@ -8,4 +8,6 @@
     <string name="bottom_menu_review">Zgłoszenie</string>
     <string name="bottom_menu_lifts">Konto</string>
     <string name="bottom_menu_reviews">Serwisy</string>
+    <string name="no_data_label">BRAK DANYCH</string>
+    <string name="lifting_capacity_unit">KG</string>
 </resources>
