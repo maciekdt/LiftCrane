@@ -55,9 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="ZDJĘCIA Z SERWISU :"
-                android:textSize="14sp"
-                android:textStyle="bold|italic"
+                android:text="Zdjęcia z serwisu"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview5" />
 
@@ -70,13 +69,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+                app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
 
             <TextView
                 android:id="@+id/reviewActivityLabel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="16dp"
                 android:text="Dane zgłoszenia"
                 android:textColor="@android:color/primary_text_light"
                 android:textSize="20sp"
@@ -84,144 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.477"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview10" />
-
-            <View
-                android:id="@+id/lineReview"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapButton" />
-
-            <View
-                android:id="@+id/lineReview12"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/producer" />
-
-            <View
-                android:id="@+id/lineReview11"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/capacity" />
-
-            <View
-                android:id="@+id/lineReview10"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview4" />
-
-            <TextView
-                android:id="@+id/producer"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview" />
-
-            <TextView
-                android:id="@+id/capacity"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview12" />
-
-            <TextView
-                android:id="@+id/lastReview"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="13.08.2022 - 20:42"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
-
-            <TextView
-                android:id="@+id/addressLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Adres"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview4" />
-
-            <TextView
-                android:id="@+id/producerLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Producent"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview" />
-
-            <TextView
-                android:id="@+id/capacityLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Udźwig"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview12" />
-
-            <TextView
-                android:id="@+id/lastReviewLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Ostatni serwis"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/addressLabel3"
@@ -229,9 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="OPIS SERWISU :"
-                android:textSize="14sp"
-                android:textStyle="bold|italic"
+                android:text="Opis serwisów"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview8" />
 
@@ -244,7 +105,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+                app:layout_constraintTop_toBottomOf="@+id/malfunctionCheckBox" />
 
             <View
                 android:id="@+id/lineReview6"
@@ -268,140 +129,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/reviewActivityLabel2" />
 
-            <View
-                android:id="@+id/lineReview4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/udtNumber" />
-
-            <TextView
-                android:id="@+id/udtNumber"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview3" />
-
-            <View
-                android:id="@+id/lineReview3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/serialNumber" />
-
-            <View
-                android:id="@+id/lineReview2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/liftName" />
-
-            <TextView
-                android:id="@+id/udtNumberLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Numer UDT"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview3" />
-
-            <TextView
-                android:id="@+id/serialNumber"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview2" />
-
-            <TextView
-                android:id="@+id/serialNumberLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Numer seryjny"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview2" />
-
-            <TextView
-                android:id="@+id/reviewActivityLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Dane windy"
-                android:textColor="@android:color/primary_text_light"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/lineReview1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reviewActivityLabel" />
-
-            <TextView
-                android:id="@+id/liftNameLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Nazwa"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview1" />
-
-            <TextView
-                android:id="@+id/liftName"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/no_data_label"
-                android:textColor="@android:color/primary_text_light"
-                android:textDirection="rtl"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/lineReview1" />
-
             <EditText
-                android:id="@+id/editTextTextMultiLine"
-                android:layout_width="330dp"
+                android:id="@+id/descriptionEditText"
+                android:layout_width="320dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/main_color"
                 android:ems="10"
@@ -410,67 +142,27 @@
                 android:inputType="textMultiLine"
                 android:textColorHighlight="@color/main_color"
                 android:textColorLink="@color/main_color"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addressLabel3" />
 
             <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/malfunctionCheckBox"
+                android:layout_width="320dp"
+                android:layout_height="39dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="@color/main_color"
                 android:buttonTint="@color/main_color"
                 android:layoutDirection="rtl"
-                android:text="AWARIA :"
+                android:text="Awaria"
                 android:textAlignment="textStart"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textColorHighlight="@color/main_color"
                 android:textColorLink="@color/main_color"
-                android:textSize="14sp"
-                android:textStyle="bold|italic"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="32dp"
-                android:backgroundTint="@color/main_color"
-                android:drawableRight="@drawable/ic_baseline_add_a_photo_24"
-                android:text="Dodaj"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview5" />
-
-            <Button
-                android:id="@+id/button5"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawableLeft="@drawable/ic_baseline_history_24"
-                android:text="historia"
-                android:textColor="@color/main_color"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastReview" />
-
-            <Button
-                android:id="@+id/mapButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawableLeft="@drawable/ic_baseline_map_24"
-                android:text="mapa"
-                android:textColor="@color/main_color"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/address" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -479,33 +171,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:layout_gravity="bottom"
-        android:background="@color/main_color_light"
+        android:background="@color/main_color_light_light"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button6"
-            android:layout_width="164dp"
+            android:id="@+id/acceptButton"
+            android:layout_width="155dp"
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@android:color/holo_green_dark"
+            android:backgroundTint="@color/main_color"
             android:drawableRight="@drawable/ic_baseline_check_circle_24"
             android:text="Akceptuj"
-            android:textSize="16sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="164dp"
+            android:id="@+id/dismissButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="155dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
-            android:backgroundTint="@color/design_default_color_error"
-            android:drawableRight="@drawable/ic_baseline_cancel_24"
-            android:text="Anuluj"
-            android:textSize="16sp"
+            android:drawableRight="@drawable/ic_baseline_add_a_photo_24"
+            android:text="Zdjęcie"
+            android:textColor="@color/main_color"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftCrane">
         <activity
+            android:name=".ui.reviewslist.ReviewsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.lift.LiftActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.account.AccountActivity"
             android:exported="false" />
         <activity

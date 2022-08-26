@@ -23,9 +23,10 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/flashButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="118dp"
         android:layout_gravity="bottom|right"
-        android:layout_margin="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="100dp"
         android:clickable="true"
         app:backgroundTint="?android:attr/colorPressedHighlight"
         app:fabCustomSize="70dp"
@@ -39,5 +40,17 @@
         android:layout_height="318dp"
         android:layout_gravity="center"
         app:srcCompat="@drawable/ic_scanner" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/main_color"
+        app:itemIconTint="@drawable/bottom_menu_selector"
+        app:itemTextColor="@drawable/bottom_menu_selector"
+        app:menu="@menu/bottom_menu_navigation"
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled"/>
 
 </FrameLayout>

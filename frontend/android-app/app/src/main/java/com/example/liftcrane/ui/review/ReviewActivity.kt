@@ -13,6 +13,9 @@ import com.example.liftcrane.endpoints.FirebaseAuthService
 import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import java.net.URLEncoder
 
@@ -20,7 +23,6 @@ class ReviewActivity : AppCompatActivity() {
 
     private val fireStore = FirestoreService()
     private val auth = FirebaseAuthService()
-
 
     private lateinit var lift : Lift
     private lateinit var binding: ActivityReviewBinding
@@ -32,59 +34,68 @@ class ReviewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         lift = intent.extras?.get("lift") as Lift
-        setLiftData()
 
-        binding.mapButton.setOnClickListener {
-            launchGoogleMap()
+        binding.acceptButton.setOnClickListener {
+            showReviewDialog()
         }
 
+        binding.dismissButton.setOnClickListener {
+            finish()
+        }
     }
 
-    private fun uploadReview(malfunction:Boolean){
-        val userUID = auth.getSignInUserUid() ?: return
-        val review = Review(lift.id, userUID, malfunction, Timestamp.now(), "")
-        fun resolve(id : String){
-            Toast.makeText(this, id, Toast.LENGTH_LONG).show()
-        }
-        fun reject(e:Exception){
-            Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
-        }
-        fireStore.uploadReview(
-            {id -> resolve(id)},
-            {e -> reject(e)},
-            review
+    private fun uploadReview(){
+        val userUid = auth.getSignInUserUid() ?: return
+        fireStore.getUserById(
+            { user ->
+                if(user != null) {
+                    val review = Review(
+                        lift.id,
+                        lift.name ?: "",
+                        userUid,
+                        user.firstName + " " + user.lastName,
+                        binding.malfunctionCheckBox.isChecked,
+                        Timestamp.now(),
+                        binding.descriptionEditText.text.toString()
+                    )
+
+                    fun resolve(id: String) {
+                        //Snackbar.make(binding.constraintLayout, "Dodano zgłoszenie", Snackbar.LENGTH_SHORT)
+                        //.show()
+                        //Toast.makeText(this, "Dodano zgłoszenie", Toast.LENGTH_LONG).show()
+                    }
+
+                    fun reject(e: Exception) {
+                        Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
+                    }
+                    fireStore.uploadReview(
+                        { id -> resolve(id) },
+                        { e -> reject(e) },
+                        review
+                    )
+                }
+
+            },
+            { e ->
+                Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
+            },
+            userUid
         )
+
+
+
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setLiftData(){
-        if(lift.name != null) binding.liftName.text = lift.name
-        else binding.liftName.text = ""
-
-        if(lift.serialNumber != null) binding.serialNumber.text = lift.serialNumber
-        else binding.serialNumber.text = ""
-
-        if(lift.udtSerialNumber != null) binding.udtNumber.text = lift.udtSerialNumber
-        else binding.udtNumber.text = ""
-
-        if(lift.localization != null) binding.address.text = lift.localization
-        else binding.address.text = ""
-
-        if(lift.producer != null) binding.producer.text = lift.producer
-        else binding.producer.text = ""
-
-        if(lift.liftingCapacity != null) binding.capacity.text = lift.liftingCapacity + getString(R.string.lifting_capacity_unit)
-        else binding.capacity.text = ""
-    }
-
-
-    private fun launchGoogleMap(){
-        val domain = "https://www.google.com/maps/search/?api=1&query="
-        val query = URLEncoder.encode(lift.localization, "utf-8")
-        val url = domain + query
-
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+    private fun showReviewDialog(){
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Potwierdź przeprowadzenie serwisu")
+            .setMessage("Czy na pewno chcesz zgłosić przeprowadzenie serwisu windy " + lift.name + "?")
+            .setNegativeButton("Anuluj", null)
+            .setPositiveButton("Potwierdź") { dialog, which ->
+                uploadReview()
+                finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 }

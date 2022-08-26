@@ -6,6 +6,7 @@ import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.model.User
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -35,17 +36,14 @@ class FirestoreService {
                     reject:(e : Exception) -> Unit,
                     liftId: String){
 
-        val collectionPath = "lifts"
+        val collectionPath = "devices"
         client.collection(collectionPath)
-            .whereEqualTo("liftId", liftId)
+            .document(liftId)
             .get()
-            .addOnSuccessListener { result ->
+            .addOnSuccessListener { document ->
                 var lift:Lift? = null
-                for (document in result) {
-                    if(document.id == liftId){
-                        lift = Lift(nullTransformMap(document.data), document.id)
-                    }
-                }
+                if(document.data != null)
+                    lift = Lift(nullTransformMap(document.data as Map<String, Any>), document.id)
                 resolve(lift)
             }
             .addOnFailureListener { e ->
@@ -60,9 +58,9 @@ class FirestoreService {
         val collectionPath = "devices"
         client.collection(collectionPath)
             .get()
-            .addOnSuccessListener { result ->
+            .addOnSuccessListener { documentsList ->
                 val resultList = mutableListOf<Lift>()
-                for (document in result) {
+                for (document in documentsList) {
                     val lift = Lift(nullTransformMap(document.data), document.id)
 
                     try {resultList.add(lift)}
@@ -103,20 +101,82 @@ class FirestoreService {
 
         val collectionPath = "reviews"
         client.collection(collectionPath)
+            .whereEqualTo("liftId", liftId)
+            .orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 val resultList = mutableListOf<Review>()
                 for (document in result) {
                     val review = Review(document.data)
-                    try {resultList.add(review)}
-                    catch (e:NullPointerException) {Log.e("MyInfo", "Null lift :${document.data}")}
+                    try { resultList.add(review) }
+                    catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
                 }
                 resolve(resultList)
             }
             .addOnFailureListener { exception ->
                 reject(exception)
             }
+    }
 
+
+    fun onChangeReviewsForLift(action:(reviews : MutableList<Review>) -> Unit,
+                               liftId: String){
+
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .whereEqualTo("liftId", liftId)
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { result, exception ->
+                if(exception == null && result != null && result.metadata.hasPendingWrites()){
+                    val resultList = mutableListOf<Review>()
+                    for (document in result) {
+                        val review = Review(document.data)
+                        try { resultList.add(review) }
+                        catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
+                    }
+                    action(resultList)
+                }
+            }
+    }
+
+
+    fun getAllReviews(resolve:(reviews : MutableList<Review>) -> Unit,
+                             reject:(e : Exception) -> Unit){
+
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                val resultList = mutableListOf<Review>()
+                for (document in result) {
+                    val review = Review(document.data)
+                    try { resultList.add(review) }
+                    catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
+                }
+                resolve(resultList)
+            }
+            .addOnFailureListener { exception ->
+                reject(exception)
+            }
+    }
+
+
+    fun onChangeReviews(action:(reviews : MutableList<Review>) -> Unit){
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { result, exception ->
+                if(exception == null && result != null && result.metadata.hasPendingWrites()){
+                    val resultList = mutableListOf<Review>()
+                    for (document in result) {
+                        val review = Review(document.data)
+                        try { resultList.add(review) }
+                        catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
+                    }
+                    action(resultList)
+                }
+            }
     }
 
 

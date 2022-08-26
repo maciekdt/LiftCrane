@@ -14,7 +14,7 @@ data class Lift(
 ) : Serializable{
     constructor(lift: Map<String, Any?>, id: String) : this(
         id,
-        lift["id"] as String?,
+        lift["nrfab"] as String?,
         lift["udt"] as String?,
         lift["name"] as String?,
         lift["loc"] as String?,

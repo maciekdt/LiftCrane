@@ -9,7 +9,10 @@ import com.example.liftcrane.databinding.ActivityLiftsListBinding
 import com.example.liftcrane.endpoints.FirebaseAuthService
 import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.User
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.menu.MainMenuActivity
+import com.example.liftcrane.ui.qrscanner.QRScannerActivity
+import com.example.liftcrane.ui.reviewslist.ReviewsListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AccountActivity : AppCompatActivity() {
@@ -27,10 +30,10 @@ class AccountActivity : AppCompatActivity() {
         setLabels(auth.getSignInUserUid()!!)
         setBottomBar()
 
-        binding.exitImage.setOnClickListener {
+        /*binding.exitImage.setOnClickListener {
             auth.signOut()
             finishAffinity()
-        }
+        }*/
     }
 
 
@@ -59,8 +62,18 @@ class AccountActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.review -> {
-                        startActivity(Intent(applicationContext, MainMenuActivity::class.java))
+                    R.id.lifts -> {
+                        startActivity(Intent(applicationContext, LiftsListActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.scanner -> {
+                        startActivity(Intent(applicationContext, QRScannerActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.reviews -> {
+                        startActivity(Intent(applicationContext, ReviewsListActivity::class.java))
                         overridePendingTransition(0, 0)
                         return@OnNavigationItemSelectedListener true
                     }

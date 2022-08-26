@@ -1,7 +1,6 @@
 package com.example.liftcrane.ui.menu
 
 import android.Manifest
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,25 +10,18 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
 import com.example.liftcrane.endpoints.FirebaseAuthService
-import com.example.liftcrane.endpoints.FirestoreService
-import com.example.liftcrane.model.User
 import com.example.liftcrane.ui.REQ_CAM_PERM
 import com.example.liftcrane.ui.REQ_ONE_TAP
-import com.example.liftcrane.ui.account.AccountActivity
-import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainMenuActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuthService()
-    private val fireStore = FirestoreService()
     private val googleSignIn = GoogleSignInUI()
 
     private lateinit var binding: ActivityMainMenuBinding
@@ -43,28 +35,18 @@ class MainMenuActivity : AppCompatActivity() {
 
         if(!auth.isUserSignIn())
             oneTapClient = googleSignIn.startOneTapClient(this)
-        else setUserFirstLetter(auth.getSignInUserUid()!!)
-
-        setBottomBar()
-
-        binding.scanQRButton.setOnClickListener {
-            startScanning()
-        }
-
-        binding.listButton.setOnClickListener {
-            val intent = Intent(this, LiftsListActivity::class.java)
-            startActivity(intent)
-        }
+        else
+            getCameraPermission()
     }
 
 
-    private fun startScanning() {
+    private fun getCameraPermission() {
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            openCameraWithScanner()
+            startQRScannerActivity()
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -82,7 +64,7 @@ class MainMenuActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQ_CAM_PERM && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openCameraWithScanner()
+                startQRScannerActivity()
             } else if (!ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
                     Manifest.permission.CAMERA
@@ -96,9 +78,10 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun openCameraWithScanner() {
-        val intent = Intent(this, QRScannerActivity::class.java)
-        startActivity(intent)
+    private fun startQRScannerActivity() {
+        if(auth.isUserSignIn())
+            finish()
+            startActivity(Intent(this, QRScannerActivity::class.java))
     }
 
 
@@ -112,7 +95,7 @@ class MainMenuActivity : AppCompatActivity() {
                     Manifest.permission.CAMERA
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                openCameraWithScanner()
+                startQRScannerActivity()
             }
         }
 
@@ -121,15 +104,11 @@ class MainMenuActivity : AppCompatActivity() {
                 val credential = oneTapClient.getSignInCredentialFromIntent(data)
                 val idToken = credential.googleIdToken
                 if (idToken != null) {
-
                     fun resolve(userUid: String?){
-                        if(userUid != null)
-                            setUserFirstLetter(userUid)
+                        getCameraPermission()
                     }
-
                     fun reject(e:Exception){
                     }
-
                     auth.signInGoogle(
                         {userUid -> resolve(userUid)},
                         {e -> reject(e)},
@@ -139,38 +118,5 @@ class MainMenuActivity : AppCompatActivity() {
             }
             catch (e: ApiException) { Log.d("MyInfo", e.toString()) }
         }
-    }
-
-    private fun setUserFirstLetter(userId : String){
-        fun resolve(user: User?){
-            if(user!=null){
-                binding.accountFirstLetter.text = user.firstName[0].toString().uppercase()
-            }
-        }
-        fun reject(e:Exception){
-        }
-        fireStore.getUserById(
-            {user -> resolve(user)},
-            {e -> reject(e)},
-            userId
-        )
-    }
-
-
-    private fun setBottomBar(){
-        binding.bottomNavigation.selectedItemId = R.id.review
-
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.account -> {
-                    startActivity(Intent(applicationContext, AccountActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.review -> return@OnNavigationItemSelectedListener true
-            }
-            false
-        })
     }
 }

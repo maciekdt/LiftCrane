@@ -1,61 +1,62 @@
-package com.example.liftcrane.ui.liftslist
+package com.example.liftcrane.ui.reviewslist
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.R
-import com.example.liftcrane.databinding.ActivityLiftsListBinding
+import com.example.liftcrane.databinding.ActivityReviewBinding
+import com.example.liftcrane.databinding.ActivityReviewsListBinding
 import com.example.liftcrane.endpoints.FirestoreService
-import com.example.liftcrane.model.Lift
-import com.example.liftcrane.ui.LIFT_INTENT_FLAG
+import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.account.AccountActivity
-import com.example.liftcrane.ui.lift.LiftActivity
+import com.example.liftcrane.ui.lift.ReviewRecyclerAdapter
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
-import com.example.liftcrane.ui.reviewslist.ReviewsListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class LiftsListActivity : AppCompatActivity() {
+class ReviewsListActivity : AppCompatActivity() {
 
     private val fireStore = FirestoreService()
 
-    private lateinit var binding: ActivityLiftsListBinding
+    private lateinit var binding: ActivityReviewsListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLiftsListBinding.inflate(layoutInflater)
+        binding = ActivityReviewsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setBottomBar()
+
         initListView()
+        setBottomBar()
     }
 
+
     private fun initListView(){
-        fun resolve(lifts : MutableList<Lift>){
+        fun resolve(reviews : MutableList<Review>){
             binding.list.layoutManager = LinearLayoutManager(this)
-            val adapter = LiftRecyclerAdapter(lifts.toTypedArray())
-            adapter.onItemClick = { lift ->
-                startReviewActivity(lift)
-            }
+            val adapter = ExtendReviewRecyclerAdapter(reviews.toTypedArray())
+            //adapter.onItemClick = { lift ->
+            //startReviewActivity(lift)
+            //}
             binding.list.adapter = adapter
         }
 
         fun reject(e:Exception){
         }
 
-        fireStore.getAllLifts(
-            {lifts -> resolve(lifts)},
+        fireStore.getAllReviews(
+            {reviews -> resolve(reviews)},
             {e -> reject(e)}
         )
     }
 
     private fun setBottomBar(){
-        binding.bottomNavigation.selectedItemId = R.id.lifts
-
+        binding.bottomNavigation.selectedItemId = R.id.reviews
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.account -> {
-                        startActivity(Intent(applicationContext, AccountActivity::class.java))
+                    R.id.lifts -> {
+                        startActivity(Intent(applicationContext, LiftsListActivity::class.java))
                         overridePendingTransition(0, 0)
                         return@OnNavigationItemSelectedListener true
                     }
@@ -64,20 +65,14 @@ class LiftsListActivity : AppCompatActivity() {
                         overridePendingTransition(0, 0)
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.reviews -> {
-                        startActivity(Intent(applicationContext, ReviewsListActivity::class.java))
+                    R.id.account -> {
+                        startActivity(Intent(applicationContext, AccountActivity::class.java))
                         overridePendingTransition(0, 0)
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.lifts -> return@OnNavigationItemSelectedListener true
+                    R.id.reviews -> return@OnNavigationItemSelectedListener true
                 }
                 false
             })
-    }
-
-    private fun startReviewActivity(lift:Lift){
-        val intent = Intent(this, LiftActivity::class.java)
-        intent.putExtra(LIFT_INTENT_FLAG, lift)
-        startActivity(intent)
     }
 }

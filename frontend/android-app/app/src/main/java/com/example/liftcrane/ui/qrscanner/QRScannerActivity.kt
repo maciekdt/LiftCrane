@@ -21,16 +21,21 @@ import com.example.liftcrane.databinding.ActivityQrscannerBinding
 import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Lift
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
+import com.example.liftcrane.ui.account.AccountActivity
+import com.example.liftcrane.ui.lift.LiftActivity
+import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.review.ReviewActivity
+import com.example.liftcrane.ui.reviewslist.ReviewsListActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.common.util.concurrent.ListenableFuture
-import java.nio.channels.AsynchronousFileChannel.open
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
 class QRScannerActivity : AppCompatActivity() {
 
-    private var isReviewActivityLaunched = false
+    private var isActionDone = false
     private val fireStore = FirestoreService()
     private var isFlash = false
 
@@ -58,9 +63,10 @@ class QRScannerActivity : AppCompatActivity() {
                 camera.cameraControl.enableTorch(!isFlash)
                 isFlash = !isFlash
             }
-
         }
+        setBottomBar()
     }
+
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
 
@@ -104,45 +110,87 @@ class QRScannerActivity : AppCompatActivity() {
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
         camera =
             cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)!!
-
-
     }
+
 
     private fun processQRCode(qrCode:String, imageAnalysis:ImageAnalysis, cameraProvider:ProcessCameraProvider?){
         fun resolve(lift:Lift?){
-            if(lift!=null && !isReviewActivityLaunched) {
-                isReviewActivityLaunched = true
-                imageAnalysis.clearAnalyzer()
-                cameraProvider?.unbindAll()
+            if(lift!=null && !isActionDone) {
                 startReviewActivity(lift)
-
             }
-            else if(lift==null){}
-
+            else if(lift==null && !isActionDone){
+                showWrongQRCodeDialog()
+            }
+            isActionDone = true
+            imageAnalysis.clearAnalyzer()
+            cameraProvider?.unbindAll()
         }
-
         fun reject(e:Exception){
-            //toast.cancel()
-           //toast.show()
+            showWrongQRCodeDialog()
         }
-
         fireStore.getLiftById(
             {lift -> resolve(lift)},
             {e -> reject(e)},
             qrCode
         )
-
     }
 
+
     private fun startReviewActivity(lift:Lift){
-        val intent = Intent(this, ReviewActivity::class.java)
+        val intent = Intent(this, LiftActivity::class.java)
         intent.putExtra(LIFT_INTENT_FLAG, lift)
         startActivity(intent)
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
     }
 
+
+    private fun setBottomBar(){
+        binding.bottomNavigation.selectedItemId = R.id.scanner
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.account -> {
+                        startActivity(Intent(applicationContext, AccountActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.lifts -> {
+                        startActivity(Intent(applicationContext, LiftsListActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.reviews -> {
+                        startActivity(Intent(applicationContext, ReviewsListActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.scanner -> return@OnNavigationItemSelectedListener true
+                }
+                false
+            })
+    }
+
+
+    private fun showWrongQRCodeDialog(){
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Niepoprawny kod QR")
+            .setMessage("Kod QR odnosi się do windy nie zapisanej w bazie lub jest błędny")
+            .setNegativeButton("Wybierz z listy") { dialog, which ->
+                finish()
+                startActivity(intent)
+                startActivity(Intent(this, LiftsListActivity::class.java))
+            }
+            .setPositiveButton("Skanuj dalej") { dialog, which ->
+                finish()
+                startActivity(intent)
+            }
+            .setCancelable(false)
+            .show()
+    }
 }

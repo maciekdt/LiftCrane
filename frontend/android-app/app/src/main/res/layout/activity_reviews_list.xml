@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.liftslist.LiftsListActivity">
+    tools:context=".ui.reviewslist.ReviewsListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -19,7 +19,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Urządzenia"
+            app:title="Serwisy"
             app:menu="@menu/top_menu_lifts_list"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:backgroundTint="@color/main_color"
@@ -33,9 +33,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         tools:itemCount="5"
-        tools:listitem="@layout/lift_list_item"/>
-        <!--android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"-->
+        tools:listitem="@layout/extend_review_list_item"/>
+    <!--android:divider="@android:color/transparent"
+    android:dividerHeight="10.0sp"-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
