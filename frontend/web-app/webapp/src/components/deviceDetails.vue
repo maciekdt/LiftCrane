@@ -11,8 +11,12 @@
       <tbody>
         <tr v-for="item in raports" :key="item.name">
           <td>{{ item.date }}</td>
-          <td>{{ item.malfunction }}</td>
-          <td>{{ item.reviewerId }}</td>
+          <td>
+            <v-chip :color="getColor(item.malfunction)">
+              {{ item.malfunction }}
+            </v-chip>
+          </td>
+          <td>{{ item.reviewerName }}</td>
         </tr>
       </tbody>
     </template>
@@ -21,7 +25,6 @@
 
 <script>
 import { db } from "@/fb.js";
-
 
 export default {
   data() {
@@ -33,6 +36,11 @@ export default {
     liftId: String,
   },
   methods: {
+    getColor(mal) {
+      if (mal == 'Sprawny') return "green";
+      else if (mal == 'Awaria') return "red";
+      else return "orange";
+    },
     getInfo: function () {
       console.log(this.liftId);
       db.collection("reviews")
@@ -43,16 +51,13 @@ export default {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
             this.raports.push({
-              date: doc
-                .data()
-                .date.toDate()
-                .toLocaleString("pl-PL", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                }),
+              date: doc.data().date.toDate().toLocaleString("pl-PL", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              }),
               malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
-              reviewerId: doc.data().reviewerId,
+              reviewerName: doc.data().reviewerName,
             });
           });
         })
@@ -60,8 +65,28 @@ export default {
           console.log("Error getting documents: ", error);
         });
     },
+    // getReviewerName: function () {
+    //   db.collection("users")
+    //     .doc(reviewerId)
+    //     .get()
+    //     .then((querySnapshot) => {
+    //       querySnapshot.forEach((doc) => {
+    //         // doc.data() is never undefined for query doc snapshots
+    //         console.log(doc.id, " => ", doc.data());
+    //         this.raports.push({
+    //           date: doc.data().date.toDate().toLocaleString("pl-PL", {
+    //             day: "2-digit",
+    //             month: "long",
+    //             year: "numeric",
+    //           }),
+    //           malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
+    //           reviewerId: doc.data().reviewerId,
+    //         });
+    //       });
+    //     });
+    // },
   },
-  
+
   watch: {
     liftId: function () {
       this.raports = [];
