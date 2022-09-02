@@ -7,7 +7,7 @@
           Click Me
         </v-btn> -->
         <v-icon small @click="editItem(item)" v-bind="attrs" v-on="on">
-          mdi-pencil
+          edit
         </v-icon>
       </template>
 

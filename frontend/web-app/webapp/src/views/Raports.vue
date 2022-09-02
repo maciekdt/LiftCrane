@@ -10,7 +10,7 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>Serwisy</v-toolbar-title>
-
+        <v-btn @click="setSeen()">odczytano</v-btn>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
@@ -33,8 +33,9 @@
       </v-toolbar>
     </template>
     <template v-slot:item.photos="{ item }">
-      <v-icon @click="getImages(item)"> image </v-icon>
       <label> {{ item.images.length }}</label>
+      <v-icon v-if="item.images.length == 0" disabled> image </v-icon>
+      <v-icon v-else @click="getImages(item)"> image </v-icon>
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon @click="deleteItem(item)"> delete_forever </v-icon>
@@ -54,6 +55,11 @@
         {{ item.malfunction ? "Awaria" : "Sprawne" }}
       </v-chip>
     </template>
+    <template v-slot:item.seen="{ item }">
+      <v-chip>
+        {{ item.seen ? "" : "!" }}
+      </v-chip>
+    </template>
   </v-data-table>
 </template>
 
@@ -61,8 +67,7 @@
 import { db, imagesRef } from "../fb.js";
 import { mapState } from "vuex";
 import "viewerjs/dist/viewer.css";
-//  import VueViewer from 'v-viewer'
-// import deletePopup from "../components/deletePopup";
+
 export default {
   // components: { deletePopup },
   data() {
@@ -79,58 +84,49 @@ export default {
         {
           text: "Wpis",
           align: "start",
-          value: "liftId",
+          value: "liftName",
           sortable: false,
         },
+        { text: "Alert", value: "seen", align: "left" },
         { text: "Miesiac ", value: "date", align: "right" },
         { text: "Status ", value: "malfunction", align: "right" },
         { text: "Serwisant ", value: "reviewerName", align: "right" },
+        { text: "Opis ", value: "description", align: "right" },
         { text: "Zdjęcia ", value: "photos", align: "right", sortable: false },
         { text: "Usuń ", value: "actions", align: "right", sortable: false },
       ],
 
       loader: true,
       editedIndex: -1,
-
-      images: [
-        // { src: 'https://firebasestorage.googleapis.com/v0/b/liftcrane-bfea5.appspot.com/o/reviews_images%2F15c97b18-d4b4-421f-83da-e620e9df0654?alt=media&token=dbdcf947-20b5-4a41-b781-3c7814160c74', href: 'https://firebasestorage.googleapis.com/v0/b/liftcrane-bfea5.appspot.com/o/reviews_images%2F15c97b18-d4b4-421f-83da-e620e9df0654?alt=media&token=dbdcf947-20b5-4a41-b781-3c7814160c74', alt: ' ' },
-        {
-          src: "https://picsum.photos/id/2/150/150",
-          href: "https://picsum.photos/id/2/800/800",
-          alt: " ",
-        },
-        {
-          src: "https://picsum.photos/id/3/150/150",
-          href: "https://picsum.photos/id/3/800/800",
-          alt: " ",
-        },
-        {
-          src: "https://picsum.photos/id/4/150/150",
-          href: "https://picsum.photos/id/4/800/800",
-          alt: " ",
-        },
-        {
-          src: "https://picsum.photos/id/5/150/150",
-          href: "https://picsum.photos/id/5/800/800",
-          alt: " ",
-        },
-        { src: this.image2, href: this.image2, alt: " " },
-        {
-          src: "https://picsum.photos/id/6/150/150",
-          href: "https://picsum.photos/id/6/800/800",
-          alt: " ",
-        },
-      ],
     };
   },
   methods: {
+    //Zmien zeby nie zmienialo wszystkich!!!!
+    setSeen() {
+      this.review.forEach((element) => {
+        if (element.seen == false) {
+          db.collection("reviews").doc(element.id).update({
+            seen: true,
+          });
+        } else {
+          console.log(element.id);
+        }
+        // db.collection("reviews")
+        //   .get()
+        //   .then(function (querySnapshot) {
+        //     querySnapshot.forEach(function (doc) {
+        //       doc.ref.update({ seen: true });
+        //     });
+        //   });
+      });
+    },
     getColor(mal) {
       if (mal == false) return "green";
       else if (mal == true) return "red";
       else return "orange";
     },
     deleteItem(item) {
-      this.editedIndex = item.raportId;
+      this.editedIndex = item.id;
       this.dialogDelete = true;
     },
 
@@ -139,7 +135,7 @@ export default {
         .doc(this.editedIndex)
         .delete()
         .then(() => {
-          console.log("Document successfully deleted!");
+          console.log("Document successfully deleted!" + this.editedIndex);
           this.dialog = false;
         })
         .catch((error) => {
@@ -169,18 +165,20 @@ export default {
         // this.$viewerApi({
         //   images: this.images,
         // });
-        return 1
-
+        return 1;
       }
 
       getList()
-        .then(response => {console.log(response+"hej");this.$viewerApi({
-           images: images,
-         })})
+        .then((response) => {
+          console.log(response + "hej");
+          this.$viewerApi({
+            images: images,
+          });
+        })
         .catch((e) => {
           console.log(e);
         });
-      console.log(images)
+      console.log(images);
       ///)
 
       // item.images.forEach(element => {
