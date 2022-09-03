@@ -39,11 +39,11 @@ class LiftActivity : AppCompatActivity() {
         fireStore.onChangeReviewsForLift(
             { reviews -> onChangeReviews(reviews) }, lift.id)
 
-        binding.mapButtonLift.setOnClickListener {
+        binding.mapButton.setOnClickListener {
             launchGoogleMap()
         }
 
-        binding.reviewButtonLift.setOnClickListener {
+        binding.floatingActionButtonReview.setOnClickListener {
             startReviewActivity()
         }
 

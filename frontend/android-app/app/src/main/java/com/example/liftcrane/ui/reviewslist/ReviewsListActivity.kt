@@ -5,15 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.R
-import com.example.liftcrane.databinding.ActivityReviewBinding
 import com.example.liftcrane.databinding.ActivityReviewsListBinding
 import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Review
+import com.example.liftcrane.ui.REVIEW_ID_INTENT_FLAG
 import com.example.liftcrane.ui.account.AccountActivity
-import com.example.liftcrane.ui.lift.ReviewRecyclerAdapter
 import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
+import com.example.liftcrane.ui.reviewpreview.ReviewPreviewActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class ReviewsListActivity : AppCompatActivity() {
 
@@ -35,9 +37,11 @@ class ReviewsListActivity : AppCompatActivity() {
         fun resolve(reviews : MutableList<Review>){
             binding.list.layoutManager = LinearLayoutManager(this)
             val adapter = ExtendReviewRecyclerAdapter(reviews.toTypedArray())
-            //adapter.onItemClick = { lift ->
-            //startReviewActivity(lift)
-            //}
+            adapter.onItemClick = { review ->
+                val intent = Intent(this, ReviewPreviewActivity::class.java)
+                intent.putExtra(REVIEW_ID_INTENT_FLAG, review.id)
+                startActivity(intent)
+            }
             binding.list.adapter = adapter
         }
 

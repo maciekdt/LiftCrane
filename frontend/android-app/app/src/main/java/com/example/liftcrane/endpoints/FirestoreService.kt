@@ -95,6 +95,27 @@ class FirestoreService {
     }
 
 
+    fun getReviewById(resolve:(review : Review?) -> Unit,
+                      reject:(e : Exception) -> Unit,
+                      reviewId: String){
+
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .document(reviewId)
+            .get()
+            .addOnSuccessListener { document ->
+                var review : Review? = null
+                if(document.data != null) {
+                    review = Review(document.data!!, document.id)
+                }
+                resolve(review)
+            }
+            .addOnFailureListener { exception ->
+                reject(exception)
+            }
+    }
+
+
     fun getAllReviewsForLift(resolve:(reviews : MutableList<Review>) -> Unit,
                              reject:(e : Exception) -> Unit,
                              liftId: String){
@@ -107,7 +128,7 @@ class FirestoreService {
             .addOnSuccessListener { result ->
                 val resultList = mutableListOf<Review>()
                 for (document in result) {
-                    val review = Review(document.data)
+                    val review = Review(document.data, document.id)
                     try { resultList.add(review) }
                     catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
                 }
@@ -130,7 +151,7 @@ class FirestoreService {
                 if(exception == null && result != null && result.metadata.hasPendingWrites()){
                     val resultList = mutableListOf<Review>()
                     for (document in result) {
-                        val review = Review(document.data)
+                        val review = Review(document.data, document.id)
                         try { resultList.add(review) }
                         catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
                     }
@@ -150,7 +171,7 @@ class FirestoreService {
             .addOnSuccessListener { result ->
                 val resultList = mutableListOf<Review>()
                 for (document in result) {
-                    val review = Review(document.data)
+                    val review = Review(document.data, document.id)
                     try { resultList.add(review) }
                     catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
                 }
@@ -170,7 +191,7 @@ class FirestoreService {
                 if(exception == null && result != null && result.metadata.hasPendingWrites()){
                     val resultList = mutableListOf<Review>()
                     for (document in result) {
-                        val review = Review(document.data)
+                        val review = Review(document.data, document.id)
                         try { resultList.add(review) }
                         catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
                     }

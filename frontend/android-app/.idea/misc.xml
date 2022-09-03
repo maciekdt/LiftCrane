@@ -10,9 +10,12 @@
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/bottom_menu_selector.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_account_circle.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.2045" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_add_photo_alternate_24.xml" value="0.2045" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_check_circle_24.xml" value="0.2045" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.2045" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_engineering_24.xml" value="0.213" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.2045" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_highlight_24.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_history_24.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_launch_24.xml" value="0.2045" />
@@ -22,6 +25,7 @@
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_perm_device_information_24.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.2045" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.213" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_baseline_rate_review_24.xml" value="0.2045" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.213" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/drawable/ic_logo.xml" value="0.213" />
@@ -33,10 +37,13 @@
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/activity_main_menu.xml" value="0.264" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/activity_qrscanner.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/activity_review.xml" value="0.264" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/activity_review_preview.xml" value="0.264" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/activity_reviews_list.xml" value="0.21981981981981982" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/extend_review_list_item.xml" value="0.264" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/fragment_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/fragment_item_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/img_list_item.xml" value="0.21981981981981982" />
+        <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/img_preview_list_item.xml" value="0.21981981981981982" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/lift_list_item.xml" value="0.264" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/layout/review_list_item.xml" value="0.21981981981981982" />
         <entry key="..\:/Users/maciek/Documents/LiftCrane/LiftCrane/frontend/android-app/app/src/main/res/menu/bottom_menu_navigation.xml" value="0.22592592592592592" />

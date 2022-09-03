@@ -30,10 +30,10 @@ class AccountActivity : AppCompatActivity() {
         setLabels(auth.getSignInUserUid()!!)
         setBottomBar()
 
-        /*binding.exitImage.setOnClickListener {
+        binding.buttonLogOut.setOnClickListener {
             auth.signOut()
             finishAffinity()
-        }*/
+        }
     }
 
 
