@@ -11,6 +11,7 @@
       <v-toolbar-title
         class="text-uppercase white--text d-flex justify-center rounded-xl"
       >
+        <Snackbar snackbar="true"></Snackbar>
         <v-btn
           to="/"
           large
@@ -21,6 +22,7 @@
         >
           <span class="font-weight-light">Lift</span>
           <span class="">Crane</span>
+          
         </v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -54,7 +56,12 @@
         </v-btn>
       </div>
     </v-toolbar>
-    <v-snackbar v-model="snackbar" :timeout="timeout" transition="fade-transition" class="d-flex justify-center">
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      transition="fade-transition"
+      class="d-flex justify-center"
+    >
       {{ text }}
     </v-snackbar>
     <v-navigation-drawer
@@ -104,6 +111,7 @@ export default {
       snackbar: false,
       text: "Zalogowano!",
       timeout: 2000,
+      user: "",
     };
   },
   methods: {
@@ -115,8 +123,8 @@ export default {
         .then((result) => {
           let user = result.user;
           console.log("Logged in"); // Token
-          this.text = "Zalogowano!"
-          this.snackbar = true
+          this.text = "Zalogowano!";
+          this.snackbar = true;
           console.log(user); // User that was authenticated
           this.singedIn = true;
           this.userName = result.user.displayName;
@@ -134,7 +142,7 @@ export default {
           // Sign-out successful.
           console.log("Logged Out");
           this.singedIn = false;
-          this.text = "Wylogowano!"
+          this.text = "Wylogowano!";
           this.snackbar = true;
           router.push("/");
         })
@@ -159,6 +167,21 @@ export default {
     currentRouteName() {
       return this.$route.name;
     },
+    
   },
+  watch: {
+    singedIn() {
+      this.user = fb.auth().currentUser;
+      if (this.user) {
+        this.userstate = true; // If it exists
+        console.log(this.userstate)
+        return this.user.displayName
+      } else {
+        this.userstate = false; // If it doesn't
+        console.log(this.userstate)
+        return this.userstate
+      }
+    },
+  }
 };
 </script>

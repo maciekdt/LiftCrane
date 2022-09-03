@@ -1,3 +1,4 @@
+
 <template>
   <v-card>
     <v-card-title>
@@ -5,7 +6,7 @@
       <v-spacer></v-spacer>
       <v-dialog secondary v-model="dialogDelete" max-width="500px">
         <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Usuń wpis</v-card-title>
+          <v-card-title class="text-h5 white--text primary">Usuń wpis</v-card-title>
           <v-card-text class="pa-2"
             >Czy napewno chcesz usunąć ten wpis?</v-card-text
           >
@@ -45,8 +46,14 @@
       :single-expand="singleExpand"
       show-expand
     >
+    <template v-slot:item.name="{ item }">
+    <v-btn text>
+      <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/>
+    </v-btn>
+    </template>
       <template end v-slot:item.edit="{ item }">
-          <EditDeviceDetails :liftId="item.id" :name="item.Nazwa" :loc="item.Adres"/>
+          <EditDeviceDetails :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/>
+          <!-- <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/> -->
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
         <v-icon small class="mr-2" @click="generateQrCode(item)"> qr_code_2 </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
@@ -68,11 +75,9 @@ import deviceDetails from "../components/deviceDetails";
 import EditDeviceDetails from "../components/EditDeviceDetails.vue";
 import { mapState } from "vuex";
 import { db } from "../fb.js";
-
+import PrintDeviceRaports from "../components/PrintDeviceRaports.vue";
 // import QrcodeVue from 'qrcode.vue'
-
 Vue.use(excel);
-
 export default {
   name: "Table",
   data() {
@@ -82,10 +87,13 @@ export default {
         {
           text: "Nazwa",
           align: "start",
-          value: "Nazwa",
+          value: "name",
         },
-        { text: "ID", value: "id" },
-        { text: "Lokalizacja", value: "Adres" },
+        { text: "Lokalizacja", value: "loc" },
+        { text: "nr fabryczny", value: "nrfab" },
+        { text: "Nr UDT", value: "udt" },
+        { text: "producent", value: "prod" },
+        { text: "udzwig", value: "kg" },
         { text: "Edytuj", value: "edit", sortable: false },
       ],
       fields: {
@@ -99,19 +107,21 @@ export default {
       editedIndex: -1,
       dialogDelete: false,
       dialogEdit: false,
+      dialogPrint: false,
     };
   },
   methods: {
+    // printItem(item){
+    //   this.dialogPrint = true
+    // },
     editItem(item) {
             this.editedIndex = item.id;
             this.dialogEdit = true;
     },
-
     deleteItem(item) {
       this.editedIndex = item.id;
       this.dialogDelete = true;
     },
-
     deleteItemConfirm() {
       db.collection("lifts")
         .doc(this.editedIndex)
@@ -146,7 +156,8 @@ export default {
   },
   components: {
     deviceDetails,
-    EditDeviceDetails
+    EditDeviceDetails,
+    PrintDeviceRaports
 },
 };
 </script>
