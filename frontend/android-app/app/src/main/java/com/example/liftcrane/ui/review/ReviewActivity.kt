@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.databinding.ActivityReviewBinding
 import com.example.liftcrane.endpoints.CloudStorage
@@ -17,6 +19,7 @@ import com.example.liftcrane.ui.IMG_GALLERY
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ReviewActivity : AppCompatActivity() {
@@ -48,39 +51,26 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     private fun uploadReview(){
-        val userUid = auth.getSignInUserUid() ?: return
-        fireStore.getUserById(
-            { user ->
-                if(user != null) {
-                    val review = Review(
-                        null,
-                        lift.id,
-                        lift.name ?: "",
-                        userUid,
-                        user.firstName + " " + user.lastName,
-                        binding.malfunctionCheckBox.isChecked,
-                        Timestamp.now(),
-                        binding.descriptionEditText.text.toString(),
-                        images.map{it.id}.toList()
-                    )
-                    fun resolve(id: String) {}
-                    fun reject(e: Exception) {
-                        Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
-                    }
-                    fireStore.uploadReview(
-                        { id -> resolve(id) },
-                        { e -> reject(e) },
-                        review
-                    )
-                }
-            },
-            { e ->
-                Toast.makeText(this, "Niespodziewany błąd", Toast.LENGTH_LONG).show()
-            },
-            userUid
-        )
-        for(img in images)
-            storage.uploadReviewImage(img)
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch{
+            val userUid = auth.getSignInUserUid()
+            val user = fireStore.getUserById(userUid!!)
+            if(user != null){
+                val review = Review(
+                    null,
+                    lift.id,
+                    lift.name ?: "",
+                    userUid,
+                    user.firstName + " " + user.lastName,
+                    binding.malfunctionCheckBox.isChecked,
+                    Timestamp.now(),
+                    binding.descriptionEditText.text.toString(),
+                    images.map{it.id}.toList()
+                )
+                fireStore.uploadReview(review)
+                for(img in images)
+                    storage.uploadReviewImage(img)
+            }
+        }
     }
 
     private fun showReviewDialog(){

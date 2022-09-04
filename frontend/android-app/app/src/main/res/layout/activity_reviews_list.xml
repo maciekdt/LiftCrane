@@ -20,10 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Serwisy"
-            app:menu="@menu/top_menu_lifts_list"
+            app:menu="@menu/top_menu_reviews_list"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:backgroundTint="@color/main_color"
             />
+
     </com.google.android.material.appbar.AppBarLayout>
 
 

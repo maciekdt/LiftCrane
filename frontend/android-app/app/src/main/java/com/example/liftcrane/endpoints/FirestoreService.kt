@@ -1,185 +1,141 @@
 package com.example.liftcrane.endpoints
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.model.User
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.sql.Array
+import kotlinx.coroutines.tasks.await
 
 class FirestoreService {
 
     private val client = Firebase.firestore
-
-    fun uploadReview(resolve:(id : String) -> Unit,
-                     reject:(e:Exception) -> Unit,
-                     review: Review){
-
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
-            .add(review.toHashMap())
-            .addOnSuccessListener { documentReference ->
-                resolve(documentReference.id)
-            }
-            .addOnFailureListener { e ->
-                reject(e)
-            }
-    }
+    private val devicesCollectionPath = "devices"
+    private val reviewsCollectionPath = "reviews"
+    private val usersCollectionPath = "users"
 
 
-    fun getLiftById(resolve:(lift : Lift?) -> Unit,
-                    reject:(e : Exception) -> Unit,
-                    liftId: String){
 
-        val collectionPath = "devices"
-        client.collection(collectionPath)
+    suspend fun getLiftById(liftId: String): Lift?{
+
+        val document = client
+            .collection(devicesCollectionPath)
             .document(liftId)
             .get()
-            .addOnSuccessListener { document ->
-                var lift:Lift? = null
-                if(document.data != null)
-                    lift = Lift(nullTransformMap(document.data as Map<String, Any>), document.id)
-                resolve(lift)
-            }
-            .addOnFailureListener { e ->
-                reject(e)
-            }
+            .await()
+
+        if(document.data != null)
+            return Lift(nullTransformMap(document.data as Map<String, Any>), document.id)
+        return null
     }
 
 
-    fun getAllLifts(resolve:(lifts : MutableList<Lift>) -> Unit,
-                    reject:(e : Exception) -> Unit){
+    suspend fun getAllLifts(): MutableList<Lift> {
 
-        val collectionPath = "devices"
-        client.collection(collectionPath)
+        val documents = client
+            .collection(devicesCollectionPath)
             .get()
-            .addOnSuccessListener { documentsList ->
-                val resultList = mutableListOf<Lift>()
-                for (document in documentsList) {
-                    val lift = Lift(nullTransformMap(document.data), document.id)
+            .await()
 
-                    try {resultList.add(lift)}
-                    catch (e:NullPointerException) {Log.e("MyInfo", "Null lift :${document.data}")}
-                }
-                resolve(resultList)
+        val resultList = mutableListOf<Lift>()
+        for (document in documents) {
+            val lift = Lift(nullTransformMap(document.data), document.id)
+            try {
+                resultList.add(lift)
             }
-            .addOnFailureListener { exception ->
-                reject(exception)
+            catch (e:NullPointerException) {
+                Log.e("MyInfo", "Null lift :${document.data}")
             }
+        }
+        return resultList
     }
 
 
-    fun getUserById(resolve:(user : User?) -> Unit,
-                    reject:(e : Exception) -> Unit,
-                    userId: String){
+    suspend fun getUserById(userId: String): User? {
 
-        val collectionPath = "users"
-        client.collection(collectionPath)
+        val document = client
+            .collection(usersCollectionPath)
+            .document(userId)
             .get()
-            .addOnSuccessListener { result ->
-                var user:User? = null
-                for (document in result) {
-                    if(document.id == userId)
-                        user = User(document.data)
-                }
-                resolve(user)
-            }
-            .addOnFailureListener { e ->
-                reject(e)
-            }
+            .await()
+
+        if(document.data != null)
+            return User(document.data!!)
+        return null
     }
 
 
-    fun getReviewById(resolve:(review : Review?) -> Unit,
-                      reject:(e : Exception) -> Unit,
-                      reviewId: String){
-
+    suspend fun getReviewById(reviewId: String): Review?{
         val collectionPath = "reviews"
-        client.collection(collectionPath)
+        val document = client
+            .collection(collectionPath)
             .document(reviewId)
             .get()
-            .addOnSuccessListener { document ->
-                var review : Review? = null
-                if(document.data != null) {
-                    review = Review(document.data!!, document.id)
-                }
-                resolve(review)
-            }
-            .addOnFailureListener { exception ->
-                reject(exception)
-            }
+            .await()
+
+        var review : Review? = null
+        if(document.data != null) {
+            review = Review(document.data!!, document.id)
+        }
+        return review
     }
 
 
-    fun getAllReviewsForLift(resolve:(reviews : MutableList<Review>) -> Unit,
-                             reject:(e : Exception) -> Unit,
-                             liftId: String){
+    suspend fun uploadReview(review: Review){
+        client
+            .collection(reviewsCollectionPath)
+            .add(review.toHashMap())
+            .await()
+    }
 
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
+
+    suspend fun getAllReviewsForLift(liftId: String): MutableList<Review> {
+
+        val documents = client
+            .collection(reviewsCollectionPath)
             .whereEqualTo("liftId", liftId)
             .orderBy("date", Query.Direction.DESCENDING)
             .get()
-            .addOnSuccessListener { result ->
-                val resultList = mutableListOf<Review>()
-                for (document in result) {
-                    val review = Review(document.data, document.id)
-                    try { resultList.add(review) }
-                    catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
-                }
-                resolve(resultList)
+            .await()
+
+        val resultList = mutableListOf<Review>()
+        for (document in documents) {
+            val review = Review(document.data, document.id)
+            try {
+                resultList.add(review)
             }
-            .addOnFailureListener { exception ->
-                reject(exception)
+            catch (e:NullPointerException) {
+                Log.e("MyInfo", "Null lift :${document.data}")
             }
+        }
+        return resultList
     }
 
 
-    fun onChangeReviewsForLift(action:(reviews : MutableList<Review>) -> Unit,
-                               liftId: String){
-
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
-            .whereEqualTo("liftId", liftId)
-            .orderBy("date", Query.Direction.DESCENDING)
-            .addSnapshotListener { result, exception ->
-                if(exception == null && result != null && result.metadata.hasPendingWrites()){
-                    val resultList = mutableListOf<Review>()
-                    for (document in result) {
-                        val review = Review(document.data, document.id)
-                        try { resultList.add(review) }
-                        catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
-                    }
-                    action(resultList)
-                }
-            }
-    }
 
 
-    fun getAllReviews(resolve:(reviews : MutableList<Review>) -> Unit,
-                             reject:(e : Exception) -> Unit){
 
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
+    suspend fun getAllReviews(): MutableList<Review> {
+
+        val documents = client
+            .collection(reviewsCollectionPath)
             .orderBy("date", Query.Direction.DESCENDING)
             .get()
-            .addOnSuccessListener { result ->
-                val resultList = mutableListOf<Review>()
-                for (document in result) {
-                    val review = Review(document.data, document.id)
-                    try { resultList.add(review) }
-                    catch (e:NullPointerException) { Log.e("MyInfo", "Null lift :${document.data}") }
-                }
-                resolve(resultList)
+            .await()
+
+        val resultList = mutableListOf<Review>()
+        for (document in documents) {
+            val review = Review(document.data, document.id)
+            try {
+                resultList.add(review)
             }
-            .addOnFailureListener { exception ->
-                reject(exception)
+            catch (e:NullPointerException) {
+                Log.e("MyInfo", "Null lift :${document.data}")
             }
+        }
+        return resultList
     }
 
 
@@ -201,6 +157,29 @@ class FirestoreService {
     }
 
 
+    fun onChangeReviewsForLift(action:(reviews : MutableList<Review>) -> Unit, liftId: String){
+        val collectionPath = "reviews"
+        client.collection(collectionPath)
+            .whereEqualTo("liftId", liftId)
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { result, exception ->
+                if(exception == null && result != null && result.metadata.hasPendingWrites()){
+                    val resultList = mutableListOf<Review>()
+                    for (document in result) {
+                        val review = Review(document.data, document.id)
+                        try {
+                            resultList.add(review)
+                        }
+                        catch (e:NullPointerException) {
+                            Log.e("MyInfo", "Null lift :${document.data}")
+                        }
+                    }
+                    action(resultList)
+                }
+            }
+    }
+
+
     private fun nullTransformMap(map : Map<String, Any>): Map<String, Any?> {
         val nullSigns = setOf("", "NA")
         val newMap = mutableMapOf<String, Any?>()
@@ -212,4 +191,7 @@ class FirestoreService {
         }
         return newMap
     }
+
+
+
 }

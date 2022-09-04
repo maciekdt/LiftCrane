@@ -3,6 +3,8 @@ package com.example.liftcrane.ui.reviewslist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityReviewsListBinding
@@ -14,6 +16,7 @@ import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.example.liftcrane.ui.reviewpreview.ReviewPreviewActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -23,35 +26,30 @@ class ReviewsListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReviewsListBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initListView()
+        initListView(this)
         setBottomBar()
     }
 
 
-    private fun initListView(){
-        fun resolve(reviews : MutableList<Review>){
-            binding.list.layoutManager = LinearLayoutManager(this)
+    private fun initListView(activity: AppCompatActivity){
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            val reviews = fireStore.getAllReviews()
+            binding.list.layoutManager = LinearLayoutManager(activity)
             val adapter = ExtendReviewRecyclerAdapter(reviews.toTypedArray())
             adapter.onItemClick = { review ->
-                val intent = Intent(this, ReviewPreviewActivity::class.java)
+                val intent = Intent(activity, ReviewPreviewActivity::class.java)
                 intent.putExtra(REVIEW_ID_INTENT_FLAG, review.id)
                 startActivity(intent)
             }
             binding.list.adapter = adapter
         }
-
-        fun reject(e:Exception){
-        }
-
-        fireStore.getAllReviews(
-            {reviews -> resolve(reviews)},
-            {e -> reject(e)}
-        )
     }
 
     private fun setBottomBar(){

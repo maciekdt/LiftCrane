@@ -2,6 +2,8 @@ package com.example.liftcrane.ui.reviewpreview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.liftcrane.databinding.ActivityReviewPreviewBinding
@@ -11,6 +13,7 @@ import com.example.liftcrane.model.CustomImage
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.REVIEW_ID_INTENT_FLAG
 import com.example.liftcrane.ui.review.ImgRecyclerAdapter
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
@@ -28,22 +31,17 @@ class ReviewPreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val activity = this
 
-        val reviewId = intent.extras?.get(REVIEW_ID_INTENT_FLAG) as String
-
-        fun resolve(review : Review?){
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            val reviewId = intent.extras?.get(REVIEW_ID_INTENT_FLAG) as String
+            val review = fireStore.getReviewById(reviewId)
             if (review != null) {
-                this.review = review
+                activity.review = review
                 displayReviewTextData()
                 initListView()
             }
         }
-        fun reject(e : Exception){
-        }
-
-        fireStore.getReviewById({ review -> resolve(review) },
-                                { e -> reject(e) },
-                                reviewId)
     }
 
     private fun displayReviewTextData(){
