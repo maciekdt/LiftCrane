@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <Snackbar :snackbar="true"></Snackbar>
     <v-dialog v-model="dialog" width="90%">
       <template v-slot:activator="{ on, attrs }">
         <!-- <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
@@ -9,7 +8,7 @@
         <!-- <v-icon small @click="getInfo()" v-bind="attrs" v-on="on">
           {{name}}
         </v-icon> -->
-        <chip @click="getInfo()" v-bind="attrs" v-on="on">{{name}}</chip>
+        <v-btn @click="getInfo()" v-bind="attrs" v-on="on">{{ name }}</v-btn>
       </template>
 
       <v-card>
@@ -18,7 +17,7 @@
         </v-card-title>
         <v-container class="ma-2">
           <v-row>
-            <v-col :key="1" cols="4">
+            <v-col :key="1" cols="6">
               <v-card>
                 <v-text-field
                   dense
@@ -61,11 +60,11 @@
                 ></v-text-field>
               </v-card>
             </v-col>
-            <v-col :key="2" col="8">
+            <v-col :key="2" col="6" id="printMe">
               <v-card>
                 <v-container fluid>
                   <v-row>
-                    <v-col cols="12">
+                    <v-col cols="6">
                       <v-combobox
                         v-model="select"
                         :items="months"
@@ -77,10 +76,16 @@
                     </v-col>
                   </v-row>
                 </v-container>
-                <v-data-table :items="raports" :headers="headers">
-                  <template v-slot:item.date="{ item }">
+                <v-data-table
+                  v-model="selected"
+                  show-select
+                  :items="raports"
+                  :headers="headers"
+                  item-key="id"
+                >
+                  <!-- <template v-slot:item.date="{ item }">
                     {{item.date}}
-                  </template>
+                  </template> -->
                 </v-data-table>
               </v-card>
             </v-col>
@@ -93,7 +98,7 @@
           <v-btn color="red lighten-1" text @click="dialog = false">
             Anuluj
           </v-btn>
-          <v-btn color="primary" text @click="dialog = false"> Drukuj </v-btn>
+          <v-btn color="primary" text @click="generatePdf"> Drukuj </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -102,38 +107,48 @@
 
 <script>
 import { db } from "@/fb.js";
-import Snackbar from "./Snackbar.vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
   data() {
     return {
       dialog: false,
       select: [],
-        months: [
-          'Styczeń',
-          'Luty',
-          'Marzec',
-          'Kwiecień',
-          'Maj',
-          'Czewriec',
-          'Lipiec',
-          'Sierpień',
-          'Wrzesień',
-          'Październik',
-          'Listopad',
-          'Grudzień',
-        ],
-      // headers: [
-      //   {
-      //     text: "Data",
-      //     align: "start",
-      //     value: "date",
-      //   },
-      //   { text: "Stan", value: "malfunction" },
-      //   { text: "Konserwator", value: "reviewerName" },
-      //   { text: "Opis", value: "description" },
-      // ],
+      months: [
+        "Styczeń",
+        "Luty",
+        "Marzec",
+        "Kwiecień",
+        "Maj",
+        "Czewriec",
+        "Lipiec",
+        "Sierpień",
+        "Wrzesień",
+        "Październik",
+        "Listopad",
+        "Grudzień",
+      ],
+      headers: [
+        {
+          text: "Data",
+          align: "start",
+          value: "date",
+        },
+        { text: "Stan", value: "malfunction" },
+        { text: "Konserwator", value: "reviewerName" },
+        { text: "Opis", value: "description" },
+      ],
+      pdfHeaders: [
+        { title: "Id", dataKey: "id" },
+        { title: "Data", dataKey: "date" },
+        { title: "Stan", dataKey: "malfunction" },
+        { title: "Konserwator", dataKey: "reviewerName" },
+        { title: "Opis", dataKey: "description" },
+      ],
       raports: [],
+      selected: [],
+      info: [],
     };
   },
   methods: {
@@ -148,25 +163,47 @@ export default {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
             this.raports.push({
-              date: doc.data().date.toDate()
-              // .toDate().toLocaleString("pl-PL", {
-              //   day: "2-digit",
-              //   month: "long",
-              //   year: "numeric",
-              // }),
-              ,
+              date: doc.data().date.toDate().toLocaleString("pl-PL", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              }),
+
               malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
               reviewerName: doc.data().reviewerName,
               description: doc.data().description,
+              id: doc.id,
             });
           });
           console.log("hejka");
-          
-              
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
+    },
+    generatePdf() {
+      let i = 0;
+      this.selected.forEach((element) => {
+        element["id"] = (i + 1).toString();
+        i = i + 1;
+        this.info.push([element.id, element.date, element.malfunction, element.reviewerName, element.description])
+      });
+      console.log(this.selected);
+      let pdfName = "raport_" + (Date.now() % 10000);
+      var doc = new jsPDF({
+        putOnlyUsedFonts: true,
+        orientation: "p",
+        format: "a4",
+      });
+      doc.text("Raporty dla " + this.name, 10, 10);
+      doc.setLineWidth(0.1);
+      doc.setDrawColor(0, 0, 0);
+      doc.setLineDash([2.5]);
+      doc.line(5, 15, 180, 15);
+      doc.setLineWidth(0.25);
+      doc.setLineDash([0]);
+      doc.autoTable({ head: [["ID", "Data", "Stan", 'Konserwator', 'Opis']], body: this.info, startY:30});
+      doc.save(pdfName + ".pdf");
     },
   },
   props: {
@@ -184,7 +221,6 @@ export default {
   //         this.getInfo();
   //     },
   // },
-  components: { Snackbar },
   created() {
     console.log("print mounted");
   },
@@ -194,24 +230,22 @@ export default {
     },
   },
   computed: {
-    headers (){
-      return[
-        
-          {
-          text: "Data",
-          align: "start",
-          value: "date",
-          filter: value => {
-            if(!this.select ) return true
-            return value +'bababoey'
-          }
-        },
-        { text: "Stan", value: "malfunction" },
-        { text: "Konserwator", value: "reviewerName" },
-        { text: "Opis", value: "description" },
-        
-      ]
-    }
-  }
+    // headers (){
+    //   return[
+    //       {
+    //       text: "Data",
+    //       align: "start",
+    //       value: "date",
+    //       // filter: value => {
+    //       //   if(!this.select ) return true
+    //       //   return value +'bababoey'
+    //       // }
+    //     },
+    //     { text: "Stan", value: "malfunction" },
+    //     { text: "Konserwator", value: "reviewerName" },
+    //     { text: "Opis", value: "description" },
+    //   ]
+    // }
+  },
 };
 </script>

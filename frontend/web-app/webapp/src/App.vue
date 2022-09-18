@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <NavBar />
+    <NavBar/>
     <v-content class="mx-4 mb-4 mt-4">
       <router-view></router-view>
-          <Footer/>
+          <Footer />
 
     </v-content>
   </v-app>
@@ -19,5 +19,8 @@ export default {
     return {};
   },
   methods: {},
+  created(){
+    document.title = 'LiftCrane'
+  }
 };
 </script>

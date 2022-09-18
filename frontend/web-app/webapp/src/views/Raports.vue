@@ -2,7 +2,8 @@
   <v-data-table
     :headers="headers"
     :items="review"
-    :sort-by="['date', 'malfunction']"
+    :sort-by="['date']"
+    sort-desc
     multi-sort
     items-per-page="50"
     class="elevation-1"
@@ -57,7 +58,7 @@
     </template>
     <template v-slot:item.seen="{ item }">
       <v-chip>
-        {{ item.seen ? "" : "!" }}
+        {{ item.seen ? "✓" : "★" }}
       </v-chip>
     </template>
   </v-data-table>
@@ -81,13 +82,14 @@ export default {
           this.images.push({ src: url, href: url, alt: "" });
         }),
       headers: [
+      { text: "Odczytano", value: "seen", align: "start" },
         {
           text: "Wpis",
-          align: "start",
+          align: "left",
           value: "liftName",
           sortable: false,
         },
-        { text: "Alert", value: "seen", align: "left" },
+        
         { text: "Miesiac ", value: "date", align: "right" },
         { text: "Status ", value: "malfunction", align: "right" },
         { text: "Serwisant ", value: "reviewerName", align: "right" },

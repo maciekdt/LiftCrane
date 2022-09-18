@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <Snackbar :snackbar="true"></Snackbar>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <!-- <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
@@ -62,7 +61,6 @@
 
 <script>
 import { db } from "@/fb.js";
-import Snackbar from "./Snackbar.vue";
 
 export default {
   data() {
@@ -97,6 +95,5 @@ export default {
   //         this.getInfo();
   //     },
   // },
-  components: { Snackbar },
 };
 </script>

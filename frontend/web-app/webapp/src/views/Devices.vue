@@ -28,6 +28,7 @@
         </export-excel>
       </v-btn>
       <v-btn class="ma-2"> Genweruj QR kody </v-btn>
+        <AddNewDevice />
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -42,9 +43,8 @@
       :items="lifts"
       :search="search"
       :loading="loader"
+      :items-per-page="25"
       loading-text="Pobieranie danych, proszę czekać"
-      :single-expand="singleExpand"
-      show-expand
     >
     <template v-slot:item.name="{ item }">
     <v-btn text>
@@ -58,11 +58,11 @@
         <v-icon small class="mr-2" @click="generateQrCode(item)"> qr_code_2 </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
       </template>
-      <template v-slot:expanded-item="{ headers, item }">
+      <!-- <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="pa-0 pt-1 ps-1 elevation-5">
           <deviceDetails :liftId="item.id" />
         </td>
-      </template>
+      </template> -->
     </v-data-table>
   </v-card>
 </template>
@@ -71,11 +71,12 @@
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Vue from "vue";
 import excel from "vue-excel-export";
-import deviceDetails from "../components/deviceDetails";
+// import deviceDetails from "../components/deviceDetails";
 import EditDeviceDetails from "../components/EditDeviceDetails.vue";
 import { mapState } from "vuex";
 import { db } from "../fb.js";
 import PrintDeviceRaports from "../components/PrintDeviceRaports.vue";
+import AddNewDevice from "../components/AddNewDevice.vue";
 // import QrcodeVue from 'qrcode.vue'
 Vue.use(excel);
 export default {
@@ -123,7 +124,7 @@ export default {
       this.dialogDelete = true;
     },
     deleteItemConfirm() {
-      db.collection("lifts")
+      db.collection("devices")
         .doc(this.editedIndex)
         .delete()
         .then(() => {
@@ -155,9 +156,10 @@ export default {
     },
   },
   components: {
-    deviceDetails,
+    // deviceDetails,
     EditDeviceDetails,
-    PrintDeviceRaports
+    PrintDeviceRaports,
+    AddNewDevice
 },
 };
 </script>

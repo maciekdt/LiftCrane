@@ -1,8 +1,6 @@
 <template>
-  <v-footer fixed class="primary py-1 text-center justify-center white--text">
-    <p>
+  <v-footer padless fixed class="primary py-1 text-center justify-center white--text">
     {{ new Date().getFullYear() }}  <strong> - LiftCrane</strong>
-    </p>
   </v-footer>
 </template>
 

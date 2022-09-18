@@ -8,9 +8,11 @@ import { firestorePlugin} from 'vuefire'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 
+
 // import firebase from "firebase/app";
 // import "firebase/firestore";
 Vue.config.productionTip = false
+
 
 Vue.use(firestorePlugin)
 Vue.use(Viewer)

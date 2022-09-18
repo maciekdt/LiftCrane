@@ -1,17 +1,16 @@
 <template>
   <nav>
-    <v-toolbar class="primary">
+    <v-toolbar app class="primary">
       <v-app-bar-nav-icon class="gray-text" @click="drawer = !drawer"
         ><v-icon color="white ">menu</v-icon></v-app-bar-nav-icon
       >
-      <v-toolbar-subtitle class="mx-3 font-weight-thin white--text">{{
-        currentRouteName
-      }}</v-toolbar-subtitle>
+      <div class="mx-3 font-weight-thin white--text">
+        {{ currentRouteName }}
+      </div>
       <v-spacer></v-spacer>
       <v-toolbar-title
         class="text-uppercase white--text d-flex justify-center rounded-xl"
       >
-        <Snackbar snackbar="true"></Snackbar>
         <v-btn
           to="/"
           large
@@ -22,39 +21,69 @@
         >
           <span class="font-weight-light">Lift</span>
           <span class="">Crane</span>
-          
         </v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <div v-if="!singedIn">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon class="mx-2 grey--text" v-bind="attrs" v-on="on">
-              account_box
-            </v-icon>
-          </template>
-          <span>Wylogowano</span>
-        </v-tooltip>
+      <!-- //Mobile devices -->
+      <v-toolbar-items class="hidden-sm-and-down py-3">
+        <div v-if="!isSignedIn">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="mx-2 grey--text" v-bind="attrs" v-on="on">
+                account_box
+              </v-icon>
+            </template>
+            <span>Wylogowano</span>
+          </v-tooltip>
 
-        <v-btn @click="googleSignIn" class="secondary">
-          <v-icon left>login</v-icon>
-          <span>Zaloguj</span>
-        </v-btn>
-      </div>
-      <div v-else>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon class="mx-2 green--text" v-bind="attrs" v-on="on">
-              account_box
-            </v-icon>
-          </template>
-          <span>Zalogowano {{ userName }}</span>
-        </v-tooltip>
-        <v-btn @click="googleSignOut" class="secondary">
-          <v-icon left>logout</v-icon>
-          <span>Wyloguj</span>
-        </v-btn>
-      </div>
+          <v-btn @click="googleSignIn" class="secondary">
+            <v-icon left>login</v-icon>
+            <span>Zaloguj</span>
+          </v-btn>
+        </div>
+        <div v-else>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="mx-2 green--text" v-bind="attrs" v-on="on">
+                account_box
+              </v-icon>
+            </template>
+            <span>Zalogowano {{ userName }}</span>
+          </v-tooltip>
+          <v-btn @click="googleSignOut" class="secondary">
+            <v-icon left>logout</v-icon>
+            <span>Wyloguj</span>
+          </v-btn>
+        </div>
+      </v-toolbar-items>
+      <!-- Big screan devices -->
+      <v-toolbar-items class="hidden-md-and-up py-1">
+        <div v-if="!isSignedIn">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="mx-1 grey--text" v-bind="attrs" v-on="on">
+                account_box
+              </v-icon>
+            </template>
+          </v-tooltip>
+          <v-btn @click="googleSignIn" class="secondary white--text" icon>
+            <v-icon>login</v-icon>
+          </v-btn>
+        </div>
+        <div v-else>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="mx-1 green--text" v-bind="attrs" v-on="on">
+                account_box
+              </v-icon>
+            </template>
+            <span>Zalogowano {{ userName }}</span>
+          </v-tooltip>
+          <v-btn @click="googleSignOut" class="secondary white--text" icon>
+            <v-icon>logout</v-icon>
+          </v-btn>
+        </div>
+      </v-toolbar-items>
     </v-toolbar>
     <v-snackbar
       v-model="snackbar"
@@ -64,13 +93,7 @@
     >
       {{ text }}
     </v-snackbar>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      bottom
-      temporary
-      class="secondary"
-    >
+    <v-navigation-drawer v-model="drawer" absolute temporary class="secondary">
       <v-list nav dense>
         <v-list-item
           v-for="link in links"
@@ -95,6 +118,7 @@
 <script>
 import fb from "firebase";
 import router from "@/router/index";
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -115,6 +139,8 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["updateIsSignedIn"]),
+
     googleSignIn: function () {
       let provider = new fb.auth.GoogleAuthProvider();
 
@@ -127,6 +153,8 @@ export default {
           this.snackbar = true;
           console.log(user); // User that was authenticated
           this.singedIn = true;
+          this.updateIsSignedIn(true),
+            console.log("Cy zalogowany " + this.isSignedIn);
           this.userName = result.user.displayName;
           this.$emit("changeUserName");
         })
@@ -142,6 +170,8 @@ export default {
           // Sign-out successful.
           console.log("Logged Out");
           this.singedIn = false;
+          this.updateIsSignedIn(false),
+            console.log("Czy zalogowany" + this.isSignedIn);
           this.text = "Wylogowano!";
           this.snackbar = true;
           router.push("/");
@@ -167,21 +197,21 @@ export default {
     currentRouteName() {
       return this.$route.name;
     },
-    
+    ...mapState(["isSignedIn"]),
   },
   watch: {
     singedIn() {
       this.user = fb.auth().currentUser;
       if (this.user) {
         this.userstate = true; // If it exists
-        console.log(this.userstate)
-        return this.user.displayName
+        console.log(this.userstate);
+        return this.user.displayName;
       } else {
         this.userstate = false; // If it doesn't
-        console.log(this.userstate)
-        return this.userstate
+        console.log(this.userstate);
+        return this.userstate;
       }
     },
-  }
+  },
 };
 </script>
