@@ -62,8 +62,6 @@ class ExtendReviewRecyclerAdapter(private val reviews: Array<Review>) :
             viewHolder.card.setCardBackgroundColor(
                 ContextCompat.getColor(viewHolder.card.context, R.color.no_malfunction_card_color))
         }
-
-
     }
 
 

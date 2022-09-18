@@ -1,5 +1,6 @@
 package com.example.liftcrane.ui.liftslist
 
+import android.annotation.SuppressLint
 import com.example.liftcrane.R
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,7 @@ class LiftRecyclerAdapter(private val lifts: Array<Lift>) :
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val lift = lifts[position]
 

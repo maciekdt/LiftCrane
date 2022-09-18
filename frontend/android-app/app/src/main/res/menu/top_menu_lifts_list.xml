@@ -2,13 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/history"
+        android:id="@+id/action_search"
         android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="ifRoom"
-        android:title="Szukaj" />
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="Szukaj"/>
 
     <item
-        android:id="@+id/menu"
+        android:id="@+id/search"
         android:icon="@drawable/ic_baseline_filter_alt_24"
         app:showAsAction="ifRoom"
         android:title="Filtruj" />

@@ -3,6 +3,8 @@ package com.example.liftcrane.ui.liftslist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityLiftsListBinding
@@ -14,6 +16,7 @@ import com.example.liftcrane.ui.lift.LiftActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.example.liftcrane.ui.reviewslist.ReviewsListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 class LiftsListActivity : AppCompatActivity() {
 
@@ -26,26 +29,20 @@ class LiftsListActivity : AppCompatActivity() {
         binding = ActivityLiftsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomBar()
-        initListView()
+        initListView(this)
     }
 
-    private fun initListView(){
-        fun resolve(lifts : MutableList<Lift>){
-            binding.list.layoutManager = LinearLayoutManager(this)
+
+    private fun initListView(activity: AppCompatActivity){
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            val lifts = fireStore.getAllLifts()
+            binding.list.layoutManager = LinearLayoutManager(activity)
             val adapter = LiftRecyclerAdapter(lifts.toTypedArray())
             adapter.onItemClick = { lift ->
                 startReviewActivity(lift)
             }
             binding.list.adapter = adapter
         }
-
-        fun reject(e:Exception){
-        }
-
-        fireStore.getAllLifts(
-            {lifts -> resolve(lifts)},
-            {e -> reject(e)}
-        )
     }
 
     private fun setBottomBar(){

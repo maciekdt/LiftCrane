@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liftcrane.R
 import com.example.liftcrane.databinding.ActivityLiftBinding
@@ -16,6 +18,7 @@ import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
 import com.example.liftcrane.ui.review.ReviewActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 
 
@@ -34,22 +37,18 @@ class LiftActivity : AppCompatActivity() {
 
         lift = intent.extras?.get("lift") as Lift
         setLiftData()
-        initListView()
+        initListView(this)
 
         fireStore.onChangeReviewsForLift(
             { reviews -> onChangeReviews(reviews) }, lift.id)
 
-        binding.mapButtonLift.setOnClickListener {
+        binding.mapButton.setOnClickListener {
             launchGoogleMap()
         }
 
-        binding.reviewButtonLift.setOnClickListener {
+        binding.floatingActionButtonReview.setOnClickListener {
             startReviewActivity()
         }
-
-        /*binding.reviewsList.setOnTouchListener { _, event ->
-            event.action == MotionEvent.ACTION_MOVE
-        }*/
     }
 
 
@@ -90,24 +89,16 @@ class LiftActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun initListView(){
-        fun resolve(reviews : MutableList<Review>){
-            binding.reviewsList.layoutManager = LinearLayoutManager(this)
+    private fun initListView(activity: AppCompatActivity){
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch{
+            val reviews = fireStore.getAllReviewsForLift(lift.id)
+            binding.reviewsList.layoutManager = LinearLayoutManager(activity)
             val adapter = ReviewRecyclerAdapter(reviews.toTypedArray())
             //adapter.onItemClick = { lift ->
-                //startReviewActivity(lift)
+            //startReviewActivity(lift)
             //}
             binding.reviewsList.adapter = adapter
         }
-
-        fun reject(e:Exception){
-        }
-
-        fireStore.getAllReviewsForLift(
-            {reviews -> resolve(reviews)},
-            {e -> reject(e)},
-            lift.id
-        )
     }
 
     private fun onChangeReviews(reviews : MutableList<Review>){

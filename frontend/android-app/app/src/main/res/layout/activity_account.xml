@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.account.AccountActivity">
 
+    <Button
+        android:id="@+id/mapButton2"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="mapa"
+        android:textColor="@color/main_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -61,7 +74,7 @@
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
         tools:layout_editor_absoluteX="0dp" />
@@ -88,7 +101,6 @@
             android:layout_alignTop="@+id/account_circle"
             android:layout_alignRight="@+id/account_circle"
             android:layout_alignBottom="@+id/account_circle"
-            android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="0dp"
@@ -196,6 +208,19 @@
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    <Button
+        android:id="@+id/buttonLogOut"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Wyloguj "
+        android:textColor="@color/main_color"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

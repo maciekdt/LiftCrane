@@ -14,6 +14,8 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.example.liftcrane.R
 import com.example.liftcrane.analyzer.MLKitBarcodeAnalyzer
 import com.example.liftcrane.analyzer.ScanningResultListener
@@ -29,6 +31,7 @@ import com.example.liftcrane.ui.reviewslist.ReviewsListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -114,25 +117,22 @@ class QRScannerActivity : AppCompatActivity() {
 
 
     private fun processQRCode(qrCode:String, imageAnalysis:ImageAnalysis, cameraProvider:ProcessCameraProvider?){
-        fun resolve(lift:Lift?){
-            if(lift!=null && !isActionDone) {
-                startReviewActivity(lift)
+        binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            try {
+                val lift = fireStore.getLiftById(qrCode)
+                if (lift != null && !isActionDone) {
+                    startReviewActivity(lift)
+                } else if (lift == null && !isActionDone) {
+                    showWrongQRCodeDialog()
+                }
+                isActionDone = true
+                imageAnalysis.clearAnalyzer()
+                cameraProvider?.unbindAll()
             }
-            else if(lift==null && !isActionDone){
+            catch (e:Exception){
                 showWrongQRCodeDialog()
             }
-            isActionDone = true
-            imageAnalysis.clearAnalyzer()
-            cameraProvider?.unbindAll()
         }
-        fun reject(e:Exception){
-            showWrongQRCodeDialog()
-        }
-        fireStore.getLiftById(
-            {lift -> resolve(lift)},
-            {e -> reject(e)},
-            qrCode
-        )
     }
 
 

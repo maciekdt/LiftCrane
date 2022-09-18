@@ -22,8 +22,8 @@
             app:title="Urządzenia"
             app:menu="@menu/top_menu_lifts_list"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:backgroundTint="@color/main_color"
-            />
+            android:backgroundTint="@color/main_color"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -33,7 +33,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         tools:itemCount="5"
-        tools:listitem="@layout/lift_list_item"/>
+        tools:listitem="@layout/lift_list_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
         <!--android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"-->
 
