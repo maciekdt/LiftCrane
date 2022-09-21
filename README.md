@@ -6,6 +6,7 @@ Tools used :
   - Vue.js for web app
   - Firebase firestore 
   - Firebase auth service
+  - Firebase hosting
   - Firebase storage
      
         
