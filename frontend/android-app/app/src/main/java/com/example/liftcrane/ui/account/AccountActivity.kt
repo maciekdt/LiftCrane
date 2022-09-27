@@ -1,5 +1,6 @@
 package com.example.liftcrane.ui.account
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,13 +46,20 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setBottomBar()
+    }
 
+
+    @SuppressLint("SetTextI18n")
     private fun setLabels(){
         if(this::user.isInitialized){
             binding.accountFirstLetter.text = user.firstName[0].toString().uppercase()
             binding.firstName.text = user.firstName
             binding.name.text = user.lastName
             binding.email.text = user.email
+            binding.fullNameLabel.text = user.firstName + " " + user.lastName
         }
     }
 

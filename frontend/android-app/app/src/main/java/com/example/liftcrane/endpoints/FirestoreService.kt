@@ -17,9 +17,7 @@ class FirestoreService {
     private val usersCollectionPath = "users"
 
 
-
     suspend fun getLiftById(liftId: String): Lift?{
-
         val document = client
             .collection(devicesCollectionPath)
             .document(liftId)
@@ -33,7 +31,6 @@ class FirestoreService {
 
 
     suspend fun getAllLifts(): MutableList<Lift> {
-
         val documents = client
             .collection(devicesCollectionPath)
             .get()
@@ -54,7 +51,6 @@ class FirestoreService {
 
 
     suspend fun getUserById(userId: String): User? {
-
         val document = client
             .collection(usersCollectionPath)
             .document(userId)
@@ -68,9 +64,8 @@ class FirestoreService {
 
 
     suspend fun getReviewById(reviewId: String): Review?{
-        val collectionPath = "reviews"
         val document = client
-            .collection(collectionPath)
+            .collection(reviewsCollectionPath)
             .document(reviewId)
             .get()
             .await()
@@ -91,8 +86,16 @@ class FirestoreService {
     }
 
 
-    suspend fun getAllReviewsForLift(liftId: String): MutableList<Review> {
+    suspend fun deleteReviewById(reviewId: String){
+        client
+            .collection(reviewsCollectionPath)
+            .document(reviewId)
+            .delete()
+            .await()
+    }
 
+
+    suspend fun getAllReviewsForLift(liftId: String): MutableList<Review> {
         val documents = client
             .collection(reviewsCollectionPath)
             .whereEqualTo("liftId", liftId)
@@ -118,7 +121,6 @@ class FirestoreService {
 
 
     suspend fun getAllReviews(): MutableList<Review> {
-
         val documents = client
             .collection(reviewsCollectionPath)
             .orderBy("date", Query.Direction.DESCENDING)
@@ -144,7 +146,7 @@ class FirestoreService {
         client.collection(collectionPath)
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->
-                if(exception == null && result != null && result.metadata.hasPendingWrites()){
+                if(exception == null && result != null){
                     val resultList = mutableListOf<Review>()
                     for (document in result) {
                         val review = Review(document.data, document.id)
@@ -163,7 +165,7 @@ class FirestoreService {
             .whereEqualTo("liftId", liftId)
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->
-                if(exception == null && result != null && result.metadata.hasPendingWrites()){
+                if(exception == null && result != null){
                     val resultList = mutableListOf<Review>()
                     for (document in result) {
                         val review = Review(document.data, document.id)

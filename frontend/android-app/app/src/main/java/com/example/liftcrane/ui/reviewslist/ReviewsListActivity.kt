@@ -12,10 +12,12 @@ import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.REVIEW_ID_INTENT_FLAG
 import com.example.liftcrane.ui.account.AccountActivity
+import com.example.liftcrane.ui.lift.ReviewRecyclerAdapter
 import com.example.liftcrane.ui.liftslist.LiftsListActivity
 import com.example.liftcrane.ui.qrscanner.QRScannerActivity
 import com.example.liftcrane.ui.reviewpreview.ReviewPreviewActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -34,6 +36,13 @@ class ReviewsListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initListView(this)
+        setBottomBar()
+
+        fireStore.onChangeReviews { reviews -> onChangeReviews(reviews) }
+    }
+
+    override fun onResume() {
+        super.onResume()
         setBottomBar()
     }
 
@@ -76,5 +85,17 @@ class ReviewsListActivity : AppCompatActivity() {
                 }
                 false
             })
+    }
+
+    private fun onChangeReviews(reviews : MutableList<Review>){
+        binding.list.layoutManager = LinearLayoutManager(this)
+        val adapter = ExtendReviewRecyclerAdapter(reviews.toTypedArray())
+        binding.list.adapter = adapter
+        val activity = this
+        adapter.onItemClick = { review ->
+            val intent = Intent(activity, ReviewPreviewActivity::class.java)
+            intent.putExtra(REVIEW_ID_INTENT_FLAG, review.id)
+            startActivity(intent)
+        }
     }
 }
