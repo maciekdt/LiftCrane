@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.liftcrane.R
 import com.example.liftcrane.endpoints.CloudStorage
-import javax.sql.DataSource
 
 
 class ImgPreviewRecyclerAdapter(private val imagesID: Array<String>) :
@@ -28,13 +27,13 @@ class ImgPreviewRecyclerAdapter(private val imagesID: Array<String>) :
         var card = view
         var itemImg: ImageView = view.findViewById(R.id.reviewImage)
         var progressBarItem: ProgressBar = view.findViewById(R.id.progressBar2)
-        /*var deleteButton: Button = view.findViewById(R.id.imgItemDeleteButton)
+        private var previewButton: Button = view.findViewById(R.id.previewButton)
 
         init {
-            deleteButton.setOnClickListener {
+            previewButton.setOnClickListener {
                 onClickDelete?.invoke(adapterPosition)
             }
-        }*/
+        }
     }
 
 

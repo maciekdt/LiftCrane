@@ -16,14 +16,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar22"
+            android:id="@+id/topMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/ic_banner_background"
             android:backgroundTint="@color/main_color"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:subtitleTextColor="@color/black"
+            app:menu="@menu/top_menu_review_preview"
+            app:subtitleTextColor="@color/ic_banner_background"
             app:title="Zgłoszenie"
             app:titleTextColor="@color/ic_banner_background"
             tools:layout_editor_absoluteX="0dp"
@@ -93,7 +94,7 @@
                 android:text="Opis serwisu"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview8" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
 
             <TextView
                 android:id="@+id/addressLabel2"
@@ -104,7 +105,7 @@
                 android:text="Awaria"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview21" />
 
             <TextView
                 android:id="@+id/addressLabel4"
@@ -115,7 +116,7 @@
                 android:text="Serwisujący"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview15" />
 
             <TextView
                 android:id="@+id/addressLabel6"
@@ -129,6 +130,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/lineReview14" />
 
             <TextView
+                android:id="@+id/addressLabel5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Godzina"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
+
+            <TextView
                 android:id="@+id/addressLabel7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,16 +151,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/lineReview8"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+            <TextView
+                android:id="@+id/addressLabel8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:text="DTR"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addressLabel2" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview19" />
+
+            <TextView
+                android:id="@+id/addressLabel9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="UDT"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview20" />
 
             <View
                 android:id="@+id/lineReview7"
@@ -173,7 +196,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/addressLabel6" />
 
             <View
+                android:id="@+id/lineReview15"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel5" />
+
+            <View
                 android:id="@+id/lineReview14"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel2" />
+
+            <View
+                android:id="@+id/lineReview19"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
@@ -183,6 +228,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLift" />
 
+            <View
+                android:id="@+id/lineReview20"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel8" />
+
+            <View
+                android:id="@+id/lineReview21"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel9" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imgList"
                 android:layout_width="match_parent"
@@ -191,7 +258,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/liftNameLabel2" />
+                app:layout_constraintTop_toBottomOf="@+id/liftNameLabel2"
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none"/>
 
             <TextView
                 android:id="@+id/textViewMalfunction"
@@ -203,7 +272,7 @@
                 android:textColor="@android:color/primary_text_light_nodisable"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview21" />
 
             <TextView
                 android:id="@+id/textViewReviewerName"
@@ -215,7 +284,7 @@
                 android:textColor="@android:color/primary_text_light_nodisable"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview15" />
 
             <TextView
                 android:id="@+id/textViewDate"
@@ -228,6 +297,18 @@
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview14" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:text="11:27"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
 
             <TextView
                 android:id="@+id/textViewLift"
@@ -243,11 +324,37 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textViewDtr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Tak"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview19" />
+
+            <TextView
+                android:id="@+id/textViewUdt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Tak"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview20" />
+
+            <TextView
                 android:id="@+id/textViewDescription"
                 android:layout_width="293dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
                 android:text="Jakiś tam opis "
                 android:textColor="@android:color/primary_text_light_nodisable"
                 android:textSize="18dp"

@@ -24,7 +24,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:subtitleTextColor="@color/black"
-            app:title="Zgłoszenie"
+            app:title="Zgłoszenie serwisu"
             app:titleTextColor="@color/ic_banner_background"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
@@ -140,6 +140,28 @@
                     app:layout_constraintTop_toBottomOf="@+id/malfunctionCheckBox" />
 
                 <View
+                    android:id="@+id/lineReview18"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/udtCheckBox" />
+
+                <View
+                    android:id="@+id/lineReview17"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dtrCheckBox" />
+
+                <View
                     android:id="@+id/lineReview7"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -168,6 +190,43 @@
                     app:layout_constraintTop_toBottomOf="@+id/addressLabel3" />
 
                 <CheckBox
+                    android:id="@+id/dtrCheckBox"
+                    android:layout_width="320dp"
+                    android:layout_height="39dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/main_color"
+                    android:buttonTint="@color/main_color"
+                    android:checked="true"
+                    android:layoutDirection="rtl"
+                    android:text="DTR"
+                    android:textAlignment="textStart"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
+
+                <CheckBox
+                    android:id="@+id/udtCheckBox"
+                    android:layout_width="320dp"
+                    android:layout_height="39dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/main_color"
+                    android:buttonTint="@color/main_color"
+                    android:layoutDirection="rtl"
+                    android:text="UDT"
+                    android:textAlignment="textStart"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview17" />
+
+                <CheckBox
                     android:id="@+id/malfunctionCheckBox"
                     android:layout_width="320dp"
                     android:layout_height="39dp"
@@ -183,13 +242,15 @@
                     android:textColorLink="@color/main_color"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lineReview7" />
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview18" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/imgList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"

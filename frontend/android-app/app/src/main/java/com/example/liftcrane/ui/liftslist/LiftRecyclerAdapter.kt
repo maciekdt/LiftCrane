@@ -11,10 +11,11 @@ import com.example.liftcrane.model.Lift
 
 
 
-class LiftRecyclerAdapter(private val lifts: Array<Lift>) :
+class LiftRecyclerAdapter(private val lifts: MutableList<Lift>) :
     RecyclerView.Adapter<LiftRecyclerAdapter.ViewHolder>() {
 
     var onItemClick: ((Lift) -> Unit)? = null
+    var filterLifts = lifts.sorted().toMutableList()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemName: TextView = view.findViewById(R.id.reviewListItemTextViewDate)
@@ -23,7 +24,7 @@ class LiftRecyclerAdapter(private val lifts: Array<Lift>) :
 
         init {
             view.setOnClickListener {
-                onItemClick?.invoke(lifts[adapterPosition])
+                onItemClick?.invoke(filterLifts[adapterPosition])
             }
         }
     }
@@ -38,7 +39,7 @@ class LiftRecyclerAdapter(private val lifts: Array<Lift>) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val lift = lifts[position]
+        val lift = filterLifts[position]
 
         viewHolder.itemName.text = lift.name
         viewHolder.itemAddress.text = lift.localization
@@ -46,6 +47,15 @@ class LiftRecyclerAdapter(private val lifts: Array<Lift>) :
     }
 
 
-    override fun getItemCount() = lifts.size
+    override fun getItemCount() = filterLifts.size
 
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filterByQuery(query: String){
+        filterLifts = lifts.mapNotNull{
+            if(it.containsString(query)) it else null }
+            .toMutableList()
+        filterLifts.sort()
+        notifyDataSetChanged()
+    }
 }

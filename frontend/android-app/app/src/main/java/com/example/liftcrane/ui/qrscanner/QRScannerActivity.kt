@@ -52,7 +52,19 @@ class QRScannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityQrscannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setCamera()
+        setBottomBar()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        isActionDone = false
+        setCamera()
+        setBottomBar()
+    }
+
+
+    private fun setCamera(){
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -67,7 +79,6 @@ class QRScannerActivity : AppCompatActivity() {
                 isFlash = !isFlash
             }
         }
-        setBottomBar()
     }
 
 

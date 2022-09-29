@@ -16,7 +16,9 @@ import com.example.liftcrane.endpoints.FirestoreService
 import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
+import com.example.liftcrane.ui.REVIEW_ID_INTENT_FLAG
 import com.example.liftcrane.ui.review.ReviewActivity
+import com.example.liftcrane.ui.reviewpreview.ReviewPreviewActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -93,20 +95,35 @@ class LiftActivity : AppCompatActivity() {
         binding.root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch{
             val reviews = fireStore.getAllReviewsForLift(lift.id)
             binding.reviewsList.layoutManager = LinearLayoutManager(activity)
-            val adapter = ReviewRecyclerAdapter(reviews.toTypedArray())
-            //adapter.onItemClick = { lift ->
-            //startReviewActivity(lift)
-            //}
+            val adapter = ReviewRecyclerAdapter(reviews)
+            adapter.onItemClick = { review ->
+                val intent = Intent(activity, ReviewPreviewActivity::class.java)
+                intent.putExtra(REVIEW_ID_INTENT_FLAG, review.id)
+                startActivity(intent)
+            }
             binding.reviewsList.adapter = adapter
         }
     }
 
     private fun onChangeReviews(reviews : MutableList<Review>){
+        val reviewsNumber = binding.reviewsList.adapter?.itemCount
         binding.reviewsList.layoutManager = LinearLayoutManager(this)
-        val adapter = ReviewRecyclerAdapter(reviews.toTypedArray())
+        val adapter = ReviewRecyclerAdapter(reviews)
         binding.reviewsList.adapter = adapter
+        val activity = this
+        adapter.onItemClick = { review ->
+            val intent = Intent(activity, ReviewPreviewActivity::class.java)
+            intent.putExtra(REVIEW_ID_INTENT_FLAG, review.id)
+            startActivity(intent)
+        }
 
-        Snackbar.make(binding.constraintLayout, "Dodano zgłoszenie", Snackbar.LENGTH_SHORT)
-        .show()
+        if(reviewsNumber != null && reviews.size > reviewsNumber) {
+            Snackbar.make(binding.constraintLayout, "Dodano zgłoszenie", Snackbar.LENGTH_SHORT)
+                .show()
+        }
+        else if(reviewsNumber != null && reviews.size < reviewsNumber){
+            Snackbar.make(binding.constraintLayout, "Usunięto zgłoszenie", Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 }
