@@ -22,7 +22,7 @@ class ExtendReviewRecyclerAdapter(private val reviews: Array<Review>) :
         var itemLiftName: TextView = view.findViewById(R.id.reviewListItemLiftName)
         var itemDate: TextView = view.findViewById(R.id.reviewListItemTextViewDate)
         var itemReviewer: TextView = view.findViewById(R.id.reviewListItemTextViewUser)
-        var itemMalfunction: TextView = view.findViewById(R.id.reviewListItemTextViewMalfunction)
+        var itemType: TextView = view.findViewById(R.id.reviewListItemTextViewMalfunction)
         var card: MaterialCardView = view as MaterialCardView
 
         init {
@@ -53,15 +53,24 @@ class ExtendReviewRecyclerAdapter(private val reviews: Array<Review>) :
         viewHolder.itemReviewer.text = review.reviewerName
 
         if(review.malfunction) {
-            viewHolder.itemMalfunction.text = "Awaria"
             viewHolder.card.setCardBackgroundColor(
                 ContextCompat.getColor(viewHolder.card.context, R.color.malfunction_card_color))
         }
         else {
-            viewHolder.itemMalfunction.text = "Sprawna"
             viewHolder.card.setCardBackgroundColor(
                 ContextCompat.getColor(viewHolder.card.context, R.color.no_malfunction_card_color))
         }
+
+
+        if(review.dtr && review.udt)
+            viewHolder.itemType.text = "UDT/DTR"
+        else if(review.dtr)
+            viewHolder.itemType.text = "DTR"
+        else if(review.udt)
+            viewHolder.itemType.text = "UDT"
+        else
+            viewHolder.itemType.text = "INNY"
+
     }
 
 

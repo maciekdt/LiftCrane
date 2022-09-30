@@ -22,7 +22,7 @@
             android:layout_height="?attr/actionBarSize"
             android:backgroundTint="@color/main_color"
             app:menu="@menu/top_menu_lift"
-            app:title="Karta urządzenia" />
+            app:title="Karta dźwigu" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

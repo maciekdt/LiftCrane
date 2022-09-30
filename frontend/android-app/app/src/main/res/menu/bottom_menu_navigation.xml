@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/lifts"
-        android:title="Urządzenia"
+        android:title="Dźwigi"
         android:icon="@drawable/ic_baseline_precision_manufacturing_24"/>
 
     <item

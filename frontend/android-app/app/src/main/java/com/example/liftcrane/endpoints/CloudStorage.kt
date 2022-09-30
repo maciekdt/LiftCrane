@@ -18,12 +18,11 @@ class CloudStorage {
             .child(img.id)
 
         val uploadTask = reviewImgRef.putFile(img.uri)
-        uploadTask.addOnFailureListener {
-            Log.e("MyStorageInfo", it.toString())
-        }
+        uploadTask
+            .addOnFailureListener {
+                Log.e("MyStorageInfoFailure", it.toString()) }
             .addOnSuccessListener { taskSnapshot ->
-                Log.i("MyStorageInfo", "Dodano zdjęcie")
-        }
+                Log.i("MyStorageInfoSuccess", "Dodano") }
     }
 
     fun getImageUrl(imageId : String): String {
