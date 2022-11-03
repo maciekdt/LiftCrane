@@ -33,6 +33,14 @@
             v-model="udt"
             label="Numer UDT"
           ></v-text-field>
+           <v-slider
+            v-model="udtTime"
+            label="Co ile lat UDT"
+            step="1"
+            :min="1"
+            :max="3"
+            thumb-label
+          ></v-slider>
            <v-text-field
             v-model="prod"
             label="Producent"
@@ -70,11 +78,12 @@ export default {
   },
   methods: {
     updateInfo() {
-      db.collection("devices").doc(this.id).update({
+      db.collection("devices").doc(this.id).set({
         name: this.name,
         loc: this.loc,
         nrfab: this.nrfab,
         udt: this.udt,
+        udtTime: this.udtTime,
         prod: this.prod,
         kg: this.kg
       });
@@ -86,6 +95,7 @@ export default {
     name: String,
     loc: String,
     udt: String,
+    udtTime: String,
     prod: String,
     kg: String
   },

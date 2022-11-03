@@ -5,6 +5,7 @@ import Devices from "../views/Devices";
 import Raports from "../views/Raports";
 import Profiles from "../views/Profiles";
 import Login from "../views/Login";
+import Stats from "../views/Stats";
 import { auth } from "@/fb";
 
 Vue.use(VueRouter);
@@ -43,6 +44,14 @@ const routes = [
     path: "/Profiles",
     name: "Profiles",
     component: Profiles,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/Statistics",
+    name: "Statistics",
+    component: Stats,
     meta: {
       requiresAuth: true,
     },

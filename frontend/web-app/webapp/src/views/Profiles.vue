@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { db } from "../fb.js";
+import { mapMutations, mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -33,34 +34,26 @@ export default {
         },
         { text: "Imię", value: "firstName" },
         { text: "Email", value: "email" },
-        { text: "Pełny dostęp", value: "fullAccess" },
+        { text: "Pełny dostęp", value: "access" },
+        { text: "Ilość serwisów", value: "amount" },
       ],
-      users: [],
     };
   },
   methods: {
-    getAll: function () {
-      db.collection("users")
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // console.log(`${doc.id} => ${doc.data().id}`);
-            this.users.push({
-              userId: doc.id,
-              lastName: doc.data().lastName,
-              firstName: doc.data().firstName,
-              email: doc.data().email,
-              fullAccess: doc.data().fullAccess,
-            });
-          });
-        })
-        .finally(() => {
-          this.loader = false;
-        });
-    },
+    ...mapMutations(["userReviewsAmount"]),
   },
-  mounted() {
-    this.getAll();
+  mounted() {},
+  created() {
+    this.$store.dispatch("bindUsersRef").then(() => {
+      console.log("Users created and db dispatched");
+      this.loader = false;
+    });
+    this.userReviewsAmount(5)
+  },
+  computed: {
+    ...mapState(["users"]),
+    
+
   },
 };
 </script>

@@ -9,19 +9,37 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [
     createPersistedState({
-      storage: window.sessionStorage
     })
   ],
   state: {
     lifts: [],
     review: [],
+    users: [],
     isSignedIn: false,
+    userName: "",
   },
   mutations: {
     ...vuexfireMutations,
     updateIsSignedIn(state, isSignedIn) {
       state.isSignedIn = isSignedIn;
     },
+    updateUserName(state,  userName) {
+      state.userName = userName;
+    },
+    userReviewsAmount(state,user,  amount){
+      state.users.amount = state.users.amount + amount
+
+    },
+    // To ponizej to syf
+    deviceStatus(state, amount){
+      try{
+      state.lifts[0][amount ]= amount
+    }
+      catch(e){
+        console.log(e)
+      }
+      console.log(state.lifts[0])
+    }
   },
   actions: {
     bindLiftsRef: firestoreAction(({ bindFirestoreRef }) => {
@@ -30,6 +48,9 @@ export default new Vuex.Store({
 
     bindReviewRef: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef("review", db.collection("reviews"));
+    }),
+    bindUsersRef: firestoreAction(({ bindFirestoreRef }) => {
+      return bindFirestoreRef("users", db.collection("users"));
     }),
   },
   modules: {},

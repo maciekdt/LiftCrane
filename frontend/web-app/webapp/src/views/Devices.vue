@@ -1,4 +1,3 @@
-
 <template>
   <v-card>
     <v-card-title>
@@ -6,7 +5,9 @@
       <v-spacer></v-spacer>
       <v-dialog secondary v-model="dialogDelete" max-width="500px">
         <v-card>
-          <v-card-title class="text-h5 white--text primary">Usuń wpis</v-card-title>
+          <v-card-title class="text-h5 white--text primary"
+            >Usuń wpis</v-card-title
+          >
           <v-card-text class="pa-2"
             >Czy napewno chcesz usunąć ten wpis?</v-card-text
           >
@@ -16,7 +17,7 @@
             <v-btn color="blue darken-1" text @click="deleteItemConfirm"
               >Tak</v-btn
             >
-            
+
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -28,7 +29,7 @@
         </export-excel>
       </v-btn>
       <v-btn class="ma-2"> Genweruj QR kody </v-btn>
-        <AddNewDevice />
+      <AddNewDevice />
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -46,16 +47,41 @@
       :items-per-page="25"
       loading-text="Pobieranie danych, proszę czekać"
     >
-    <template v-slot:item.name="{ item }">
-    <v-btn text>
-      <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/>
-    </v-btn>
-    </template>
+      <template v-slot:item.name="{ item }">
+        <v-btn text>
+          <PrintDeviceRaports
+            :id="item.id"
+            :nrfab="item.nrfab"
+            :name="item.name"
+            :loc="item.loc"
+            :prod="item.prod"
+            :udt="item.udt"
+            :maulfunction="item.malfunction"
+            :dtr="item.dtr"
+            :kg="item.kg"
+          />
+        </v-btn>
+      </template>
+      <!-- <template v-slot:item.state ="{item}">
+    
+  <v-chip pill>{{item.state ? color="red" : "Nie"}}<v-icon>check</v-icon></v-chip>
+  </template> -->
       <template end v-slot:item.edit="{ item }">
-          <EditDeviceDetails :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/>
-          <!-- <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/> -->
+        <EditDeviceDetails
+          :id="item.id"
+          :nrfab="item.nrfab"
+          :name="item.name"
+          :loc="item.loc"
+          :prod="item.prod"
+          :udt="item.udt"
+          :udtTime="item.udtTime"
+          :kg="item.kg"
+        />
+        <!-- <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/> -->
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
-        <v-icon small class="mr-2" @click="generateQrCode(item)"> qr_code_2 </v-icon>
+        <v-icon small class="mr-2" @click="generateQrCode(item)">
+          qr_code_2
+        </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
       </template>
       <!-- <template v-slot:expanded-item="{ headers, item }">
@@ -73,7 +99,7 @@ import Vue from "vue";
 import excel from "vue-excel-export";
 // import deviceDetails from "../components/deviceDetails";
 import EditDeviceDetails from "../components/EditDeviceDetails.vue";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { db } from "../fb.js";
 import PrintDeviceRaports from "../components/PrintDeviceRaports.vue";
 import AddNewDevice from "../components/AddNewDevice.vue";
@@ -85,14 +111,16 @@ export default {
     return {
       search: "",
       headers: [
+        // { text: "Stan", align: "start", value: "state" },
         {
           text: "Nazwa",
-          align: "start",
+          // align: "start",
           value: "name",
         },
         { text: "Lokalizacja", value: "loc" },
         { text: "nr fabryczny", value: "nrfab" },
         { text: "Nr UDT", value: "udt" },
+        { text: "co ile lat udt", value: "udtTime" },
         { text: "producent", value: "prod" },
         { text: "udzwig", value: "kg" },
         { text: "Edytuj", value: "edit", sortable: false },
@@ -112,12 +140,17 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["deviceStatus"]),
+
     // printItem(item){
     //   this.dialogPrint = true
     // },
+    checkDeviceStatus() {
+      this.deviceStatus(5);
+    },
     editItem(item) {
-            this.editedIndex = item.id;
-            this.dialogEdit = true;
+      this.editedIndex = item.id;
+      this.dialogEdit = true;
     },
     deleteItem(item) {
       this.editedIndex = item.id;
@@ -159,7 +192,7 @@ export default {
     // deviceDetails,
     EditDeviceDetails,
     PrintDeviceRaports,
-    AddNewDevice
-},
+    AddNewDevice,
+  },
 };
 </script>

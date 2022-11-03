@@ -109,6 +109,7 @@
 import { db } from "@/fb.js";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { font } from "@/calibri-normal.js";
 
 export default {
   data() {
@@ -135,14 +136,19 @@ export default {
           align: "start",
           value: "date",
         },
-        { text: "Stan", value: "malfunction" },
-        { text: "Konserwator", value: "reviewerName" },
-        { text: "Opis", value: "description" },
+        { text: "Data", value: "date", align: "right" },
+        { text: "DTR", value: "dtr", align: "right" },
+        { text: "Awaria", value: "malfunction", align: "right" },
+        { text: "UDT", value: "udt", align: "right" },
+        { text: "Serwisant ", value: "reviewerName", align: "right" },
+        { text: "Opis ", value: "description", align: "right" },
       ],
       pdfHeaders: [
         { title: "Id", dataKey: "id" },
         { title: "Data", dataKey: "date" },
-        { title: "Stan", dataKey: "malfunction" },
+        { title: "Awaria", dataKey: "malfunction" },
+        { title: "Przegląd", dataKey: "dtr" },
+        { title: "UDT", dataKey: "udt" },
         { title: "Konserwator", dataKey: "reviewerName" },
         { title: "Opis", dataKey: "description" },
       ],
@@ -170,6 +176,8 @@ export default {
               }),
 
               malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
+              dtr: doc.data().dtr ? "Przegląd" : "Brak",
+              udt: doc.data().udt ? "Przegląd" : "",
               reviewerName: doc.data().reviewerName,
               description: doc.data().description,
               id: doc.id,
@@ -186,7 +194,15 @@ export default {
       this.selected.forEach((element) => {
         element["id"] = (i + 1).toString();
         i = i + 1;
-        this.info.push([element.id, element.date, element.malfunction, element.reviewerName, element.description])
+        this.info.push([
+          element.id,
+          element.date,
+          element.dtr,
+          element.malfunction,
+          element.udt,
+          element.reviewerName,
+          element.description,
+        ]);
       });
       console.log(this.selected);
       let pdfName = "raport_" + (Date.now() % 10000);
@@ -195,6 +211,11 @@ export default {
         orientation: "p",
         format: "a4",
       });
+
+      doc.addFileToVFS("calibri-normal.ttf", font);
+      doc.addFont("calibri-normal.ttf", "calibri", "normal");
+      doc.setFont("calibri");
+
       doc.text("Raporty dla " + this.name, 10, 10);
       doc.setLineWidth(0.1);
       doc.setDrawColor(0, 0, 0);
@@ -202,7 +223,25 @@ export default {
       doc.line(5, 15, 180, 15);
       doc.setLineWidth(0.25);
       doc.setLineDash([0]);
-      doc.autoTable({ head: [["ID", "Data", "Stan", 'Konserwator', 'Opis']], body: this.info, startY:30});
+      doc.autoTable({
+        head: [
+          [
+            "ID",
+            "Data",
+            "Serwis z. z DTR",
+            "Awaria",
+            "UDT",
+            "Konserwator",
+            "Opis",
+          ],
+        ],
+        body: this.info,
+        startY: 30,
+        styles: {
+          font: "calibri", // <-- place name of your font here
+          fontStyle: "normal",
+        },
+      });
       doc.save(pdfName + ".pdf");
     },
   },
@@ -212,6 +251,8 @@ export default {
     name: String,
     loc: String,
     udt: String,
+    malfunction: String,
+    dtr: String,
     prod: String,
     kg: String,
   },
