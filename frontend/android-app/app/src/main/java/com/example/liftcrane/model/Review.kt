@@ -16,6 +16,7 @@ data class Review(
     val date : Timestamp,
     val description : String,
     val images : List<String>,
+    val working : Boolean
 ){
 
     constructor(review: Map<String, Any>, id: String) : this(
@@ -29,7 +30,8 @@ data class Review(
         review["udt"] as Boolean,
         review["date"] as Timestamp,
         review["description"] as String,
-        review["images"] as List<String>
+        review["images"] as List<String>,
+        if(review.containsKey("working")) (review["working"] as Boolean) else true
     )
     fun toHashMap(): HashMap<String, Any> {
         return hashMapOf(
@@ -43,7 +45,8 @@ data class Review(
             "date" to date,
             "description" to description,
             "images" to images,
-            "seen" to false
+            "seen" to false,
+            "working" to working
         )
     }
 }

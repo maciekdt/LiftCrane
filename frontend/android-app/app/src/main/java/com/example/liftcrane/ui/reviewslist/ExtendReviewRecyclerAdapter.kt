@@ -52,7 +52,7 @@ class ExtendReviewRecyclerAdapter(private val reviews: Array<Review>) :
         viewHolder.itemDate.text = date
         viewHolder.itemReviewer.text = review.reviewerName
 
-        if(review.malfunction) {
+        if(!review.working) {
             viewHolder.card.setCardBackgroundColor(
                 ContextCompat.getColor(viewHolder.card.context, R.color.malfunction_card_color))
         }
@@ -68,6 +68,8 @@ class ExtendReviewRecyclerAdapter(private val reviews: Array<Review>) :
             viewHolder.itemType.text = "DTR"
         else if(review.udt)
             viewHolder.itemType.text = "UDT"
+        else if(review.malfunction)
+            viewHolder.itemType.text = "NAPRAWA"
         else
             viewHolder.itemType.text = "INNY"
 

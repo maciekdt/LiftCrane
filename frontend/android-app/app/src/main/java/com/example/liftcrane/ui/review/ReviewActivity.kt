@@ -57,17 +57,23 @@ class ReviewActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.floatingActionButtonGalery.setOnClickListener {
+        binding.imageButtonGallery.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, IMG_GALLERY)
         }
 
-        binding.floatingActionButtonCamera.setOnClickListener{
+        binding.imageButtonCamera.setOnClickListener{
             dispatchTakePictureIntent()
         }
     }
 
     private fun uploadReview(){
+
+        for(img in images) {
+            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, img.uri)
+            storage.uploadReviewImage(bitmap, img.id)
+        }
+
         GlobalScope.launch{
             val userUid = auth.getSignInUserUid()
             val user = fireStore.getUserById(userUid!!)
@@ -83,12 +89,10 @@ class ReviewActivity : AppCompatActivity() {
                     binding.udtCheckBox.isChecked,
                     Timestamp.now(),
                     binding.descriptionEditText.text.toString(),
-                    images.map{it.id}.toList()
+                    images.map{it.id}.toList(),
+                    binding.liftWorkSwitch.isChecked
                 )
-
                 fireStore.uploadReview(review)
-                for(img in images)
-                    storage.uploadReviewImage(img)
             }
         }
     }

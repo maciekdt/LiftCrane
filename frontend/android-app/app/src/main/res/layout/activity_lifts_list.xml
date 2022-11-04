@@ -27,6 +27,9 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
+    <!--android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -36,8 +39,6 @@
         tools:listitem="@layout/lift_list_item">
 
     </androidx.recyclerview.widget.RecyclerView>
-        <!--android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -37,21 +37,6 @@
         android:scrollbarStyle="outsideInset"
         tools:context=".ui.review.ReviewActivity">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonGalery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            app:backgroundTint="#FFFFFF"
-            app:fabCustomSize="65dp"
-            app:fabSize="auto"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/floatingActionButtonCamera"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
-            app:tint="@color/main_color" />
-
         <ScrollView
 
             android:id="@+id/scrollView2"
@@ -59,7 +44,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".ui.review.ReviewActivity">
@@ -75,17 +60,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="Zdjęcia z serwisu"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lineReview5" />
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview22" />
 
                 <View
                     android:id="@+id/lineReview5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/liftWorkSwitch" />
+
+                <View
+                    android:id="@+id/lineReview22"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:background="@color/line"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -108,25 +103,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Dane zgłoszenia"
+                    android:text="Typ serwisu"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.477"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/addressLabel3"
+                    android:id="@+id/reviewActivityLabel4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Opis serwisu"
-                    android:textSize="18sp"
+                    android:layout_marginTop="32dp"
+                    android:text="Dodatkowe informacje"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lineReview8" />
+                    app:layout_constraintTop_toBottomOf="@+id/malfunctionCheckBox" />
 
                 <View
                     android:id="@+id/lineReview8"
@@ -137,7 +133,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/malfunctionCheckBox" />
+                    app:layout_constraintTop_toBottomOf="@+id/reviewActivityLabel4" />
 
                 <View
                     android:id="@+id/lineReview18"
@@ -149,6 +145,17 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/udtCheckBox" />
+
+                <View
+                    android:id="@+id/lineReview23"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/malfunctionCheckBox" />
 
                 <View
                     android:id="@+id/lineReview17"
@@ -172,12 +179,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/reviewActivityLabel2" />
 
+                <View
+                    android:id="@+id/lineReview25"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgList" />
+
                 <EditText
                     android:id="@+id/descriptionEditText"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
-                    android:layout_marginTop="8dp"
                     android:backgroundTint="@color/main_color"
                     android:ems="10"
                     android:gravity="start|top"
@@ -187,7 +204,7 @@
                     android:textColorLink="@color/main_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addressLabel3" />
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview5" />
 
                 <CheckBox
                     android:id="@+id/dtrCheckBox"
@@ -235,7 +252,7 @@
                     android:backgroundTint="@color/main_color"
                     android:buttonTint="@color/main_color"
                     android:layoutDirection="rtl"
-                    android:text="Awaria"
+                    android:text="Naprawa"
                     android:textAlignment="textStart"
                     android:textColor="?android:attr/textColorSecondary"
                     android:textColorHighlight="@color/main_color"
@@ -248,13 +265,51 @@
                     android:id="@+id/imgList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/liftNameLabel2" />
+
+                <Switch
+                    android:id="@+id/liftWorkSwitch"
+                    android:layout_width="320dp"
+                    android:layout_height="39dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/main_color"
+                    android:buttonTint="@color/main_color"
+                    android:text="Dźwig sprawny po serwisie"
+                    android:textAlignment="textStart"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview8" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="@color/ic_launcher_background"
+                    app:layout_constraintStart_toEndOf="@+id/liftNameLabel2"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview22"
+                    app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="@color/ic_banner_background"
+                    app:layout_constraintStart_toEndOf="@+id/imageButtonCamera"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview22"
+                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -274,21 +329,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_baseline_check_24"
             app:tint="#FFFFFF" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            app:backgroundTint="#FFFFFF"
-            app:fabCustomSize="65dp"
-            app:fabSize="auto"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
-            app:tint="@color/main_color" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

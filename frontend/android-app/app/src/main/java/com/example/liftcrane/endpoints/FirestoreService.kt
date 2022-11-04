@@ -29,6 +29,22 @@ class FirestoreService {
         return null
     }
 
+    suspend fun updateLift(lift: Lift){
+        client
+            .collection(devicesCollectionPath)
+            .document(lift.id)
+            .set(lift.toHashMap())
+            .await()
+    }
+
+    suspend fun deleteLift(liftId: String){
+        client
+            .collection(devicesCollectionPath)
+            .document(liftId)
+            .delete()
+            .await()
+    }
+
 
     suspend fun getAllLifts(): MutableList<Lift> {
         val documents = client
@@ -142,8 +158,7 @@ class FirestoreService {
 
 
     fun onChangeReviews(action:(reviews : MutableList<Review>) -> Unit){
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
+        client.collection(reviewsCollectionPath)
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->
                 if(exception == null && result != null){
@@ -160,8 +175,7 @@ class FirestoreService {
 
 
     fun onChangeReviewsForLift(action:(reviews : MutableList<Review>) -> Unit, liftId: String){
-        val collectionPath = "reviews"
-        client.collection(collectionPath)
+        client.collection(reviewsCollectionPath)
             .whereEqualTo("liftId", liftId)
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->

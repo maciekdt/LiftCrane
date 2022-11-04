@@ -4,12 +4,12 @@ import java.io.Serializable
 
 data class Lift(
     var id : String,
-    val serialNumber : String?,
-    val udtSerialNumber : String?,
-    val name : String?,
-    val localization : String?,
-    val liftingCapacity : String?,
-    val producer : String?
+    var serialNumber : String?,
+    var udtSerialNumber : String?,
+    var name : String?,
+    var localization : String?,
+    var liftingCapacity : String?,
+    var producer : String?
 
 ) : Serializable, Comparable<Lift> {
 
@@ -24,16 +24,28 @@ data class Lift(
     )
 
     fun containsString(query: String): Boolean{
-        if(name != null && query.lowercase() in name.lowercase())
+        if(name != null && query.lowercase() in name!!.lowercase())
             return true
-        if(serialNumber != null && query.lowercase() in serialNumber.lowercase())
+        if(serialNumber != null && query.lowercase() in serialNumber!!.lowercase())
             return true
-        if(localization != null && query.lowercase() in localization.lowercase())
+        if(localization != null && query.lowercase() in localization!!.lowercase())
             return true
         return false
     }
 
     override fun compareTo(other: Lift): Int {
         return name!!.compareTo(other.name!!)
+    }
+
+    fun toHashMap(): HashMap<String, Any> {
+        return hashMapOf(
+            "liftId" to id,
+            "name" to (name ?: ""),
+            "nrfab" to (serialNumber ?: ""),
+            "udt" to (udtSerialNumber ?: ""),
+            "loc" to (localization ?: ""),
+            "prod" to (producer ?: ""),
+            "kg" to (liftingCapacity ?: "")
+        )
     }
 }

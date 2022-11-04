@@ -17,9 +17,12 @@ import com.example.liftcrane.model.Lift
 import com.example.liftcrane.model.Review
 import com.example.liftcrane.ui.LIFT_INTENT_FLAG
 import com.example.liftcrane.ui.REVIEW_ID_INTENT_FLAG
+import com.example.liftcrane.ui.editlift.EditLiftActivity
 import com.example.liftcrane.ui.review.ReviewActivity
 import com.example.liftcrane.ui.reviewpreview.ReviewPreviewActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 
@@ -40,13 +43,14 @@ class LiftActivity : AppCompatActivity() {
         lift = intent.extras?.get("lift") as Lift
         setLiftData()
         initListView(this)
+        setTopBar()
 
         fireStore.onChangeReviewsForLift(
             { reviews -> onChangeReviews(reviews) }, lift.id)
 
-        binding.mapButton.setOnClickListener {
+        /*binding.mapButton.setOnClickListener {
             launchGoogleMap()
-        }
+        }*/
 
         binding.floatingActionButtonReview.setOnClickListener {
             startReviewActivity()
@@ -124,6 +128,35 @@ class LiftActivity : AppCompatActivity() {
         else if(reviewsNumber != null && reviews.size < reviewsNumber){
             Snackbar.make(binding.constraintLayout, "Usunięto zgłoszenie", Snackbar.LENGTH_SHORT)
                 .show()
+        }
+    }
+
+    private fun setTopBar(){
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_edit_lift -> {
+                    val intent = Intent(this, EditLiftActivity::class.java)
+                    intent.putExtra(LIFT_INTENT_FLAG, lift)
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_delete_lift -> {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("Czy na pewno chcesz usunąć dźwig")
+                        .setMessage("Ta operacja nieodwracalnie usunie dźwig " + lift.name)
+                        .setNegativeButton("Anuluj", null)
+                        .setPositiveButton("Potwierdź") { dialog, which ->
+                            GlobalScope.launch {
+                                fireStore.deleteLift(lift.id)
+                                finish()
+                            }
+                        }
+                        .setCancelable(false)
+                        .show()
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

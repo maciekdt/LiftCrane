@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.liftcrane.databinding.ActivityMainMenuBinding
+import com.example.liftcrane.endpoints.CloudStorage
 import com.example.liftcrane.endpoints.FirebaseAuthService
 import com.example.liftcrane.ui.REQ_CAM_PERM
 import com.example.liftcrane.ui.REQ_ONE_TAP
@@ -23,6 +24,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuthService()
     private val googleSignIn = GoogleSignInUI()
+    private val storage = CloudStorage()
 
     private lateinit var binding: ActivityMainMenuBinding
     private lateinit var oneTapClient: SignInClient
@@ -37,6 +39,7 @@ class MainMenuActivity : AppCompatActivity() {
             oneTapClient = googleSignIn.startOneTapClient(this)
         else
             getCameraPermission()
+        //storage.rerunUnfinishedTasks()
     }
 
 
