@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:foregroundGravity="right"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             tools:context=".ui.review.ReviewActivity">
@@ -287,7 +287,7 @@
                     android:id="@+id/reviewActivityLabel3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:text="Historia serwisów"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="20sp"
@@ -295,7 +295,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.474"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
 
                 <View
                     android:id="@+id/lineReview1"
@@ -354,19 +354,6 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lineReview10" />
-
-                <Button
-                    android:id="@+id/mapButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="mapa"
-                    android:textColor="@color/main_color"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
