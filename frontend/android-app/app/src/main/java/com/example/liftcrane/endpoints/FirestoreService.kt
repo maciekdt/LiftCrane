@@ -159,7 +159,7 @@ class FirestoreService {
 
     fun onChangeReviews(action:(reviews : MutableList<Review>) -> Unit){
         client.collection(reviewsCollectionPath)
-            //.orderBy("date", Query.Direction.DESCENDING)
+            .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->
                 if(exception == null && result != null){
                     val resultList = mutableListOf<Review>()
@@ -177,7 +177,7 @@ class FirestoreService {
     fun onChangeReviewsForLift(action:(reviews : MutableList<Review>) -> Unit, liftId: String){
         client.collection(reviewsCollectionPath)
             .whereEqualTo("liftId", liftId)
-            //.orderBy("date", Query.Direction.DESCENDING)
+            .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { result, exception ->
                 if(exception == null && result != null){
                     val resultList = mutableListOf<Review>()

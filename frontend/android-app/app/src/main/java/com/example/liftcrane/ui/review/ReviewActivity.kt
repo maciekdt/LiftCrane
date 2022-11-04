@@ -68,8 +68,10 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     private fun uploadReview(){
+
         for(img in images) {
-            storage.uploadReviewImage(img)
+            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, img.uri)
+            storage.uploadReviewImage(bitmap, img.id)
         }
 
         GlobalScope.launch{

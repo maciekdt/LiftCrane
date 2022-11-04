@@ -31,7 +31,7 @@ data class Review(
         review["date"] as Timestamp,
         review["description"] as String,
         review["images"] as List<String>,
-        if(review.containsKey("working")) (review["working"] as Boolean) else false
+        if(review.containsKey("working")) (review["working"] as Boolean) else true
     )
     fun toHashMap(): HashMap<String, Any> {
         return hashMapOf(
