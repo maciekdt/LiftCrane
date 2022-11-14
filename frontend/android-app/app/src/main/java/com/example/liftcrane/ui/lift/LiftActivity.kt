@@ -77,6 +77,11 @@ class LiftActivity : AppCompatActivity() {
 
         if(lift.liftingCapacity != null) binding.capacity.text = lift.liftingCapacity + getString(R.string.lifting_capacity_unit)
         else binding.capacity.text = ""
+
+        if(lift.udtPeriod != null)
+            binding.udtPeriod.text =  lift.udtPeriod.toString()
+        else binding.udtPeriod.text = ""
+
     }
 
     private fun launchGoogleMap(){

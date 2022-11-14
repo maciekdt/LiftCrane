@@ -78,6 +78,7 @@ class ReviewActivity : AppCompatActivity() {
             val userUid = auth.getSignInUserUid()
             val user = fireStore.getUserById(userUid!!)
             if(user != null){
+                val currentTime = Timestamp.now()
                 val review = Review(
                     null,
                     lift.id,
@@ -87,12 +88,20 @@ class ReviewActivity : AppCompatActivity() {
                     binding.malfunctionCheckBox.isChecked,
                     binding.dtrCheckBox.isChecked,
                     binding.udtCheckBox.isChecked,
-                    Timestamp.now(),
+                    currentTime,
                     binding.descriptionEditText.text.toString(),
                     images.map{it.id}.toList(),
                     binding.liftWorkSwitch.isChecked
                 )
                 fireStore.uploadReview(review)
+
+                lift.working = binding.liftWorkSwitch.isChecked
+                if(binding.dtrCheckBox.isChecked)
+                    lift.lastDtr = currentTime.toDate().time
+                if(binding.udtCheckBox.isChecked)
+                    lift.lastUdt = currentTime.toDate().time
+
+                fireStore.updateLift(lift)
             }
         }
     }

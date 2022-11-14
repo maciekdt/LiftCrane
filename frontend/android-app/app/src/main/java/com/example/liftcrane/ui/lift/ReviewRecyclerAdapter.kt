@@ -50,13 +50,13 @@ class ReviewRecyclerAdapter(private var reviews: MutableList<Review>) :
         viewHolder.itemDate.text = date
         viewHolder.itemReviewer.text = review.reviewerName
 
-        if(!review.working) {
+        if(review.working) {
             viewHolder.card.setCardBackgroundColor(
-                ContextCompat.getColor(viewHolder.card.context, R.color.malfunction_card_color))
+                ContextCompat.getColor(viewHolder.card.context, R.color.no_malfunction_card_color))
         }
         else {
             viewHolder.card.setCardBackgroundColor(
-                ContextCompat.getColor(viewHolder.card.context, R.color.no_malfunction_card_color))
+                ContextCompat.getColor(viewHolder.card.context, R.color.malfunction_card_color))
         }
 
         if(review.dtr && review.udt)
