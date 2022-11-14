@@ -8,6 +8,7 @@ import com.example.liftcrane.application.GlobalApplication
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 class CloudStorage {
@@ -23,7 +24,8 @@ class CloudStorage {
 
     fun uploadReviewImage(imgBitmap: Bitmap, imgId: String){
         val stream = ByteArrayOutputStream()
-        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 1, stream)
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG,
+            20, stream)
         val data = stream.toByteArray()
         client
             .reference
@@ -31,15 +33,68 @@ class CloudStorage {
             .child(imgId)
             .putBytes(data)
             .addOnFailureListener {
-                Log.e("MyStorageInfoFailure", it.toString()) }
-            .addOnSuccessListener { taskSnapshot ->
-                //deleteTask(img.uri.toString(), img.id)
+                //Log.e("MyStorageInfoFailure", it.toString())
             }
-
-        //addTask(img.uri.toString(), img.id)
+            .addOnSuccessListener {
+                removeTaskFromCache(imgId)
+            }
+        addTaskToCache(data, imgId)
     }
 
     fun getImageUrl(imageId : String): String {
         return "$domain$imageId?alt=media"
+    }
+
+    fun rerunUnfinishedTasks(){
+        val tasks = sharedPref.getStringSet(tasksFlag,
+            mutableSetOf<String>()) as MutableSet<String>
+        for(fileName in tasks){
+            val data: ByteArray
+            val file = File(GlobalApplication.getAppContext().filesDir, fileName)
+            data = file.readBytes()
+            client
+                .reference
+                .child("reviews_images")
+                .child(fileName)
+                .putBytes(data)
+                .addOnFailureListener {
+                    removeTaskFromCache(fileName)
+                }
+                .addOnSuccessListener {
+                    removeTaskFromCache(fileName)
+                }
+        }
+    }
+
+    fun restartCache(){
+        with (sharedPref.edit()) {
+            putStringSet(tasksFlag, mutableSetOf())
+            apply()
+        }
+    }
+
+    private fun addTaskToCache(data: ByteArray, fileName: String){
+        var tasks = sharedPref.getStringSet(tasksFlag,
+            mutableSetOf<String>()) as MutableSet<String>
+        tasks = tasks.toMutableSet()
+        tasks.add(fileName)
+        with (sharedPref.edit()) {
+            putStringSet(tasksFlag, tasks)
+            apply()
+        }
+        val file = File(GlobalApplication.getAppContext().filesDir, fileName)
+        file.writeBytes(data)
+    }
+
+    private fun removeTaskFromCache(fileName: String){
+        var tasks = sharedPref.getStringSet(tasksFlag,
+            mutableSetOf<String>()) as MutableSet<String>
+        tasks = tasks.toMutableSet()
+        tasks.remove(fileName)
+        with (sharedPref.edit()) {
+            putStringSet(tasksFlag, tasks)
+            apply()
+        }
+        File(GlobalApplication.getAppContext().filesDir, fileName).delete()
     }
 }

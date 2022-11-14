@@ -39,7 +39,9 @@ class MainMenuActivity : AppCompatActivity() {
             oneTapClient = googleSignIn.startOneTapClient(this)
         else
             getCameraPermission()
-        //storage.rerunUnfinishedTasks()
+
+        try { storage.rerunUnfinishedTasks() }
+        catch (e:Exception) { storage.restartCache() }
     }
 
 

@@ -132,17 +132,37 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField7"
+        android:layout_width="337dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Ważność udt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField6">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editLiftUdtPeriod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main_color_light_light"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
         android:backgroundTint="@color/main_color"
         android:text="Edytuj"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filledTextField6" />
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -102,6 +102,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/capacity" />
 
                 <View
+                    android:id="@+id/lineReview24"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/udtPeriod" />
+
+                <View
                     android:id="@+id/lineReview16"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -155,6 +166,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/lineReview12" />
 
                 <TextView
+                    android:id="@+id/udtPeriod"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/no_data_label"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textDirection="rtl"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
+
+                <TextView
                     android:id="@+id/addressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -186,6 +211,17 @@
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lineReview12" />
+
+                <TextView
+                    android:id="@+id/udtPeriodLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Ważność UDT (lata)"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
 
                 <View
                     android:id="@+id/lineReview4"
@@ -287,15 +323,15 @@
                     android:id="@+id/reviewActivityLabel3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="50dp"
                     android:text="Historia serwisów"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.474"
+                    app:layout_constraintHorizontal_bias="0.477"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lineReview11" />
+                    app:layout_constraintTop_toBottomOf="@+id/lineReview24" />
 
                 <View
                     android:id="@+id/lineReview1"

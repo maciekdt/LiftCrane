@@ -56,6 +56,9 @@ class EditLiftActivity : AppCompatActivity() {
         if(lift.liftingCapacity != null){
             binding.editLiftCap.setText(lift.liftingCapacity, TextView.BufferType.EDITABLE)
         }
+        if(lift.udtPeriod != null){
+            binding.editLiftUdtPeriod.setText(lift.udtPeriod.toString(), TextView.BufferType.EDITABLE)
+        }
     }
 
     private fun uploadLift(){
@@ -65,6 +68,27 @@ class EditLiftActivity : AppCompatActivity() {
         lift.producer = binding.editProd.text.toString()
         lift.liftingCapacity = binding.editLiftCap.text.toString()
 
+        val udtPeriod = binding.editLiftUdtPeriod.text.toString()
+        if(udtPeriod == "") {
+            lift.udtPeriod = null
+            showCheckAlert()
+        }
+        else if(udtPeriod in listOf("1", "2", "3")) {
+            lift.udtPeriod = udtPeriod.toInt()
+            showCheckAlert()
+        }
+        else{
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Niepoprawny format danych")
+                .setMessage("Wartość ważność udt powinna być z zakresu od 1 do 3")
+                .setNegativeButton("Anuluj", null)
+                .setCancelable(false)
+                .show()
+        }
+
+    }
+
+    private fun showCheckAlert(){
         MaterialAlertDialogBuilder(this)
             .setTitle("Czy na pewno chcesz edytować dane dźwigu?")
             .setMessage("Ta operacja nieodwracalnie zmieni dokumentacje dźwigu " + lift.name)

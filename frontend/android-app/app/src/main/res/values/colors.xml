@@ -16,4 +16,8 @@
     <color name="flashOff">#7A7575</color>
     <color name="malfunction_card_color">#FFD6D6</color>
     <color name="no_malfunction_card_color">#DFFAE0</color>
+    <color name="warning_color">#C10645</color>
+    <color name="ok_color">#1F8323</color>
+    <color name="neutral_color">#938F8F</color>
+
 </resources>

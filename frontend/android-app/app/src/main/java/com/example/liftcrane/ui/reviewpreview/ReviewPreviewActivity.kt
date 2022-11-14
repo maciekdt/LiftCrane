@@ -86,6 +86,9 @@ class ReviewPreviewActivity : AppCompatActivity() {
 
         if(review.udt) binding.textViewUdt.text = "Tak"
         else binding.textViewUdt.text = "Nie"
+
+        if(review.working) binding.textViewWorking.text = "Tak"
+        else binding.textViewWorking.text = "Nie"
     }
 
     private fun initListView() {

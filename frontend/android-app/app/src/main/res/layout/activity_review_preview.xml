@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="Awaria"
+                android:text="Naprawa"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview21" />
@@ -130,6 +130,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/lineReview14" />
 
             <TextView
+                android:id="@+id/addressLabel10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="68dp"
+                android:text="Sprawna"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview14" />
+
+            <TextView
                 android:id="@+id/addressLabel5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +149,7 @@
                 android:text="Godzina"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
+                app:layout_constraintTop_toBottomOf="@+id/lineReview26" />
 
             <TextView
                 android:id="@+id/addressLabel7"
@@ -194,6 +205,17 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addressLabel6" />
+
+            <View
+                android:id="@+id/lineReview26"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel10" />
 
             <View
                 android:id="@+id/lineReview15"
@@ -299,16 +321,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/lineReview14" />
 
             <TextView
-                android:id="@+id/textViewTime"
+                android:id="@+id/textViewWorking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:text="11:27"
+                android:text="Tak"
                 android:textColor="@android:color/primary_text_light_nodisable"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineReview13" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="28dp"
+                android:text="11:27"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineReview26" />
 
             <TextView
                 android:id="@+id/textViewLift"
