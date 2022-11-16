@@ -13,11 +13,8 @@
           >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" @click="closeDelete">Nie</v-btn>
-            <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-              >Tak</v-btn
-            >
-
+            <v-btn color="blue darken-1" text @click="closeDelete">Anuluj</v-btn>
+            <v-btn color="blue darken-1" @click="deleteItemConfirm">Usuń</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -28,7 +25,7 @@
           <v-icon>file_download</v-icon>
         </export-excel>
       </v-btn>
-      <v-btn class="ma-2"> Genweruj QR kody </v-btn>
+      <!-- <v-btn class="ma-2"> Genweruj QR kody </v-btn> -->
       <AddNewDevice />
       <v-spacer></v-spacer>
       <v-text-field
@@ -45,6 +42,7 @@
       :search="search"
       :loading="loader"
       :items-per-page="25"
+      :item-class="itemClass"
       loading-text="Pobieranie danych, proszę czekać"
     >
       <template v-slot:item.name="{ item }">
@@ -59,6 +57,7 @@
             :maulfunction="item.malfunction"
             :dtr="item.dtr"
             :kg="item.kg"
+            :working="item.working"
           />
         </v-btn>
       </template>
@@ -76,12 +75,14 @@
           :udt="item.udt"
           :udtTime="item.udtTime"
           :kg="item.kg"
+          :working="item.working"
+
         />
         <!-- <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/> -->
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
-        <v-icon small class="mr-2" @click="generateQrCode(item)">
+        <!-- <v-icon small class="mr-2" @click="generateQrCode(item)">
           qr_code_2
-        </v-icon>
+        </v-icon> -->
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
       </template>
       <!-- <template v-slot:expanded-item="{ headers, item }">
@@ -109,7 +110,7 @@ export default {
   name: "Table",
   data() {
     return {
-      search: "",
+      // search: "",
       headers: [
         // { text: "Stan", align: "start", value: "state" },
         {
@@ -131,7 +132,7 @@ export default {
         Lokalizacja: "loc",
         Status: "status",
       },
-      loader: true,
+      loader: false,
       singleExpand: true,
       editedIndex: -1,
       dialogDelete: false,
@@ -173,12 +174,16 @@ export default {
     closeDelete() {
       this.dialogDelete = false;
     },
+    itemClass(item) {
+      var returnedClass = "";
+      if (item.working == false)
+        returnedClass = returnedClass + "background-color: red lighten-2 ";
+      return returnedClass;
+    },
   },
   mounted() {},
   created() {
-    this.$store.dispatch("bindLiftsRef").then(() => {
-      console.log("Created and dispatched"), (this.loader = false);
-    });
+
   },
   computed: {
     ...mapState(["lifts"]),
@@ -194,5 +199,8 @@ export default {
     PrintDeviceRaports,
     AddNewDevice,
   },
+  props: {
+    search: String
+  }
 };
 </script>

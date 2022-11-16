@@ -49,6 +49,10 @@
             v-model="kg"
             label="Udźwig"
           ></v-text-field>
+           <v-checkbox
+            v-model="working"
+            label="Czy sprawny"
+          ></v-checkbox>
         </v-container>
 
         <v-divider></v-divider>
@@ -78,14 +82,15 @@ export default {
   },
   methods: {
     updateInfo() {
-      db.collection("devices").doc(this.id).set({
+      db.collection("devices").doc(this.id).update({
         name: this.name,
         loc: this.loc,
         nrfab: this.nrfab,
         udt: this.udt,
         udtTime: this.udtTime,
         prod: this.prod,
-        kg: this.kg
+        kg: this.kg,
+        working: this.working,
       });
     },
   },
@@ -97,7 +102,8 @@ export default {
     udt: String,
     udtTime: String,
     prod: String,
-    kg: String
+    kg: String,
+    working: Boolean,
   },
   // watch: {
   //     liftId: function () {

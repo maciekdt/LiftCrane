@@ -8,8 +8,10 @@
         {{ currentRouteName }}
       </div>
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-toolbar-title
-        class="text-uppercase white--text d-flex justify-center rounded-xl"
+        class="text-uppercase white--text rounded-xl"
       >
         <v-btn
           to="/"
@@ -23,6 +25,7 @@
           <span class="">Crane</span>
         </v-btn>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <!-- Big screen devices -->
       <v-toolbar-items class="hidden-sm-and-down py-3">
@@ -210,11 +213,7 @@ export default {
     },
     ...mapState(["isSignedIn", "userName", "review"]),
     newReviews(){
-      let val = 0;
-      this.review.forEach(element => {
-        if(element.seen == false){val++}
-      });
-      return val;
+      return this.review.filter(review => !review.seen).length
     }
   },
   watch: {

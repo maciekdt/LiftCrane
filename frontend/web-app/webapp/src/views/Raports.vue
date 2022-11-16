@@ -1,121 +1,132 @@
 <template>
   <div>
-  <v-data-table
-  :headers="headers"
-  :items="review"
-  :sort-by="['date']"
-  sort-desc
-  multi-sort
-  items-per-page="50"
-  class="elevation-1"
-  :item-class="isNew"
-  >
-  <template v-slot:top>
-    <v-toolbar flat>
-      <v-toolbar-title>Serwisy</v-toolbar-title>
-      <div v-if="newReviews > 0">
-      <v-btn @click="setSeen()" class="px-2 mx-3">{{newReviews}} odczytaj</v-btn>
-    </div>
-    <div v-else>
-      <v-btn disabled class="px-2 mx-3">Brak nowych zgłoszeń</v-btn>
-    </div>
-        <v-spacer></v-spacer>
-        <!-- Download do XLS -->
-        <v-btn class="ma-2">
-          <export-excel :data="review" :fields="fields" name="Zgloszenia.xls">
-            Eksportuj do xls
-            <v-icon>file_download</v-icon>
-          </export-excel>
-        </v-btn>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="text-h5 white--text primary"
-            >Usuń wpis</v-card-title
+    <v-data-table
+      :headers="headers"
+      :items="review"
+      :sort-by="['date']"
+      sort-desc
+      multi-sort
+      :items-per-page=50
+      class="elevation-1"
+      :item-class="itemClass"
+      :search="search"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Serwisy</v-toolbar-title>
+          <div v-if="newReviews > 0">
+            <v-btn @click="setSeen()" class="px-2 mx-3"
+              >{{ newReviews }} odczytaj</v-btn
             >
-            <v-card-text class="pa-2"
-            >Czy napewno chcesz usunąć ten wpis?</v-card-text
-            >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" @click="closeDelete">Nie</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-              >Tak</v-btn
+          </div>
+          <div v-else>
+            <v-btn disabled class="px-2 mx-3">Brak nowych zgłoszeń</v-btn>
+          </div>
+          <v-spacer></v-spacer>
+          <!-- Download do XLS -->
+          <v-btn class="ma-2">
+            <export-excel :data="review" :fields="fields" name="Zgloszenia.xls">
+              Eksportuj do xls
+              <v-icon>file_download</v-icon>
+            </export-excel>
+          </v-btn>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Szukaj"
+            single-line
+            hide-details
+          ></v-text-field>
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5 white--text primary"
+                >Usuń wpis</v-card-title
               >
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.photos="{ item }">
-      <label> {{ item.images.length }}</label>
-      <v-icon v-if="item.images.length == 0" disabled> image </v-icon>
-      <v-icon v-else @click="getImages(item)"> image </v-icon>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon @click="deleteItem(item)"> delete_forever </v-icon>
-    </template>
-    <template v-slot:item.date="{ item }">
-      {{item.date.toDate().toLocaleString("pl-PL", {
-        day: "2-digit",
-        month: "long",
-        year: "2-digit",
-        hour: "numeric",
-        minute: "numeric"
-      }),
-    }}
-    </template>
-    <template v-slot:item.malfunction="{ item }">
-      <v-chip :color="getColor(item.malfunction)">
-        {{ item.malfunction ? "Awaria!" : "Brak" }}
-      </v-chip>
-    </template>
-    <template v-slot:item.liftName="{ item }">
-      <p :class="isNew(item)">{{ item.liftName }}</p>
-    </template>
-    <template v-slot:item.dtr="{ item }">
-      <v-chip>
-        {{ item.dtr ? "Tak" : "Nie" }}
-      </v-chip>
-    </template>
-    <template v-slot:item.udt="{ item }">
-      <v-chip>
-        {{ item.udt ? "✓" : "" }}
-      </v-chip>
-    </template>
-    <template v-slot:item.seen="{ item }">
-      <v-chip @click="setSeenOne(item)">
-        {{ item.seen ? "✓" : "★" }}
-      </v-chip>
-    </template>
-    
-  </v-data-table>
-  <v-overlay :value="imagesLoadingOverlay">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      ></v-progress-circular>
+              <v-card-text class="pa-2"
+                >Czy napewno chcesz usunąć ten wpis?</v-card-text
+              >
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete">Anuluj</v-btn>
+                <v-btn color="blue darken-1" @click="deleteItemConfirm">Usuń</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.photos="{ item }">
+        <label> {{ item.images.length }}</label>
+        <v-icon v-if="item.images.length == 0" disabled> image </v-icon>
+        <v-icon v-else @click="getImages(item)"> image </v-icon>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon @click="deleteItem(item)"> delete_forever </v-icon>
+      </template>
+      <template v-slot:item.date="{ item }">
+        {{item.date
+      .toDate().toLocaleString("pl-PL", {
+          day: "2-digit",
+          month: "long",
+          year: "2-digit",
+          hour: "numeric",
+          minute: "numeric"
+        })
+        }}
+      </template>
+      <template v-slot:item.malfunction="{ item }">
+        <v-chip :color="getColor(item.malfunction)">
+          {{ item.malfunction ? "Naprawa" : "" }}
+        </v-chip>
+      </template>
+      <template v-slot:item.liftName="{ item }">
+        <p :class="itemClass(item)">{{ item.liftName }}</p>
+      </template>
+      <template v-slot:item.dtr="{ item }">
+        <v-chip>
+          {{ item.dtr ? "DTR" : "" }}
+        </v-chip>
+      </template>
+      <!-- <template v-slot:item.udt="{ item }">
+        <v-chip>
+          {{ item.udt ? "✓" : "" }}
+        </v-chip>
+      </template> -->
+      <template v-slot:item.udt="{ item }">
+        <v-chip :color="serviceTypeField(item)[1]">
+          {{ serviceTypeField(item)[0]}}
+        </v-chip>
+      </template>
+      <template v-slot:item.seen="{ item }">
+        <v-chip @click="setSeenOne(item)">
+          {{ item.seen ? "✓" : "★" }}
+        </v-chip>
+      </template>
+    </v-data-table>
+    <v-overlay :value="imagesLoadingOverlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
   </div>
 </template>
 
 <script>
-  import { db, imagesRef } from "../fb.js";
-  import { mapState } from "vuex";
-  import excel from "vue-excel-export";
-  import Vue from "vue";
-  
-  import "viewerjs/dist/viewer.css";
-  // import excel from "vue-excel-export";
-  Vue.use(excel);
+import { db, imagesRef } from "../fb.js";
+import { mapState } from "vuex";
+import excel from "vue-excel-export";
+import Vue from "vue";
+
+import "viewerjs/dist/viewer.css";
+// import excel from "vue-excel-export";
+Vue.use(excel);
 export default {
   // components: { deletePopup },
   data() {
     return {
       dialogDelete: false,
-
+      search: "",
       headers: [
         { text: "Odczytano", value: "seen", align: "start" },
+        { text: "Info", value: "info", align: "start" },
         {
           text: "Wpis",
           align: "left",
@@ -124,12 +135,12 @@ export default {
         },
 
         { text: "Miesiac ", value: "date", align: "right" },
-        { text: "DTR", value: "dtr", align: "right" },
-        { text: "Awaria", value: "malfunction", align: "right" },
-        { text: "UDT", value: "udt", align: "right" },
+        // { text: "DTR", value: "dtr", align: "right" },
+        { text: "Typ", value: "udt", align: "right" },
+        { text: "Naprawa", value: "malfunction", align: "right" },
         { text: "Serwisant ", value: "reviewerName", align: "right" },
         { text: "Opis ", value: "description", align: "right" },
-        { text: "Zdjęcia ", value: "photos", align: "right", sortable: false },
+        { text: "Zdjęcia ", value: "photos", align: "right" },
         { text: "Usuń ", value: "actions", align: "right", sortable: false },
       ],
       fields: {
@@ -142,13 +153,31 @@ export default {
         Opis: "description",
       },
 
-      loader: true,
+      loader: false,
       editedIndex: -1,
       imagesLoadingOverlay: false,
+      infoItems: [{ name: "Nowy", value: "red" },
+    {name:"Ważne",value:"orange"}],
     };
   },
   methods: {
     //Zmien zeby nie zmienialo wszystkich!!!!
+    // itemRowColor (item){
+    //   return item.info == "red" ? 'style-1' : 'style-2'
+    // },
+    serviceTypeField(item){
+      let text = "";
+      let color = ""
+      if(item.dtr){
+        text = "DTR"
+        color = "blue"
+      }
+      if(item.udt){
+        text = "UDT"
+        color = "pink"
+      }
+      return [text, color];
+    },
     setSeen() {
       this.review.forEach((element) => {
         if (element.seen == false) {
@@ -158,33 +187,40 @@ export default {
         } else {
           console.log(element.id);
         }
-        // db.collection("reviews")
-        //   .get()
-        //   .then(function (querySnapshot) {
-        //     querySnapshot.forEach(function (doc) {
-        //       doc.ref.update({ seen: true });
-        //     });
-        //   });
       });
     },
-    setSeenOne(item){
-      let seen = item.seen
-      db.collection("reviews").doc(item.id).update({
-            seen: !seen,
-          }).then(
-            console.log(item.id + "set seen!")
-          );
+    setSeenOne(item) {
+      let seen = item.seen;
+      db.collection("reviews")
+        .doc(item.id)
+        .update({
+          seen: !seen,
+        })
+        .then(console.log(item.id + "set seen!"));
+    },
+    setInfo(item, info) {
+      db.collection("reviews")
+        .doc(item.id)
+        .set({
+          info: info,
+        })
+        .then(console.log(item.id + "set info" + this.info));
     },
     getColor(mal) {
-      if (mal == false) return "green";
-      else if (mal == true) return "red";
+      if (mal == false) return "light-green";
+      else if (mal == true) return "orange";
       else return "orange";
     },
     // font-weight-regular font-weight-black
-    isNew(item) {
-      if (item.seen == false) return "font-weight-bold";
-      else if (item.seen == true) return "font-weight-regular";
-      else return "orange";
+    itemClass(item) {
+      var returnedClass = "";
+      if (item.info == "red")
+        returnedClass = returnedClass + "background-color: red lighten-2 ";
+      if (item.seen == false)
+        returnedClass = returnedClass + "font-weight-bold ";
+      else if (item.seen == true)
+        returnedClass = returnedClass + "font-weight-regular ";
+      return returnedClass;
     },
     deleteItem(item) {
       this.editedIndex = item.id;
@@ -254,22 +290,19 @@ export default {
     },
   },
   mounted() {},
-  created() {
-    this.$store.dispatch("bindReviewRef").then(() => {
-      console.log("Created and dispatched");
-      this.loader = false;
-    });
-  },
+  created() {},
   computed: {
     ...mapState(["review"]),
-    newReviews(){
+    newReviews() {
       let val = 0;
-      this.review.forEach(element => {
-        if(element.seen == false){val++}
+      this.review.forEach((element) => {
+        if (element.seen == false) {
+          val++;
+        }
       });
-      console.log(val)
+      console.log(val);
       return val;
-    }
+    },
   },
   watch: {
     dialogDelete(val) {
@@ -278,3 +311,18 @@ export default {
   },
 };
 </script>
+
+<style>
+tr:nth-child(even) {
+  background-color: #e3f2fd;
+}
+
+tr:hover {
+  /* background-color: #90CAF9 !important; */
+  background-color: rgb(201, 201, 201) !important;
+  filter: brightness(90%);
+}
+.v-select__selections{
+  width: 16px !important;
+}
+</style>

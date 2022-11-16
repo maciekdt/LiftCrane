@@ -3,9 +3,9 @@
     <NavBar/>
     <v-content class="mx-4 mb-4 mt-4">
       <router-view></router-view>
-          <Footer />
-
+      
     </v-content>
+    <Footer />
   </v-app>
 </template>
 
@@ -20,7 +20,14 @@ export default {
   },
   methods: {},
   created(){
-    document.title = 'LiftCrane'
+    document.title = 'LiftCrane';
+    this.$store.dispatch("bindReviewRef").then(() => {
+      console.log("Created and dispatched");
+      this.loader = false;
+    });
+        this.$store.dispatch("bindLiftsRef").then(() => {
+      console.log("Created and dispatched"), (this.loader = false);
+    });
   }
 };
 </script>

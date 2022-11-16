@@ -1,5 +1,5 @@
 <template>
-  <v-footer padless fixed class="primary py-1 text-center justify-center white--text">
+  <v-footer inset padless fixed class="primary py-1 text-center justify-center white--text">
     {{ new Date().getFullYear() }}  <strong> - LiftCrane</strong>
   </v-footer>
 </template>

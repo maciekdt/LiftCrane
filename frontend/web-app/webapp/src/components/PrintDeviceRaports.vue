@@ -17,7 +17,7 @@
         </v-card-title>
         <v-container class="ma-2">
           <v-row>
-            <v-col :key="1" cols="6">
+            <!-- <v-col :key="1" cols="6">
               <v-card>
                 <v-text-field
                   dense
@@ -59,20 +59,13 @@
                   label="Udźwig"
                 ></v-text-field>
               </v-card>
-            </v-col>
+            </v-col> -->
             <v-col :key="2" col="6" id="printMe">
               <v-card>
                 <v-container fluid>
                   <v-row>
                     <v-col cols="6">
-                      <v-combobox
-                        v-model="select"
-                        :items="months"
-                        label="Data"
-                        multiple
-                        outlined
-                        dense
-                      ></v-combobox>
+                      <AddNewReview :liftName="name" :liftId="id" :working="working"/>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -110,6 +103,7 @@ import { db } from "@/fb.js";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { font } from "@/calibri-normal.js";
+import AddNewReview from "../components/AddNewReview.vue";
 
 export default {
   data() {
@@ -244,6 +238,9 @@ export default {
       });
       doc.save(pdfName + ".pdf");
     },
+    addNewReview(item) {
+      console.log(item)
+    }
   },
   props: {
     id: String,
@@ -255,7 +252,7 @@ export default {
     dtr: String,
     prod: String,
     kg: String,
-  },
+    working: Boolean,  },
   // watch: {
   //     liftId: function () {
   //         this.raports = [];
@@ -269,6 +266,9 @@ export default {
     id: function () {
       this.getInfo();
     },
+  },
+  components: {
+    AddNewReview
   },
   computed: {
     // headers (){
