@@ -159,17 +159,12 @@ export default {
       fb.auth()
         .signInWithPopup(provider)
         .then((result) => {
-          let user = result.user;
           console.log("Logged in"); // Token
           this.text = "Zalogowano!";
           this.snackbar = true;
-          console.log(user); // User that was authenticated
           this.singedIn = true;
           this.userNameTemp = result.user.displayName;
-          console.log(this.userNameTemp);
           this.updateIsSignedIn(true), this.updateUserName(this.userNameTemp);
-          console.log("State userName: " + this.userName);
-          console.log("Cy zalogowany " + this.isSignedIn);
           this.$emit("changeUserName");
         })
         .catch((err) => {
@@ -185,7 +180,6 @@ export default {
           console.log("Logged Out");
           this.singedIn = false;
           this.updateIsSignedIn(false),
-            console.log("Czy zalogowany" + this.isSignedIn);
           this.text = "Wylogowano!";
           this.snackbar = true;
           router.push("/");
@@ -221,11 +215,9 @@ export default {
       this.user = fb.auth().currentUser;
       if (this.user) {
         this.userstate = true; // If it exists
-        console.log(this.userstate);
         return this.user.displayName;
       } else {
         this.userstate = false; // If it doesn't
-        console.log(this.userstate);
         return this.userstate;
       }
     },

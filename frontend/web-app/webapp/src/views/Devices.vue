@@ -61,10 +61,9 @@
           />
         </v-btn>
       </template>
-      <!-- <template v-slot:item.state ="{item}">
-    
-  <v-chip pill>{{item.state ? color="red" : "Nie"}}<v-icon>check</v-icon></v-chip>
-  </template> -->
+<!--      <template v-slot:item.status ="{item}">-->
+<!--         <v-chip pill>{{item.status ? color="red" : "Nie"}}<v-icon>check</v-icon></v-chip>-->
+<!--      </template>-->
       <template end v-slot:item.edit="{ item }">
         <EditDeviceDetails
           :id="item.id"
@@ -101,7 +100,7 @@ import excel from "vue-excel-export";
 // import deviceDetails from "../components/deviceDetails";
 import EditDeviceDetails from "../components/EditDeviceDetails.vue";
 import { mapState, mapMutations } from "vuex";
-import { db } from "../fb.js";
+import { db } from "@/fb";
 import PrintDeviceRaports from "../components/PrintDeviceRaports.vue";
 import AddNewDevice from "../components/AddNewDevice.vue";
 // import QrcodeVue from 'qrcode.vue'
@@ -118,6 +117,7 @@ export default {
           // align: "start",
           value: "name",
         },
+        { text: "Stan windy", value: "status" },
         { text: "Lokalizacja", value: "loc" },
         { text: "nr fabryczny", value: "nrfab" },
         { text: "Nr UDT", value: "udt" },
@@ -175,8 +175,8 @@ export default {
       this.dialogDelete = false;
     },
     itemClass(item) {
-      var returnedClass = "";
-      if (item.working == false)
+      let returnedClass = "";
+      if (item.working === false)
         returnedClass = returnedClass + "background-color: red lighten-2 ";
       return returnedClass;
     },

@@ -57,7 +57,7 @@
       </template>
       <template v-slot:item.photos="{ item }">
         <label> {{ item.images.length }}</label>
-        <v-icon v-if="item.images.length == 0" disabled> image </v-icon>
+        <v-icon v-if="item.images.length === 0" disabled> image </v-icon>
         <v-icon v-else @click="getImages(item)"> image </v-icon>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -101,6 +101,9 @@
         <v-chip @click="setSeenOne(item)">
           {{ item.seen ? "✓" : "★" }}
         </v-chip>
+      </template><template v-slot:item.info="{ item }">
+        <v-btn x-small @click="setInfo(item)">
+        </v-btn>
       </template>
     </v-data-table>
     <v-overlay :value="imagesLoadingOverlay">
@@ -110,7 +113,7 @@
 </template>
 
 <script>
-import { db, imagesRef } from "../fb.js";
+import { db, imagesRef } from "@/fb";
 import { mapState } from "vuex";
 import excel from "vue-excel-export";
 import Vue from "vue";
@@ -198,27 +201,28 @@ export default {
         })
         .then(console.log(item.id + "set seen!"));
     },
-    setInfo(item, info) {
+    setInfo(item) {
+      let info = item.info;
       db.collection("reviews")
         .doc(item.id)
         .set({
-          info: info,
-        })
+          info: !info,
+        }, {merge: true })
         .then(console.log(item.id + "set info" + this.info));
     },
     getColor(mal) {
-      if (mal == false) return "light-green";
-      else if (mal == true) return "orange";
+      if (mal === false) return "light-green";
+      else if (mal === true) return "orange";
       else return "orange";
     },
     // font-weight-regular font-weight-black
     itemClass(item) {
-      var returnedClass = "";
-      if (item.info == "red")
-        returnedClass = returnedClass + "background-color: red lighten-2 ";
-      if (item.seen == false)
+      let returnedClass = "";
+      if (item.info === true)
+        returnedClass = returnedClass + "background-color: yellow accent-1 ";
+      if (item.seen === false)
         returnedClass = returnedClass + "font-weight-bold ";
-      else if (item.seen == true)
+      else if (item.seen === true)
         returnedClass = returnedClass + "font-weight-regular ";
       return returnedClass;
     },
@@ -246,7 +250,7 @@ export default {
     },
     getImages(item) {
       console.log(item.images);
-      var images = [];
+      let images = [];
       this.imagesLoadingOverlay = true;
       async function getList() {
         for await (const element of item.images) {
@@ -322,7 +326,5 @@ tr:hover {
   background-color: rgb(201, 201, 201) !important;
   filter: brightness(90%);
 }
-.v-select__selections{
-  width: 16px !important;
-}
+
 </style>

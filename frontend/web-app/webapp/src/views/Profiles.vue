@@ -4,23 +4,23 @@
       Pracownicy
       <v-spacer></v-spacer>
       <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Szukaj"
-        single-line
-        hide-details
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Szukaj"
+          single-line
+          hide-details
       ></v-text-field>
     </v-card-title>
     <v-data-table
-      :headers="headers"
-      :items="users"
-      :search="search"
+        :headers="headers"
+        :items="users"
+        :search="search"
     ></v-data-table>
   </v-card>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import {mapMutations, mapState} from "vuex";
 
 export default {
   data() {
@@ -32,17 +32,18 @@ export default {
           align: "start",
           value: "lastName",
         },
-        { text: "Imię", value: "firstName" },
-        { text: "Email", value: "email" },
-        { text: "Pełny dostęp", value: "access" },
-        { text: "Ilość serwisów", value: "amount" },
+        {text: "Imię", value: "firstName"},
+        {text: "Email", value: "email"},
+        {text: "Pełny dostęp", value: "access"},
+        {text: "Ilość serwisów", value: "amount"},
       ],
     };
   },
   methods: {
     ...mapMutations(["userReviewsAmount"]),
   },
-  mounted() {},
+  mounted() {
+  },
   created() {
     this.$store.dispatch("bindUsersRef").then(() => {
       console.log("Users created and db dispatched");
@@ -52,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState(["users"]),
-    
+
 
   },
 };

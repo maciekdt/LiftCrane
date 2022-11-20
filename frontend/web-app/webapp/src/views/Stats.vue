@@ -18,7 +18,7 @@
         <v-card-text>
           <h2>Podstawowe informacje</h2>
           <p>
-            Liczba urządzeń: {{ lifts.length }}<br />
+            Liczba urządzeń: {{ lifts.length }}<br/>
             Liczba serwisów: {{ review.length }}
           </p>
           Ilość serwisów:
@@ -34,7 +34,7 @@
           Urządzenia z największą liczbą awarii: {{ liftRank[1] }}
           <ul>
             <li v-for="(val, key) in liftRank[0]" :key="key">
-              {{ key }}: {{ val }}
+              {{ val }}
             </li>
           </ul>
         </v-card-text>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 
 export default {
   data() {
@@ -56,7 +56,7 @@ export default {
   computed: {
     ...mapState(["review", "lifts"]),
     bestReviewer() {
-      var arr = this.review.map((a) => a.reviewerName);
+      const arr = this.review.map((a) => a.reviewerName);
       console.log(arr);
       const count = {}; //(count[el] || 0) +1 - jeżeli count[el] nie istnieje(undefined) to bierzemy 0 i dodajemy 1
       arr.forEach((el) => {
@@ -65,21 +65,21 @@ export default {
       return count;
     },
     liftRank() {
-      var arr = this.review.filter((a) => a.malfunction == true);
+      let arr = this.review.filter((a) => a.malfunction === true);
       arr = arr.map((a) => a.liftName);
       console.log(arr);
       const count = {}; //(count[el] || 0) +1 - jeżeli count[el] nie istnieje(undefined) to bierzemy 0 i dodajemy 1
       arr.forEach((el) => {
         count[el] = (count[el] || 0) + 1;
       });
-      var temp = 0;
-      var rank = [];
+      let temp = 0;
+      const rank = [];
       for (const [key, value] of Object.entries(count)) {
-        if(value > temp) temp = value;
+        if (value > temp) temp = value;
         console.log(key)
       }
       for (const [key, value] of Object.entries(count)) {
-        if(value == temp) rank.push(key)
+        if (value === temp) rank.push(key)
       }
       console.log(rank)
       return [rank, temp];

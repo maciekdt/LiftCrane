@@ -70,11 +70,11 @@
                   </v-row>
                 </v-container>
                 <v-data-table
-                  v-model="selected"
-                  show-select
-                  :items="raports"
-                  :headers="headers"
-                  item-key="id"
+                    v-model="selected"
+                    show-select
+                    :items="raports"
+                    :headers="headers"
+                    item-key="id"
                 >
                   <!-- <template v-slot:item.date="{ item }">
                     {{item.date}}
@@ -91,7 +91,7 @@
           <v-btn color="red lighten-1" text @click="dialog = false">
             Anuluj
           </v-btn>
-          <v-btn color="primary" text @click="generatePdf"> Drukuj </v-btn>
+          <v-btn color="primary" text @click="generatePdf"> Drukuj</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -99,10 +99,10 @@
 </template>
 
 <script>
-import { db } from "@/fb.js";
+import {db} from "@/fb.js";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { font } from "@/calibri-normal.js";
+import {font} from "@/calibri-normal.js";
 import AddNewReview from "../components/AddNewReview.vue";
 
 export default {
@@ -130,21 +130,21 @@ export default {
           align: "start",
           value: "date",
         },
-        { text: "Data", value: "date", align: "right" },
-        { text: "DTR", value: "dtr", align: "right" },
-        { text: "Awaria", value: "malfunction", align: "right" },
-        { text: "UDT", value: "udt", align: "right" },
-        { text: "Serwisant ", value: "reviewerName", align: "right" },
-        { text: "Opis ", value: "description", align: "right" },
+        {text: "Data", value: "date", align: "right"},
+        {text: "DTR", value: "dtr", align: "right"},
+        {text: "Awaria", value: "malfunction", align: "right"},
+        {text: "UDT", value: "udt", align: "right"},
+        {text: "Serwisant ", value: "reviewerName", align: "right"},
+        {text: "Opis ", value: "description", align: "right"},
       ],
       pdfHeaders: [
-        { title: "Id", dataKey: "id" },
-        { title: "Data", dataKey: "date" },
-        { title: "Awaria", dataKey: "malfunction" },
-        { title: "Przegląd", dataKey: "dtr" },
-        { title: "UDT", dataKey: "udt" },
-        { title: "Konserwator", dataKey: "reviewerName" },
-        { title: "Opis", dataKey: "description" },
+        {title: "Id", dataKey: "id"},
+        {title: "Data", dataKey: "date"},
+        {title: "Awaria", dataKey: "malfunction"},
+        {title: "Przegląd", dataKey: "dtr"},
+        {title: "UDT", dataKey: "udt"},
+        {title: "Konserwator", dataKey: "reviewerName"},
+        {title: "Opis", dataKey: "description"},
       ],
       raports: [],
       selected: [],
@@ -156,32 +156,32 @@ export default {
       console.log(this.liftId);
       this.raports.length = 0;
       db.collection("reviews")
-        .where("liftId", "==", this.id)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            this.raports.push({
-              date: doc.data().date.toDate().toLocaleString("pl-PL", {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-              }),
+          .where("liftId", "==", this.id)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              console.log(doc.id, " => ", doc.data());
+              this.raports.push({
+                date: doc.data().date.toDate().toLocaleString("pl-PL", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                }),
 
-              malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
-              dtr: doc.data().dtr ? "Przegląd" : "Brak",
-              udt: doc.data().udt ? "Przegląd" : "",
-              reviewerName: doc.data().reviewerName,
-              description: doc.data().description,
-              id: doc.id,
+                malfunction: doc.data().malfunction ? "Awaria" : "Sprawny",
+                dtr: doc.data().dtr ? "Przegląd" : "Brak",
+                udt: doc.data().udt ? "Przegląd" : "",
+                reviewerName: doc.data().reviewerName,
+                description: doc.data().description,
+                id: doc.id,
+              });
             });
+            console.log("hejka");
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
           });
-          console.log("hejka");
-        })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
     },
     generatePdf() {
       let i = 0;
@@ -192,15 +192,15 @@ export default {
           element.id,
           element.date,
           element.dtr,
-          element.malfunction,
           element.udt,
+          element.malfunction,
           element.reviewerName,
           element.description,
         ]);
       });
       console.log(this.selected);
       let pdfName = "raport_" + (Date.now() % 10000);
-      var doc = new jsPDF({
+      const doc = new jsPDF({
         putOnlyUsedFonts: true,
         orientation: "p",
         format: "a4",
@@ -223,8 +223,8 @@ export default {
             "ID",
             "Data",
             "Serwis z. z DTR",
-            "Awaria",
             "UDT",
+            "Awaria",
             "Konserwator",
             "Opis",
           ],
@@ -252,7 +252,8 @@ export default {
     dtr: String,
     prod: String,
     kg: String,
-    working: Boolean,  },
+    working: Boolean,
+  },
   // watch: {
   //     liftId: function () {
   //         this.raports = [];

@@ -33,7 +33,7 @@
     <div>
       <br /><br />
       <hr />
-      <h3>Aktualizacja 04.11.2022</h3>
+      <h3>Aktualizacja 20.11.2022</h3>
 
       <div class="py-3">
         <ul>
@@ -45,7 +45,7 @@
           <li>Strona Statystyki</li>
           <li>Zmiana wyglądu tabeli</li>
           <li>Zmiana wyglądu strony startowej</li>
-          <li>Zmiana stanu zgłoszenia</li>
+          <li>Opcja specialnego zaznaczenia zgłoszenia (przycisk w kolumnie info)</li>
         </ul>
       </div>
     </div>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { db } from "../fb.js";
+import { db } from "@/fb";
 export default {
   data() {
     return {
