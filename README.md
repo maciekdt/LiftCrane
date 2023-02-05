@@ -1,14 +1,27 @@
 # LiftCrane
-Simple serverless CMMS for lift company. System powered by Google Firebase.  
+## Description
+LiftCrane is Computerised Maintenance Management System (CMMS) made for small lift maintance company (6 people).
+Designed to make easier to log reapirs and revisions on serviced machines.
 
-Tools used :
+Service engeneer only needs to scan device's QR code with his Android phone and check relevant checkboxes to save his visit.
+
+Management can check sheduled technical services, analise historical data, update list of machines using intuitive web application.
+
+
+## Tools used :
   - Kotlin for android app
   - Vue.js for web app
   - Firebase firestore 
   - Firebase auth service
   - Firebase hosting
   - Firebase storage
+  
+##
      
-        
- UML business class diagram : 
-![image](https://user-images.githubusercontent.com/74464525/165415272-b5df90d8-9129-4d88-aa6b-35942c490a3e.png)
+Architecture diagram        
+![image](images/Firebase.jpg)
+
+
+## Trusted by
+
+[Zygfrydlift](https://zygfrydlift.pl/)
