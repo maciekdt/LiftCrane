@@ -16,9 +16,8 @@ Management can check sheduled technical services, analise historical data, updat
   - Firebase hosting
   - Firebase storage
   
-##
      
-Architecture diagram        
+##Architecture diagram        
 ![image](images/Firebase.jpg)
 
 
