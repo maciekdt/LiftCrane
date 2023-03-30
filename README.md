@@ -1,7 +1,7 @@
 # LiftCrane
+![logo](images/logo.png)
 ## Description
 LiftCrane is Computerised Maintenance Management System (CMMS) made for small lift maintance company (6 people).
-
 Designed to make easier to log repairs and revisions on serviced machines.
 
 Service engineer only needs to scan device's QR code with his Android phone and check relevant checkboxes to save his visit.

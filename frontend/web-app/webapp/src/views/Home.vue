@@ -33,19 +33,11 @@
     <div>
       <br /><br />
       <hr />
-      <h3>Aktualizacja 20.11.2022</h3>
+      <h3>Aktualizacja 16.08.2023</h3>
 
       <div class="py-3">
         <ul>
-          <li>Lupa - opcja szukania zgłoszeń</li>
-          <li>
-            Dodawanie zgłoszeń na stronie web (po wejściu w dane urządzenia)
-          </li>
-          <li>Stan windy (czerwony gdy wstrzymana)</li>
-          <li>Strona Statystyki</li>
-          <li>Zmiana wyglądu tabeli</li>
-          <li>Zmiana wyglądu strony startowej</li>
-          <li>Opcja specialnego zaznaczenia zgłoszenia (przycisk w kolumnie info)</li>
+          <li>Poprawienie funkcjonowania strony</li>
         </ul>
       </div>
     </div>
@@ -100,16 +92,16 @@ export default {
     },
   },
   watch: {},
-  mounted() {
-    db.collection("raports")
-      .where("seen", "==", false)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach(() => {
-          this.newRaports = this.newRaports + 1;
-        });
-      });
-  },
+  // mounted() {
+  //   db.collection("raports")
+  //     .where("seen", "==", false)
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach(() => {
+  //         this.newRaports = this.newRaports + 1;
+  //       });
+  //     });
+  // },
 };
 </script>
 <style scoped>

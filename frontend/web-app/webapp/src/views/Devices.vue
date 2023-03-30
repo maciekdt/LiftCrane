@@ -41,8 +41,11 @@
       :items="lifts"
       :search="search"
       :loading="loader"
-      :items-per-page="25"
+      :items-per-page="20"
+      :server-items-length="liftsCount"
       :item-class="itemClass"
+      :options.sync="options"
+      @update:page="loadMore"
       loading-text="Pobieranie danych, proszę czekać"
     >
       <template v-slot:item.name="{ item }">
@@ -90,6 +93,7 @@
         </td>
       </template> -->
     </v-data-table>
+    <v-btn @click="loadMore()">load</v-btn>
   </v-card>
 </template>
 
@@ -99,7 +103,7 @@ import Vue from "vue";
 import excel from "vue-excel-export";
 // import deviceDetails from "../components/deviceDetails";
 import EditDeviceDetails from "../components/EditDeviceDetails.vue";
-import { mapState, mapMutations } from "vuex";
+// import { mapState, mapMutations } from "vuex";
 import { db } from "@/fb";
 import PrintDeviceRaports from "../components/PrintDeviceRaports.vue";
 import AddNewDevice from "../components/AddNewDevice.vue";
@@ -109,6 +113,9 @@ export default {
   name: "Table",
   data() {
     return {
+      lifts:[],
+      liftsCount: 7,
+      options: {},
       // search: "",
       headers: [
         // { text: "Stan", align: "start", value: "state" },
@@ -117,6 +124,7 @@ export default {
           // align: "start",
           value: "name",
         },
+        {text: "id", value: "id" },
         { text: "Stan windy", value: "status" },
         { text: "Lokalizacja", value: "loc" },
         { text: "nr fabryczny", value: "nrfab" },
@@ -138,10 +146,13 @@ export default {
       dialogDelete: false,
       dialogEdit: false,
       dialogPrint: false,
+
+      lastVisable:0,
     };
+    
   },
   methods: {
-    ...mapMutations(["deviceStatus"]),
+    // ...mapMutations(["deviceStatus"]),
 
     // printItem(item){
     //   this.dialogPrint = true
@@ -180,18 +191,50 @@ export default {
         returnedClass = returnedClass + "background-color: red lighten-2 ";
       return returnedClass;
     },
+    testQuery(){
+      this.loader = true
+        db.collection("devices").get().then((snapshot => this.liftsCount = snapshot.size))
+        db.collection("devices").orderBy("name", "desc").limit(5).get().then((querySnapshot) =>
+        querySnapshot.forEach((doc) => {
+          this.lifts.push(doc.data())
+          console.log(doc.id)
+        },
+        this.lastVisable = querySnapshot.docs[querySnapshot.docs.length-1],
+        console.log("last: ", this.lastVisable)
+        ));
+        this.loader = false
+    },
+    loadMore(){
+      this.loader = true
+      console.log("Load clicked")
+        db.collection("devices")
+        .orderBy("name", "desc").limit(5).startAfter(this.lastVisable).get().then((querySnapshot) =>
+        querySnapshot.forEach((doc) => {
+          this.lifts.push(doc.data())
+          console.log(doc.id)
+        },
+        this.lastVisable = querySnapshot.docs[querySnapshot.docs.length-1],
+        ));
+        this.loader = false
+    }
   },
   mounted() {},
   created() {
+    this.testQuery()
+    //slow, not paginated
+    // this.$store.dispatch("bindLiftsRef").then(() => {
+    //   console.log("Created and dispatched"), (this.loader = false);
+    // });
 
   },
   computed: {
-    ...mapState(["lifts"]),
+    // ...mapState(["lifts"]),
   },
   watch: {
     dialogDelete(val) {
       val || this.closeDelete();
     },
+
   },
   components: {
     // deviceDetails,

@@ -294,7 +294,15 @@ export default {
     },
   },
   mounted() {},
-  created() {},
+  created() {
+
+     
+    //Old, slooow
+    // this.$store.dispatch("bindReviewRef").then(() => {
+    //    console.log("Created and dispatched");
+    //    this.loader = false;
+    //  });
+  },
   computed: {
     ...mapState(["review"]),
     newReviews() {

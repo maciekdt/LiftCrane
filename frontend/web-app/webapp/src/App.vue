@@ -21,13 +21,13 @@ export default {
   methods: {},
   created(){
     document.title = 'LiftCrane';
-    this.$store.dispatch("bindReviewRef").then(() => {
-      console.log("Created and dispatched");
-      this.loader = false;
-    });
-        this.$store.dispatch("bindLiftsRef").then(() => {
-      console.log("Created and dispatched"), (this.loader = false);
-    });
+    // this.$store.dispatch("bindReviewRef").then(() => {
+    //   console.log("Created and dispatched");
+    //   this.loader = false;
+    // });
+    //     this.$store.dispatch("bindLiftsRef").then(() => {
+    //   console.log("Created and dispatched"), (this.loader = false);
+    // });
   }
 };
 </script>
