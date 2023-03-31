@@ -191,7 +191,7 @@ export default {
         returnedClass = returnedClass + "background-color: red lighten-2 ";
       return returnedClass;
     },
-    testQuery(){
+    firstQuery(){
       this.loader = true
         db.collection("devices").get().then((snapshot => this.liftsCount = snapshot.size))
         db.collection("devices").orderBy("name", "desc").limit(5).get().then((querySnapshot) =>
@@ -220,7 +220,7 @@ export default {
   },
   mounted() {},
   created() {
-    this.testQuery()
+    this.firstQuery()
     //slow, not paginated
     // this.$store.dispatch("bindLiftsRef").then(() => {
     //   console.log("Created and dispatched"), (this.loader = false);
