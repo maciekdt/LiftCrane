@@ -109,12 +109,13 @@
     <v-overlay :value="imagesLoadingOverlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
+    <v-btn block @click="loadMore()">Załaduj więcej</v-btn>
   </div>
 </template>
 
 <script>
 import { db, imagesRef } from "@/fb";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import excel from "vue-excel-export";
 import Vue from "vue";
 
@@ -161,6 +162,9 @@ export default {
       imagesLoadingOverlay: false,
       infoItems: [{ name: "Nowy", value: "red" },
     {name:"Ważne",value:"orange"}],
+
+    review: [],
+    reviewCount: 0,
     };
   },
   methods: {
@@ -291,11 +295,51 @@ export default {
       //     images: images,
       //   })
       // });
+
+    },
+    firstQuery() {
+      this.loader = true;
+      db.collection("reviews")
+        .get()
+        .then((snapshot) => (this.reviewCount = snapshot.size));
+      db.collection("reviews")
+        .orderBy("date", "desc")
+        .limit(5)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach(
+            (doc) => {
+              this.review.push(doc.data());
+              console.log(doc.id);
+            },
+            (this.lastVisable =
+              querySnapshot.docs[querySnapshot.docs.length - 1]),
+            console.log("last: ", this.lastVisable)
+          )
+        );
+      this.loader = false;
+    },
+
+    loadMore() {
+      this.loader = true;
+      console.log("Load clicked");
+      db.collection("reviews")
+        .orderBy("date", "desc")
+        .limit(5)
+        .startAfter(this.lastVisable)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach((doc) => {
+            this.review.push(doc.data());
+            console.log(doc.id);
+          }, (this.lastVisable = querySnapshot.docs[querySnapshot.docs.length - 1]))
+        );
+      this.loader = false;
     },
   },
   mounted() {},
   created() {
-
+    this.firstQuery();
      
     //Old, slooow
     // this.$store.dispatch("bindReviewRef").then(() => {
@@ -304,7 +348,7 @@ export default {
     //  });
   },
   computed: {
-    ...mapState(["review"]),
+    // ...mapState(["review"]),
     newReviews() {
       let val = 0;
       this.review.forEach((element) => {

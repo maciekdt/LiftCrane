@@ -13,7 +13,9 @@
           >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDelete">Anuluj</v-btn>
+            <v-btn color="blue darken-1" text @click="closeDelete"
+              >Anuluj</v-btn
+            >
             <v-btn color="blue darken-1" @click="deleteItemConfirm">Usuń</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
@@ -64,9 +66,9 @@
           />
         </v-btn>
       </template>
-<!--      <template v-slot:item.status ="{item}">-->
-<!--         <v-chip pill>{{item.status ? color="red" : "Nie"}}<v-icon>check</v-icon></v-chip>-->
-<!--      </template>-->
+      <!--      <template v-slot:item.status ="{item}">-->
+      <!--         <v-chip pill>{{item.status ? color="red" : "Nie"}}<v-icon>check</v-icon></v-chip>-->
+      <!--      </template>-->
       <template end v-slot:item.edit="{ item }">
         <EditDeviceDetails
           :id="item.id"
@@ -78,7 +80,6 @@
           :udtTime="item.udtTime"
           :kg="item.kg"
           :working="item.working"
-
         />
         <!-- <PrintDeviceRaports :id="item.id" :nrfab="item.nrfab" :name="item.name" :loc="item.loc" :prod="item.prod" :udt="item.udt" :kg="item.kg"/> -->
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
@@ -93,7 +94,7 @@
         </td>
       </template> -->
     </v-data-table>
-    <v-btn @click="loadMore()">load</v-btn>
+    <v-btn block @click="loadMore()">Załaduj więcej</v-btn>
   </v-card>
 </template>
 
@@ -113,7 +114,7 @@ export default {
   name: "Table",
   data() {
     return {
-      lifts:[],
+      lifts: [],
       liftsCount: 7,
       options: {},
       // search: "",
@@ -124,7 +125,7 @@ export default {
           // align: "start",
           value: "name",
         },
-        {text: "id", value: "id" },
+        { text: "id", value: "id" },
         { text: "Stan windy", value: "status" },
         { text: "Lokalizacja", value: "loc" },
         { text: "nr fabryczny", value: "nrfab" },
@@ -147,9 +148,8 @@ export default {
       dialogEdit: false,
       dialogPrint: false,
 
-      lastVisable:0,
+      lastVisable: 0,
     };
-    
   },
   methods: {
     // ...mapMutations(["deviceStatus"]),
@@ -191,41 +191,52 @@ export default {
         returnedClass = returnedClass + "background-color: red lighten-2 ";
       return returnedClass;
     },
-    firstQuery(){
-      this.loader = true
-        db.collection("devices").get().then((snapshot => this.liftsCount = snapshot.size))
-        db.collection("devices").orderBy("name", "desc").limit(5).get().then((querySnapshot) =>
-        querySnapshot.forEach((doc) => {
-          this.lifts.push(doc.data())
-          console.log(doc.id)
-        },
-        this.lastVisable = querySnapshot.docs[querySnapshot.docs.length-1],
-        console.log("last: ", this.lastVisable)
-        ));
-        this.loader = false
+    firstQuery() {
+      this.loader = true;
+      db.collection("devices")
+        .get()
+        .then((snapshot) => (this.liftsCount = snapshot.size));
+      db.collection("devices")
+        .orderBy("name", "desc")
+        .limit(5)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach(
+            (doc) => {
+              this.lifts.push(doc.data());
+              console.log(doc.id);
+            },
+            (this.lastVisable =
+              querySnapshot.docs[querySnapshot.docs.length - 1]),
+            console.log("last: ", this.lastVisable)
+          )
+        );
+      this.loader = false;
     },
-    loadMore(){
-      this.loader = true
-      console.log("Load clicked")
-        db.collection("devices")
-        .orderBy("name", "desc").limit(5).startAfter(this.lastVisable).get().then((querySnapshot) =>
-        querySnapshot.forEach((doc) => {
-          this.lifts.push(doc.data())
-          console.log(doc.id)
-        },
-        this.lastVisable = querySnapshot.docs[querySnapshot.docs.length-1],
-        ));
-        this.loader = false
-    }
+    loadMore() {
+      this.loader = true;
+      console.log("Load clicked");
+      db.collection("devices")
+        .orderBy("name", "desc")
+        .limit(5)
+        .startAfter(this.lastVisable)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach((doc) => {
+            this.lifts.push(doc.data());
+            console.log(doc.id);
+          }, (this.lastVisable = querySnapshot.docs[querySnapshot.docs.length - 1]))
+        );
+      this.loader = false;
+    },
   },
   mounted() {},
   created() {
-    this.firstQuery()
+    this.firstQuery();
     //slow, not paginated
     // this.$store.dispatch("bindLiftsRef").then(() => {
     //   console.log("Created and dispatched"), (this.loader = false);
     // });
-
   },
   computed: {
     // ...mapState(["lifts"]),
@@ -234,7 +245,6 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
-
   },
   components: {
     // deviceDetails,
@@ -243,7 +253,7 @@ export default {
     AddNewDevice,
   },
   props: {
-    search: String
-  }
+    search: String,
+  },
 };
 </script>

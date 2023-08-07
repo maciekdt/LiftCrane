@@ -44,7 +44,7 @@ def getInfo (data):
     #     return None
     # else:
     print()
-        return name, b
+    return b
 
 
     # miejscowosc = miejscowosc.strip()

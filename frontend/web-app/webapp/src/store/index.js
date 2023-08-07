@@ -30,16 +30,6 @@ export default new Vuex.Store({
       state.users.amount = state.users.amount + amount
 
     },
-    // To ponizej to syf
-    deviceStatus(state, amount){
-      try{
-      state.lifts[0][amount ]= amount
-    }
-      catch(e){
-        console.log(e)
-      }
-      console.log(state.lifts[0])
-    }
   },
   actions: {
     bindLiftsRef: firestoreAction(({ bindFirestoreRef }) => {

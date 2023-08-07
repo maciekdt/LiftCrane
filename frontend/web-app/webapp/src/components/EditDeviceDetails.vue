@@ -100,7 +100,7 @@ export default {
     name: String,
     loc: String,
     udt: String,
-    udtTime: String,
+    udtTime: Number,
     prod: String,
     kg: String,
     working: Boolean,
