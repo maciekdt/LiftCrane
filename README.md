@@ -21,6 +21,13 @@ Management can check sheduled technical services, analyse historical data, updat
 ## Architecture diagram        
 ![image](images/Firebase.jpg)
 
+## User interface
+![image](images/uireviews.jpg)
+<p align="center">
+<img src="images/dzwigi.jpg" width=300>
+</p>
+
+![image](images/dziennik.jpg)
 
 ## Trusted by
 
